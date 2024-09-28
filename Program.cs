@@ -1,5 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Windows;
 using Arcatos.Utils;
 
 namespace Arcatos
@@ -18,6 +20,9 @@ namespace Arcatos
         static void Main(string[] args)
         {
             Dev.Log("Game Initialized");
+
+            Point p1 = new Point(0, 0);
+            Point p2 = new Point(0, -9);
         }
     }
 }

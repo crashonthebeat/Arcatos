@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Game\" />
     <Folder Include="Logs\" />
-    <Folder Include="World\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
