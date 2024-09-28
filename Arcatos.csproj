@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\chris\source\repos\Arcatos\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\chris\source\repos\Arcatos\.editorconfig" />
+  </ItemGroup>
+
 </Project>
