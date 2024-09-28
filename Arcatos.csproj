@@ -12,7 +12,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="EngineSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="EngineSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="C:\Users\chris\source\repos\Arcatos\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Game\" />
+    <Folder Include="Logs\" />
+    <Folder Include="World\" />
   </ItemGroup>
 
 </Project>

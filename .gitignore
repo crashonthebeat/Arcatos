@@ -364,4 +364,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Testing Content Directory
-WorldData/
+World/
+Logs/
