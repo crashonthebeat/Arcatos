@@ -4,62 +4,53 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Arcatos.Types
 {
-    enum Ex
-    {
-        Open,
-        Closed,
-        Locked
-    }
-
     internal class Door : Entity, ILockable
     {
-        private readonly Dictionary<Scene, Scene> _adjacencies;
-        private bool _isClosed;
-        private bool _isLocked;
-        public bool IsHidden;
+        public bool IsHidden { get; set; }
+        private bool isClosed;
+        private bool isLocked;
+        public Dictionary<Scene, Scene> Adjacencies { get; init; }
 
-        public Door(string id, string summary, string desc, Scene[] adjacencies, string name = "door",
-                    bool isClosed = false, bool isLocked = false, bool isHidden = false)
+        public Door(string id, string summary, string[] desc, Scene[] scenes, bool isClosed = false,
+                    bool isLocked = false, bool isHidden = false, string name = "door")
             : base(id, name, summary, desc)
         {
             EntityType = "door";
-            _adjacencies = new Dictionary<Scene, Scene>();
-            _adjacencies.Add(adjacencies[0], adjacencies[1]);
-            _adjacencies.Add(adjacencies[1], adjacencies[0]);
+            
+            this.Adjacencies = new Dictionary<Scene, Scene>();
+            this.Adjacencies.Add(scenes[0], scenes[1]);
+            this.Adjacencies.Add(scenes[1], scenes[0]);
 
-            _isClosed = isClosed || isLocked;
-            _isLocked = isLocked;
-            IsHidden = isHidden;
+            this.isClosed = isClosed || isLocked;
+            this.isLocked = isLocked;
+            this.IsHidden = isHidden;
         }
 
-        public Scene GetAdjacent(Scene scene)
-        {
-            return _adjacencies[scene];
-        }
-
+        // The following four methods manage the exit state, and they are called by the player.
         public bool Open()
         {
-            return _isClosed && !_isLocked;
+            return this.isClosed && !this.isLocked;
         }
 
         public bool Close()
         {
-            return !_isClosed;
+            return !this.isClosed;
         }
 
         public bool Lock()
         {
-            return _isClosed && !_isLocked;
+            return this.isClosed && !this.isLocked;
         }
 
         public bool Unlock()
         {
             // Check if Player has key.
-            return _isLocked;
+            return this.isLocked;
         }
     }
 }
