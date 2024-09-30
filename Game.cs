@@ -48,7 +48,7 @@ namespace Arcatos
 
         public static Map LoadMap(string mapname)
         {
-            using FileStream json = File.OpenRead(@"World\" + mapname + ".json");
+            using FileStream json = File.OpenRead(Path.Combine("World", mapname + ".json"));
             MapModel model = JsonSerializer.Deserialize<MapModel>(json)!;
 
             return model.ToDomainModel();
