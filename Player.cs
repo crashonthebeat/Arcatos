@@ -28,6 +28,7 @@ namespace Arcatos
                 case "quit":
                     return false;
                 default:
+                    Game.Narrate([$"You do not know how to {command.Action}."]);
                     return true;
             }
         }
@@ -37,11 +38,13 @@ namespace Arcatos
             // TryGetValue??
             if (!this.CurrentScene.Exits.ContainsKey(direction))
             {
+                Game.Narrate(["You cannot go that way."]);
                 return false; 
                 
             }
             else if (this.CurrentScene.Exits[direction].isClosed)
             {
+                Game.Narrate([$"The {this.CurrentScene.Exits[direction].summary} is closed"]);
                 return false;
             }
 
