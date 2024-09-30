@@ -29,15 +29,18 @@ namespace Arcatos.Types
         }
 
         // Enter is the narration that is displayed when the player enters a room.
-        public void Enter(int check)
+        public void Enter(Player Player)
         {
+            // This variable will be returned by a player roll.
+            int checkScore = 3;
+            
             // Print Scene Title
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"==( {this.Name.ToUpper()} )==");
             Console.ResetColor();
 
             // Print Description
-            Game.Narrate([this.Examine(check)]);
+            Game.Narrate([this.Examine(checkScore)]);
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 
@@ -88,7 +91,7 @@ namespace Arcatos.Types
             Dir dir = Calc.Direction(this, scene);
             string direction = dir.ToString();
 
-            Dev.Log($"DEBUG: Adding{scene.Name} is {direction} of {this.Name} via {exit.summary}");
+            Dev.Log($"Adding{scene.Name} is {direction} of {this.Name} via {exit.summary}");
 
             this.Exits.Add(direction, exit);
         }

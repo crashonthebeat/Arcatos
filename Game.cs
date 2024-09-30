@@ -1,5 +1,6 @@
 ﻿using Arcatos.Types;
 using Arcatos.Types.Models;
+using Arcatos.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Arcatos
 {
     public class Game
     {        
+        public bool Playing { get; set; }
         public Map CurrentMap { get; set; }
         public Player Player { get; set; }
 
@@ -18,13 +20,32 @@ namespace Arcatos
         {
             this.CurrentMap = LoadMap(mapname);
             this.Player = new Player(this.CurrentMap.Scenes["testscene_1"]);
+            this.Playing = true;
         }
 
-        public void Play()
+        public bool Play()
         {
-            this.Player.CurrentScene.Enter(3);
+            this.Player.CurrentScene.Enter(this.Player);
+
+            return Prompt();
         }
-        
+
+        public bool Prompt()
+        {
+            while (Playing)
+            {
+                Console.Write("> ");
+                string? input = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(input)) continue;
+
+                Command command = new Command(input.ToLower().Split(' '));
+
+                this.Playing = this.Player.ProcessCommand(command);
+            }
+            return true;
+        }
+
         public static Map LoadMap(string mapname)
         {
             using FileStream json = File.OpenRead(@"World\" + mapname + ".json");

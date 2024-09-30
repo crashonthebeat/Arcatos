@@ -12,7 +12,7 @@ namespace Arcatos
     static class Program
     {
         public static Settings Settings { get; set; }   // Program Settings
-        public static Game? Game { get; set; }
+        public static Game? Session { get; set; }
 
         // Program Initialization
         static Program()
@@ -25,8 +25,12 @@ namespace Arcatos
         {
             Dev.Log("Game Initialized");
 
-            Game = new("TestWorld");
-            Game.Play();
+            Session = new("TestWorld");
+
+            while (Session.Playing)
+            {
+                Session.Play();
+            }
         }
     }
 }
