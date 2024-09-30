@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Arcatos.Types.Interfaces
 {
-    internal interface IBox
+    public interface IBox
     {
         public Entity RemoveItem();
         public bool AddItem();

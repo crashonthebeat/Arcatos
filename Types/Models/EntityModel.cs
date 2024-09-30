@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Arcatos.Types.Models
 {
-    internal class EntityModel
+    public class EntityModel
     {
         [JsonInclude] public string id;
         [JsonInclude] public string name;

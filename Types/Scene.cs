@@ -10,7 +10,7 @@ using Arcatos.Utils;
 namespace Arcatos.Types
 {
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
-    internal class Scene : Entity
+    public class Scene : Entity
     {
         public int x { get; set; }      // X Coordinate on Map
         public int y { get; set; }      // Y Coordinate on Map

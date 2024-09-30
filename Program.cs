@@ -12,6 +12,7 @@ namespace Arcatos
     static class Program
     {
         public static Settings Settings { get; set; }   // Program Settings
+        public static Game? Game { get; set; }
 
         // Program Initialization
         static Program()
@@ -24,13 +25,8 @@ namespace Arcatos
         {
             Dev.Log("Game Initialized");
 
-            // Temporary Load World
-            using FileStream json = File.OpenRead(@"World\TestWorld.json");
-            MapModel test = JsonSerializer.Deserialize<MapModel>(json)!;
-
-            Map world = test.ToDomainModel();
-
-            world.Scenes["testscene_1"].Enter(3);
+            Game = new("TestWorld");
+            Game.Play();
         }
     }
 }

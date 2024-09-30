@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Arcatos.Types.Models
 {
-    internal class SceneModel : EntityModel
+    public class SceneModel : EntityModel
     {
         [JsonInclude] public int[] coords;
         [JsonInclude] public bool visited;

@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace Arcatos.Types.Models
 {
-    internal class MapModel
+    public class MapModel
     {
         [JsonInclude] public required SceneModel[] scenes;
         [JsonInclude] public required DoorModel[] exits;

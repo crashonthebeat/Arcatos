@@ -9,7 +9,7 @@ using Arcatos.Types.Interfaces;
 namespace Arcatos.Types
 {
     // Base class for all game objects. 
-    abstract class Entity : IEntity
+    public abstract class Entity : IEntity
     {
         public string Name { get; init; }
         internal string id;

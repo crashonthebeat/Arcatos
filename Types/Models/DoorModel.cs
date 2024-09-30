@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Arcatos.Types.Models
 {
-    internal class DoorModel : EntityModel
+    public class DoorModel : EntityModel
     {
         [JsonInclude] public required string[] scenes;
         [JsonInclude] public bool closed;

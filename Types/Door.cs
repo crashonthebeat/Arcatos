@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Arcatos.Types
 {
-    internal class Door : Entity, ILockable
+    public class Door : Entity, ILockable
     {
         public bool IsHidden { get; set; }
         private bool isClosed;

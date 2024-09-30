@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Arcatos.Types
 {
-    internal class Map
+    public class Map
     {
         public Dictionary<string,Scene> Scenes { get; init; }   // Dict of scenes with their id's as key.
         public Dictionary<string,Door> Exits { get; init; }     // Dict of exits with their id's as key.
