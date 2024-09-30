@@ -35,6 +35,9 @@ namespace Arcatos.Types
         {
             string s = desc;
 
+            // TODO:
+            // Add extra narration strings for a perception check
+            // And conditional strings depending on the character, environment, etc.
             foreach (KeyValuePair<int, Entity> kvp in reveal)
             {
                 if (check >= kvp.Key)

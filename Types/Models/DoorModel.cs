@@ -11,6 +11,7 @@ namespace Arcatos.Types.Models
     {
         [JsonInclude] public required string[] scenes;
         [JsonInclude] public bool closed;
+        [JsonInclude] public bool remainsClosed;
         [JsonInclude] public bool locked;
         [JsonInclude] public bool hidden;
     }

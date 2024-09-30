@@ -13,11 +13,12 @@ namespace Arcatos.Types
     {
         public bool IsHidden { get; set; }
         public bool isClosed { get; set; }
+        public bool remainsClosed { get; set; }     // Whether door will always appear closed but be traversable.
         public bool isLocked { get; set; }
         public Dictionary<Scene, Scene> Adjacencies { get; init; }
 
         public Door(string id, string summary, string[] desc, Scene[] scenes, bool isClosed = false,
-                    bool isLocked = false, bool isHidden = false, string name = "door")
+                    bool remainsClosed = false, bool isLocked = false, bool isHidden = false, string name = "door")
             : base(id, name, summary, desc)
         {
             EntityType = "door";
@@ -26,7 +27,8 @@ namespace Arcatos.Types
             this.Adjacencies.Add(scenes[0], scenes[1]);
             this.Adjacencies.Add(scenes[1], scenes[0]);
 
-            this.isClosed = isClosed || isLocked;
+            this.isClosed = isClosed || isLocked || remainsClosed;
+            this.remainsClosed = remainsClosed;
             this.isLocked = isLocked;
             this.IsHidden = isHidden;
         }
