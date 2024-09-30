@@ -31,20 +31,20 @@ namespace Arcatos.Types
 
         // Examine returns a narrative description of the entity as well as additional entities that are only
         // noticed on a specific perception check score. Entities can be an item, exit, clue, or person of interest.
-        public string Examine(int check)
+        public string Examine()
         {
             string s = desc;
 
             // TODO:
             // Add extra narration strings for a perception check
             // And conditional strings depending on the character, environment, etc.
-            foreach (KeyValuePair<int, Entity> kvp in reveal)
-            {
-                if (check >= kvp.Key)
-                {
-                    s += $" {kvp.Value.Glance()}";
-                }
-            }
+            //foreach (KeyValuePair<int, Entity> kvp in reveal)
+            //{
+            //    if (check >= kvp.Key)
+            //    {
+            //        s += $" {kvp.Value.Glance()}";
+            //    }
+            //}
 
             return s;
         }

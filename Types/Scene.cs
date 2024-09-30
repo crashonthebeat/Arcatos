@@ -29,10 +29,9 @@ namespace Arcatos.Types
         }
 
         // Enter is the narration that is displayed when the player enters a room.
-        public void Enter(Player Player)
+        public void Enter()
         {
             // This variable will be returned by a player roll.
-            int checkScore = 3;
             
             // Print Scene Title
             Console.ForegroundColor = ConsoleColor.Green;
@@ -40,7 +39,7 @@ namespace Arcatos.Types
             Console.ResetColor();
 
             // Print Description
-            Game.Narrate([this.Examine(checkScore)]);
+            Game.Narrate([this.Examine()]);
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 

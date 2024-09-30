@@ -33,6 +33,10 @@
     <None Include="C:\Users\chris\source\repos\Arcatos\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
