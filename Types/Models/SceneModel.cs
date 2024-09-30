@@ -9,7 +9,7 @@ namespace Arcatos.Types.Models
 {
     public class SceneModel : EntityModel
     {
-        [JsonInclude] public int[] coords;
+        [JsonInclude] public required int[] coords;
         [JsonInclude] public bool visited;
     }
 }

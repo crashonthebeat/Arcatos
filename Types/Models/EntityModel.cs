@@ -9,9 +9,9 @@ namespace Arcatos.Types.Models
 {
     public class EntityModel
     {
-        [JsonInclude] public string id;
-        [JsonInclude] public string name;
-        [JsonInclude] public string summary;
-        [JsonInclude] public string[] desc;
+        [JsonInclude] public required string id;
+        [JsonInclude] public required string name;
+        [JsonInclude] public required string summary;
+        [JsonInclude] public required string[] desc;
     }
 }
