@@ -25,7 +25,7 @@ namespace Arcatos
 
         public bool Play()
         {
-            this.Player.CurrentScene.Enter(this.Player);
+            this.Player.CurrentScene.Enter();
 
             return Prompt();
         }
