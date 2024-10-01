@@ -16,6 +16,7 @@ will be a *game*.
 - Functionality
     - **DONE** ~~Loading world data from JSON to object instances~~
     - **DONE** ~~Full command parser~~
+    - Cleanup Program > Game > Prompt logic
 
 ### 0.2 This is a game
 - Scenes

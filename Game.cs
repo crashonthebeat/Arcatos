@@ -13,19 +13,19 @@ namespace Arcatos
     public class Game
     {        
         public bool Playing { get; set; }
-        public Map CurrentMap { get; set; }
-        public Player Player { get; set; }
+        public static Map CurrentMap { get; set; }
+        public static Player Player { get; set; }
 
         public Game(string mapname)
         {
-            this.CurrentMap = LoadMap(mapname);
-            this.Player = new Player(this.CurrentMap.Scenes["testscene_1"]);
+            Game.CurrentMap = LoadMap(mapname);
+            Game.Player = new Player(Game.CurrentMap.Scenes["testscene_1"]);
             this.Playing = true;
         }
 
         public bool Play()
         {
-            this.Player.CurrentScene.Enter();
+            Game.Player.CurrentScene.Enter();
 
             return Prompt();
         }
@@ -41,7 +41,7 @@ namespace Arcatos
 
                 Command command = new Command(input.ToLower().Split(' '));
 
-                this.Playing = this.Player.ProcessCommand(command);
+                this.Playing = Game.Player.ProcessCommand(command);
             }
             return true;
         }
