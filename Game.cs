@@ -1,4 +1,5 @@
-﻿using Arcatos.Types;
+﻿using Arcatos.Logs;
+using Arcatos.Types;
 using Arcatos.Types.Models;
 using Arcatos.Utils;
 using System;
@@ -15,6 +16,7 @@ namespace Arcatos
         public bool Playing { get; set; }
         public static Map CurrentMap { get; set; }
         public static Player Player { get; set; }
+        //public static Boxscope Boxscope { get; set; }
 
         public Game(string mapname)
         {
@@ -41,7 +43,7 @@ namespace Arcatos
 
                 Command command = new Command(input.ToLower().Split(' '));
 
-                this.Playing = Game.Player.ProcessCommand(command);
+                this.Playing = Game.Player.Execute(command);
             }
             return true;
         }

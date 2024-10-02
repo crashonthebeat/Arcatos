@@ -8,7 +8,7 @@ namespace Arcatos.Types.Interfaces
 {
     interface IEntity
     {
-        public string Examine(int check);   // Get Method for Description
+        public string Examine();   // Get Method for Description
         public string Glance();             // Get Method for Summary
     }
 }

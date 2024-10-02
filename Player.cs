@@ -18,8 +18,8 @@ namespace Arcatos
             this.CurrentScene = currentScene;
         }
 
-        public bool ProcessCommand(Command command)
-        {
+        public bool Execute(Command command)
+        {            
             switch (command.Action)
             {
                 case "go": case "move": case "walk":
@@ -52,7 +52,7 @@ namespace Arcatos
             Scene nextRoom = exit.Adjacencies[this.CurrentScene];
 
             this.CurrentScene = nextRoom;
-            this.CurrentScene.Enter(this);
+            this.CurrentScene.Enter();
             return true;
         }
     }

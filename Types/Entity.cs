@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Arcatos.Logs;
 using Arcatos.Types.Interfaces;
 
 namespace Arcatos.Types
@@ -17,7 +18,7 @@ namespace Arcatos.Types
         internal string desc;
         internal Dictionary<int, Entity> reveal;
         public string EntityType;
-        public IBox? Inventory = null;
+        public Box? Inventory = null;
 
         public Entity(string id, string name, string summary, string[] desc)
         {
