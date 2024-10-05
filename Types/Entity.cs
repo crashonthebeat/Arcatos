@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Arcatos.Logs;
 using Arcatos.Types.Interfaces;
 
 namespace Arcatos.Types
@@ -32,7 +31,7 @@ namespace Arcatos.Types
 
         // Examine returns a narrative description of the entity as well as additional entities that are only
         // noticed on a specific perception check score. Entities can be an item, exit, clue, or person of interest.
-        public string Examine()
+        public void Examine()
         {
             string s = desc;
 
@@ -47,14 +46,14 @@ namespace Arcatos.Types
             //    }
             //}
 
-            return s;
+            Game.Narrate([s]);
         }
 
         // Glance returns a short description of the item depending on where the item is located and what the item is.
         // This method will change depending on the type of Entity.
-        public string Glance()
+        public void Glance()
         {
-            return summary;
+            Game.Narrate([summary]);
         }
     }
 }

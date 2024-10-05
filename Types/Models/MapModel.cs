@@ -13,10 +13,11 @@ namespace Arcatos.Types.Models
     {
         [JsonInclude] public required SceneModel[] scenes;
         [JsonInclude] public required DoorModel[] exits;
+        [JsonInclude] public required Dictionary<string, Dictionary<string, int>> inventories;
 
         public Map ToDomainModel()
         {
-            return new Map(this.scenes, this.exits);
+            return new Map(this.scenes, this.exits, this.inventories);
         }
     }
 }

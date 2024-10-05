@@ -2,6 +2,9 @@
 Each release will come with my test world that I use. I'm not a programmer but I'm even more not a writer. But there
 will be a *game*.
 
+Wishlist:
+- How do I create json schemas for people to make their own stuff.
+
 ## Release Track 0.x
 ### 0.1 This runs and plays
 - Scenes
@@ -11,12 +14,15 @@ will be a *game*.
         - Item Class
         - Player: Search for Item in room
         - Player: Use Item
+        - Look at things
         - Gamestate: Player doing a thing triggers a flag that does another thing.
         - MAYBE: Basic Puzzles
 - Functionality
     - **DONE** ~~Loading world data from JSON to object instances~~
     - **DONE** ~~Full command parser~~
     - Cleanup Program > Game > Prompt logic
+- Narration
+    - Fix summary displays (capitalize in the game.narration method?)
 
 ### 0.2 This is a game
 - Scenes

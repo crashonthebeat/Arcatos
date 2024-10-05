@@ -1,4 +1,5 @@
 ﻿using Arcatos.Types.Models;
+using Arcatos.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Arcatos.Types
         
         // Map Constructor is called by the loading function and is the scene list and exit list from the mapmodel
         // All scenes and exits are constructed as objects attached to their ID as their keys.
-        public Map(SceneModel[] scenes, DoorModel[] exits)
+        public Map(SceneModel[] scenes, DoorModel[] exits, Dictionary<string, Dictionary<string, int>> inventoryModel)
         {
             // Create new Dictionaries
             this.Scenes = new Dictionary<string, Scene>();
@@ -43,6 +44,15 @@ namespace Arcatos.Types
                     // Finally, add all adjacencies (construct the layout).
                     scene.AddExit(Exits[exit.id]);
                 }
+            }
+
+            foreach (string sceneid in inventoryModel.Keys)
+            {
+                Dev.Log($"Loading Items for {sceneid}");
+                Scene scene = this.Scenes[sceneid];
+                Dictionary<string, int> itemDefs = inventoryModel[sceneid];
+
+                scene.LoadItems(itemDefs);
             }
         }
     }

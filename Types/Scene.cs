@@ -26,21 +26,27 @@ namespace Arcatos.Types
             this.y = coords[1];
             this.Exits = new Dictionary<string, Door>();
             this.IsVisited = isVisited;
+            this.Inventory = new Box();
         }
 
         // Enter is the narration that is displayed when the player enters a room.
         public void Enter()
-        {
-            // This variable will be returned by a player roll.
-            
+        {            
             // Print Scene Title
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"==( {this.Name.ToUpper()} )==");
             Console.ResetColor();
 
             // Print Description
-            Game.Narrate([this.Examine()]);
+            this.Examine();
 
+            if (this.Inventory.Items.Count > 0) this.ListItems();
+
+            this.ListExits();
+        }
+
+        public void ListExits()
+        {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 
             // Exits Header
@@ -75,8 +81,20 @@ namespace Arcatos.Types
                 }
                 else
                 {
-                    Game.Narrate([newRoom.Glance()]);
+                    newRoom.Glance();
                 }
+            }
+        }
+
+        public void ListItems()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            // This is going to get integrated into the narration function.
+            Game.Narrate(["You see in the room: "]);
+            Console.ResetColor();
+            foreach (Item item in this.Inventory.Items.Keys)
+            {
+                item.Glance();
             }
         }
 
@@ -105,6 +123,15 @@ namespace Arcatos.Types
             double ddist = Math.Pow(Math.Pow(xdist, 2) + Math.Pow(ydist, 2), 0.5);
 
             return ((xdist < 3) && (ydist < 3) && (ddist < 3));
+        }
+
+        public void LoadItems(Dictionary<string, int> itemDefs)
+        {
+            foreach (string itemid in itemDefs.Keys)
+            {
+                Dev.Log(itemDefs[itemid].ToString());
+                this.Inventory.Items.Add(Game.Items[itemid], itemDefs[itemid]);
+            }
         }
     }
 }

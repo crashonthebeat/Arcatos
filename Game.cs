@@ -1,5 +1,4 @@
-﻿using Arcatos.Logs;
-using Arcatos.Types;
+﻿using Arcatos.Types;
 using Arcatos.Types.Models;
 using Arcatos.Utils;
 using System;
@@ -16,10 +15,12 @@ namespace Arcatos
         public bool Playing { get; set; }
         public static Map CurrentMap { get; set; }
         public static Player Player { get; set; }
+        public static Dictionary<string,Item> Items { get; set; }
         //public static Boxscope Boxscope { get; set; }
 
         public Game(string mapname)
         {
+            Game.Items = LoadItemsCatalog();
             Game.CurrentMap = LoadMap(mapname);
             Game.Player = new Player(Game.CurrentMap.Scenes["testscene_1"]);
             this.Playing = true;
@@ -54,6 +55,28 @@ namespace Arcatos
             MapModel model = JsonSerializer.Deserialize<MapModel>(json)!;
 
             return model.ToDomainModel();
+        }
+
+        public static Dictionary<string,Item> LoadItemsCatalog()
+        {
+            string[] itemFiles = Directory.GetFiles(Path.Combine("World", "Items"));
+            List<ItemModel> itemModels = new List<ItemModel>();
+            Dictionary<string,Item> list = new Dictionary<string,Item>();
+
+            foreach (string file in itemFiles)
+            {
+                using FileStream json = File.OpenRead(file);
+                //ItemModel[] models = JsonSerializer.Deserialize<ItemModel[]>(json)!;
+                itemModels.AddRange(JsonSerializer.Deserialize<ItemModel[]>(json)!);
+            }
+
+            foreach (ItemModel imod in itemModels)
+            {
+                Item item = new Item(imod.id, imod.name, imod.summary, imod.desc);
+                list.Add(imod.id, item);
+            }
+
+            return list;
         }
         
         // Narrate is a wrapper on top of console.write that takes game narration and presents it to the player.
