@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -16,16 +17,26 @@ namespace Arcatos.Types
         internal string summary;
         internal string desc;
         internal Dictionary<int, Entity> reveal;
-        public string EntityType;
+        public string EntityType { get; set; }
+        public bool IsKnown { get; set; }
         public Box? Inventory = null;
 
-        public Entity(string id, string name, string summary, string[] desc)
+        public Entity(string id, string name, string summary, string[] desc, bool isKnown = false)
         {
             this.EntityType = "base";
             this.id = id;
-            this.Name = name;
+            // Some items are not going to have a separate name, in this case, parse the summary to have an article.
+            if (name == "$mundane")
+            {
+                this.Name = ((new[] {'a','e','i','o','u'}).Contains(summary[0])) ? $"an {summary}" : $"a {summary}";
+            }
+            else
+            {
+                this.Name = name;
+            }
             this.summary = summary;
             this.desc = String.Concat(desc);
+            this.IsKnown = isKnown;
             this.reveal = new Dictionary<int, Entity>();
         }
 
@@ -51,9 +62,13 @@ namespace Arcatos.Types
 
         // Glance returns a short description of the item depending on where the item is located and what the item is.
         // This method will change depending on the type of Entity.
-        public void Glance()
+        public virtual string Glance()
         {
-            Game.Narrate([summary]);
+            // If the first letter of the summary is a vowel, use "an", otherwise use "a".
+            string article = ((new[] { 'a', 'e', 'i', 'o', 'u' }).Contains(summary[0])) ? "an" : "a";
+
+            // If the player is familiar with the entity, return its name.
+            return (this.IsKnown) ? this.Name : $"{article} {this.summary}";
         }
     }
 }

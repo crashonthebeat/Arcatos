@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Arcatos.Types.Models;
 using Arcatos.Utils;
 
 namespace Arcatos.Types
@@ -14,18 +15,16 @@ namespace Arcatos.Types
     {
         public int x { get; set; }      // X Coordinate on Map
         public int y { get; set; }      // Y Coordinate on Map
-        public bool IsVisited;          // Whether player has visited scene or not.
         public Dictionary<string, Door> Exits { get; set; }
         // Todo: Add Map Parameter to object.
 
-        public Scene(string id, string name, string summary, string[] desc, int[] coords,
-                     bool isVisited = false) : base(id, name, summary, desc)
+        public Scene(string id, string name, string summary, string[] desc, int[] coords, bool isKnown = false) 
+                   : base(id, name, summary, desc, isKnown)
         {
             this.EntityType = "scene";
             this.x = coords[0];
             this.y = coords[1];
             this.Exits = new Dictionary<string, Door>();
-            this.IsVisited = isVisited;
             this.Inventory = new Box();
         }
 
@@ -75,13 +74,13 @@ namespace Arcatos.Types
 
                 // If next scene has been visited, display the name, otherwise display its short description.
                 Scene newRoom = exit.Value.Adjacencies[this];
-                if (newRoom.IsVisited && CheckExitDistance(newRoom) && (newRoom.Name != null))
+                if (newRoom.IsKnown && CheckExitDistance(newRoom) && (newRoom.Name != null))
                 {
                     Game.Narrate([newRoom.Name]);
                 }
                 else
                 {
-                    newRoom.Glance();
+                    Game.Narrate([newRoom.Glance()]);
                 }
             }
         }
@@ -94,7 +93,7 @@ namespace Arcatos.Types
             Console.ResetColor();
             foreach (Item item in this.Inventory.Items.Keys)
             {
-                item.Glance();
+                Game.Narrate([item.Glance()]);
             }
         }
 
