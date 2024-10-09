@@ -16,13 +16,15 @@ namespace Arcatos
         public static Map CurrentMap { get; set; }
         public static Player Player { get; set; }
         public static Dictionary<string,Item> Items { get; set; }
-        //public static Boxscope Boxscope { get; set; }
+        public static Boxscope Boxscope { get; set; }
 
         public Game(string mapname)
         {
             Game.Items = LoadItemsCatalog();
             Game.CurrentMap = LoadMap(mapname);
             Game.Player = new Player(Game.CurrentMap.Scenes["testscene_1"]);
+            Game.Boxscope = new Boxscope();
+            Boxscope.UpdateLocal();
             this.Playing = true;
         }
 

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Arcatos.Types.Interfaces
 {
-    interface IEntity
+    public interface IEntity
     {
+        public string ToString();
         public void Examine();   // Get Method for Description
+        public string Glance();
     }
 }

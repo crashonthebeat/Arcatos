@@ -42,9 +42,10 @@ namespace Arcatos.Types
 
         // Examine returns a narrative description of the entity as well as additional entities that are only
         // noticed on a specific perception check score. Entities can be an item, exit, clue, or person of interest.
-        public void Examine()
+        public virtual void Examine()
         {
             string s = desc;
+
 
             // TODO:
             // Add extra narration strings for a perception check
@@ -58,6 +59,15 @@ namespace Arcatos.Types
             //}
 
             Game.Narrate([s]);
+
+            if ((this.Inventory != null) && (this.Inventory.Items.Count > 0))
+            {
+                this.Inventory.ListItems();
+            }
+            else if ((this.Inventory != null) && (this.Inventory.Items.Count == 0))
+            {
+                Game.Narrate(["Nothing."]);
+            }
         }
 
         // Glance returns a short description of the item depending on where the item is located and what the item is.
@@ -69,6 +79,11 @@ namespace Arcatos.Types
 
             // If the player is familiar with the entity, return its name.
             return (this.IsKnown) ? this.Name : $"{article} {this.summary}";
+        }
+
+        public override string ToString()
+        {
+            return this.Glance();
         }
     }
 }

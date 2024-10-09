@@ -25,7 +25,7 @@ namespace Arcatos.Types
             this.x = coords[0];
             this.y = coords[1];
             this.Exits = new Dictionary<string, Door>();
-            this.Inventory = new Box();
+            this.Inventory = new Box(this, BoxType.Int);
         }
 
         // Enter is the narration that is displayed when the player enters a room.
@@ -38,9 +38,6 @@ namespace Arcatos.Types
 
             // Print Description
             this.Examine();
-
-            if (this.Inventory.Items.Count > 0) this.ListItems();
-
             this.ListExits();
         }
 
@@ -82,18 +79,6 @@ namespace Arcatos.Types
                 {
                     Game.Narrate([newRoom.Glance()]);
                 }
-            }
-        }
-
-        public void ListItems()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            // This is going to get integrated into the narration function.
-            Game.Narrate(["You see in the room: "]);
-            Console.ResetColor();
-            foreach (Item item in this.Inventory.Items.Keys)
-            {
-                Game.Narrate([item.Glance()]);
             }
         }
 

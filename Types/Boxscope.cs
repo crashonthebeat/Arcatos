@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Arcatos.Types
-{
+{  
     public class Boxscope
     {
         // A boxscope is a weird concept that creates a virtual inventory out of all inventories in a specific scope.
@@ -20,80 +21,50 @@ namespace Arcatos.Types
         public List<Box> Scene { get; set; }
         public List<Box> Local { get; set; }
 
-        public List<Box> GetBoxes(Box box)
+        public Boxscope()
+        {
+            this.Player = new List<Box>();
+            this.Scene = new List<Box>();
+            this.Local = new List<Box>();
+        }
+
+        public static List<Box> GetBoxes(Box box)
         {
             // This is a recursive search of all boxes in a box if the item has a box then the box is searched for more boxes
             List<Box> foundBoxes = new List<Box>();
 
             foreach (Item item in box.Items.Keys)
             {
-                if (item.Inventory != null)
+                if (item.Inventory != null && !foundBoxes.Contains(item.Inventory))
                 {
                     foundBoxes.Add(item.Inventory);
                     foundBoxes.AddRange(GetBoxes(item.Inventory));
                 }
             }
 
+            foundBoxes.Add(box);
             return foundBoxes;
         }
 
-        public void UpdateScope(Box box, List<Box> scope, bool isAdded, List<Box>? sourcescope)
+        public static void UpdatePlayer()
         {
-            // Scope is made of the held/floor inventory, any inventories in held inventory, and any equipped inventories (recursive)
-            List<Box> boxes = GetBoxes(box);
+            List<Box> heldBoxes = GetBoxes(Game.Player.HeldItems);
+            //List<Box> wornBoxes = GetBoxes(Game.Player.Equipment);
+            //Game.Boxscope.Player = heldBoxes.Concat(wornBoxes).ToList();
 
-            if (isAdded)
-            {
-                scope.AddRange(boxes);
-                scope.Add(box);
-
-                if (sourcescope != null)
-                {
-                    sourcescope.Remove(box);
-                    foreach (Box subBox in boxes)
-                    {
-                        scope.Remove(subBox);
-                    }
-                }
-            }
-            else
-            {
-                scope.Remove(box);
-                foreach (Box subBox in boxes)
-                {
-                    scope.Remove(subBox);
-                }
-
-                if (sourcescope != null)
-                {
-                    sourcescope.AddRange(boxes);
-                    sourcescope.Add(box);
-                }
-            }
-
-            UpdateLocalScope();
-
-            // Do you see?
+            Game.Boxscope.Player = heldBoxes;
+        }
+        
+        public static void UpdateScene()
+        {
+            Game.Boxscope.Scene = GetBoxes(Game.Player.CurrentScene.Inventory);
         }
 
-        public void UpdateSceneScope()
+        public static void UpdateLocal()
         {
-            Scene scene = Game.Player.CurrentScene;
-            Scene.Clear();
-
-            if (scene.Inventory != null)
-            {
-                Scene.Add(scene.Inventory);
-                List<Box> boxes = GetBoxes(scene.Inventory);
-                Scene.AddRange(boxes);
-            }
-
-            UpdateLocalScope();
-        }
-
-        public void UpdateLocalScope()
-        {
-            Local = Scene.Concat(Player).ToList();
+            Boxscope.UpdatePlayer();
+            Boxscope.UpdateScene();
+            Game.Boxscope.Local = Game.Boxscope.Scene.Concat(Game.Boxscope.Player).ToList();
         }
     }
 }
