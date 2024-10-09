@@ -11,12 +11,15 @@ Wishlist:
     - **DONE** ~~Movement between scenes and worldspaces~~
 - Items
     - Basic Interaction with world (go here push this door unlocks or unhides)
-        - Item Class
-        - Player: Search for Item in room
+        - **DONE** ~~Player: Search for Item in room~~
         - Player: Use Item
-        - Look at things
-        - Gamestate: Player doing a thing triggers a flag that does another thing.
-        - MAYBE: Basic Puzzles
+        - **DONE** ~~Look at things~~
+    - **DONE** ~~Inventory~~
+        - **DONE** ~~Box Class (all inventories are boxes)~~
+    - Item functionality
+        - **DONE** ~~Item Class~~
+        - Player: ~~Take~~, Give, ~~Drop~~, Place Item
+    - **DONE** ~~Boxscope~~
 - Functionality
     - **DONE** ~~Loading world data from JSON to object instances~~
     - **DONE** ~~Full command parser~~
@@ -30,20 +33,10 @@ Wishlist:
         - Each Level is a separate Map object that is loaded when world loads
         - World Class (no not *world class* but a World class) that holds all maps
         - Exits can join two points on two different maps somehow
-    - Key Items
-        - Special Item Class that can be used to unlock a door or chest or w/e
 - Items
-    - Item functionality
-        - Item Class
-        - Player: Take, Give, Drop, Place Item
-    - Inventory
-        - Box Class (all inventories are boxes)
-    - Boxscope
-        - A class that handles items in multiple inventories
-        - Playerscope is all inventories on the player (multiple bags and such)
-        - Scenescope is all inventories in the scene (on floor or table etc)
-        - Localscope is all inventories in player or scene.
-        - Yes this sounds way too complicated but it pays off ^^*for me*^^.
+    - Basic Puzzles
+    - Key Items
+        - Special Item Class that can be used to unlock a door or chest or w/e\
 - NPCs
     - Basic dialogue with Yes/No/Ok/Cancel options
         - NPC Class
@@ -53,6 +46,8 @@ Wishlist:
 - UI
     - Main Menu
         - Not a lot to put in there at this point but it'd be nice to launch not directly to the game
+- Functionality
+    - Gamestate: Player doing a thing triggers a flag that does another thing.
 
 ### 0.3 This is not a bad game
 - Scenes
