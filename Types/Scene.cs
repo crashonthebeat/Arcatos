@@ -1,31 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Arcatos.Types.Models;
 using Arcatos.Utils;
+using Arcatos.Types.Interfaces;
 
 namespace Arcatos.Types
 {
+    public struct SceneDto
+    {
+        [JsonInclude] public required string id;
+        [JsonInclude] public string name;
+        [JsonInclude] public required string summary;
+        [JsonInclude] public required string[] desc;
+        [JsonInclude] public required int[] coords;
+        [JsonInclude] public bool visited;
+    }
+    
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
     public class Scene : Entity
     {
         public int x { get; set; }      // X Coordinate on Map
         public int y { get; set; }      // Y Coordinate on Map
         public Dictionary<string, Door> Exits { get; set; }
+        public override Box Inventory { get; set; }
         // Todo: Add Map Parameter to object.
 
         public Scene(string id, string name, string summary, string[] desc, int[] coords, bool isKnown = false) 
-                   : base(id, name, summary, desc, isKnown)
+                   : base(id, summary, desc, name, isKnown)
         {
             this.EntityType = "scene";
             this.x = coords[0];
             this.y = coords[1];
             this.Exits = new Dictionary<string, Door>();
             this.Inventory = new Box(this, BoxType.Int);
+        }
+
+        public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.coords, dto.visited)
+        {
+            // Scene Constructor for initialization with json file.
         }
 
         // Enter is the narration that is displayed when the player enters a room.
@@ -36,7 +53,7 @@ namespace Arcatos.Types
             Console.WriteLine($"==( {this.Name.ToUpper()} )==");
             Console.ResetColor();
 
-            // Print Description
+            // Print Description and Exits
             this.Examine();
             this.ListExits();
         }
@@ -46,17 +63,16 @@ namespace Arcatos.Types
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 
             // Exits Header
-            if (this.Exits.Count > 1)
-            {
-                Console.WriteLine("You see the following exits:");
-            }
-            else if (this.Exits.Count == 1)
-            {
-                Console.WriteLine("You see one exit:");
-            }
-            else
-            {
-                Console.WriteLine("You do not see any way out.");
+            switch (this.Exits.Count) {
+                case int x when x > 1:
+                    Console.WriteLine("You see the following exits:");
+                    break;
+                case int x when x == 1:
+                    Console.WriteLine("You see one exit:");
+                    break;
+                default:
+                    Console.WriteLine("You do not see any way out.");
+                    break;
             }
 
             Console.ResetColor();
@@ -64,7 +80,7 @@ namespace Arcatos.Types
             // Enumerate and Display Exits
             foreach (KeyValuePair<string, Door> exit in this.Exits)
             {
-                // Write Direction in Yellow with no new line
+                // Write Direction in Light Blue with no new line
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.Write($"{exit.Key.ToUpper()}: ");
                 Console.ResetColor();
@@ -109,6 +125,7 @@ namespace Arcatos.Types
             return ((xdist < 3) && (ydist < 3) && (ddist < 3));
         }
 
+        // Load Room Inventory (from world load)
         public void LoadItems(Dictionary<string, int> itemDefs)
         {
             foreach (string itemid in itemDefs.Keys)

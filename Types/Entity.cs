@@ -19,16 +19,16 @@ namespace Arcatos.Types
         internal Dictionary<int, Entity> reveal;
         public string EntityType { get; set; }
         public bool IsKnown { get; set; }
-        public Box? Inventory = null;
+        public abstract Box Inventory{ get; set;}
 
-        public Entity(string id, string name, string summary, string[] desc, bool isKnown = false)
+        public Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
         {
             this.EntityType = "base";
             this.id = id;
             // Some items are not going to have a separate name, in this case, parse the summary to have an article.
             if (name == "$mundane")
             {
-                this.Name = ((new[] {'a','e','i','o','u'}).Contains(summary[0])) ? $"an {summary}" : $"a {summary}";
+                this.Name = (new[] {'a','e','i','o','u'}).Contains(summary[0]) ? $"an {summary}" : $"a {summary}";
             }
             else
             {

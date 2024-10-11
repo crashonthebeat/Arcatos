@@ -4,7 +4,6 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using System.Windows;
 using Arcatos.Types;
-using Arcatos.Types.Models;
 using Arcatos.Utils;
 
 namespace Arcatos
@@ -13,6 +12,7 @@ namespace Arcatos
     {
         public static Settings Settings { get; set; }   // Program Settings
         public static Game? Game { get; set; }
+        public static string Dir = Environment.CurrentDirectory;
 
         // Program Initialization
         static Program()
@@ -25,11 +25,12 @@ namespace Arcatos
         {
             Dev.Log("Game Initialized");
 
-            Game = new("TestWorld");
+            // This line will be called from a loaded player state or new game state.
+            Game = new("laxebeck_keep_mainhall");
 
             while (Game.Playing)
             {
-                Game.Play();
+               Game.Play();
             }
         }
     }
