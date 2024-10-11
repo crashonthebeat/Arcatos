@@ -13,18 +13,10 @@
 
   <ItemGroup>
     <None Remove="EngineSettings.json" />
-    <None Remove="World\TestItems.json" />
-    <None Remove="World\TestWorld.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="EngineSettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="World\Items\TestItems.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="World\TestWorld.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
