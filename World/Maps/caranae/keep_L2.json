@@ -1,0 +1,13 @@
+{
+  "scenes": [
+    {
+      "id": "wizardtower",
+      "name": "Court Wizard's Quarters",
+      "summary": "a busy and unorganized laboratory",
+      "desc": [
+        "The court wizard of Caranae has a laboratory as scattered as his mind. Every surface is covered in books, scrolls, and parchment with half-finished ",
+        "sketches. The walls of the round room are split by two rows of bookshelves opposite each other. "
+      ]
+    }
+  ]
+}
