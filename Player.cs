@@ -52,7 +52,7 @@ namespace Arcatos
                 case "quit":
                     return false;
                 default:
-                    Game.Narrate([$"You do not know how to {command.Action}."]);
+                    Game.Narrate($"You do not know how to {command.Action}.");
                     return true;
             }
         }
@@ -92,20 +92,20 @@ namespace Arcatos
             // TryGetValue??
             if (!this.CurrentScene.Exits.ContainsKey(command.DirObj))
             {
-                Game.Narrate(["You cannot go that way."]);
+                Game.Narrate("You cannot go that way.");
                 return false; 
                 
             }
             else if (this.CurrentScene.Exits[command.DirObj].isClosed)
             {
-                Game.Narrate([$"{this.CurrentScene.Exits[command.DirObj].summary} is closed"]);
+                Game.Narrate($"{this.CurrentScene.Exits[command.DirObj].summary} is closed");
                 return false;
             }
 
             Door exit = this.CurrentScene.Exits[command.DirObj];
             Scene nextRoom = exit.Adjacencies[this.CurrentScene];
 
-            Game.Narrate([$"You {command.Action} {command.DirObj}."]);
+            Game.Narrate($"You {command.Action} {command.DirObj}.");
             this.CurrentScene = nextRoom;
             this.CurrentScene.Enter();
             return true;
@@ -117,7 +117,7 @@ namespace Arcatos
 
             if (item != null)
             {
-                Game.Narrate([$"You use {item.Name}."]);
+                Game.Narrate($"You use {item.Name}.");
                 // Use the item
                 return true;
             }
@@ -138,7 +138,7 @@ namespace Arcatos
             {
                 box.RemoveItem(item);
                 this.HeldItems.AddItem(item);
-                Game.Narrate([$"You {command.Action} {item.Glance()}."]);
+                Game.Narrate($"You {command.Action} {item.Glance()}.");
                 return true;
             }
             else
@@ -153,7 +153,7 @@ namespace Arcatos
 
             if (item != null && box == this.HeldItems)
             {
-                Game.Narrate([$"You {command.Action} {item.Glance()} on the floor."]);
+                Game.Narrate($"You {command.Action} {item.Glance()} on the floor.");
                 this.HeldItems.RemoveItem(item);
                 return true;
             }
@@ -190,7 +190,7 @@ namespace Arcatos
                 // Case if items were found but there were multiple matches or a match has already been found.
                 else if (foundItems != null && (found || foundItems.Count > 1))
                 {
-                    Game.Narrate([$"Which {search} do you mean?"]);
+                    Game.Narrate($"Which {search} do you mean?");
                     return (null, null);
                 }
                 else
@@ -207,7 +207,7 @@ namespace Arcatos
 
         public void Examine()
         {
-            Game.Narrate(["You see an amazing mortal being"]);
+            Game.Narrate("You see an amazing mortal being");
             this.HeldItems.ListItems();
         }
 

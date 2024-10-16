@@ -58,7 +58,7 @@ namespace Arcatos
 
                 if (String.IsNullOrEmpty(input)) 
                 {
-                    Game.Narrate(["You didn't enter a command."]);
+                    Game.Narrate("You didn't enter a command.");
                     continue;
                 }
                 else 
@@ -99,9 +99,18 @@ namespace Arcatos
 
             return list;
         }
+
+#region Narration
+        // TODO: Canned text to randomize messages for bad input, non-found items, etc. 
         
         // Narrate is a wrapper on top of console.write that takes game narration and presents it to the player.
         // This will have hella overloads, and in fact be broken out into several methods.
+        public static void Narrate(string s)
+        {
+            Console.WriteLine(s);
+        }
+
+        // Narrate overload for a list of strings perchance fed by an Entity's examine method that adds extra topics.
         public static void Narrate(string[] raw)
         {
             string joined = "";
@@ -111,9 +120,12 @@ namespace Arcatos
                 joined += $"{s.Trim()} ";
             }
 
-            Console.WriteLine(joined);
+            Game.Narrate(joined);
 
             // Todo: Wrap strings based on a detected (or set or standard) console size.
         }
+        
     }
+
+#endregion
 }

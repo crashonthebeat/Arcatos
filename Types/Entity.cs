@@ -58,7 +58,7 @@ namespace Arcatos.Types
             //    }
             //}
 
-            Game.Narrate([s]);
+            Game.Narrate(s);
 
             if ((this.Inventory != null) && (this.Inventory.Items.Count > 0))
             {
@@ -66,7 +66,7 @@ namespace Arcatos.Types
             }
             else if ((this.Inventory != null) && (this.Inventory.Items.Count == 0))
             {
-                Game.Narrate(["Nothing."]);
+                Game.Narrate("Nothing.");
             }
         }
 

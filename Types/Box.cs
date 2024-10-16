@@ -61,16 +61,16 @@ namespace Arcatos.Types
             // This is going to get integrated into the narration function.
             if (this._parentEntity.GetType() == typeof(Player))
             {
-                Game.Narrate([$"You are holding:"]);
+                Game.Narrate($"You are holding:");
             }
             else
             {
-                Game.Narrate([$"You see {p} {this._parentEntity.Glance()}:"]);
+                Game.Narrate($"You see {p} {this._parentEntity.Glance()}:");
             }
             Console.ResetColor();
             foreach (Item item in this.Items.Keys)
             {
-                Game.Narrate([item.Glance()]);
+                Game.Narrate(item.Glance());
             }
         }
 

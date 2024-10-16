@@ -65,13 +65,13 @@ namespace Arcatos.Types
             // Exits Header
             switch (this.Exits.Count) {
                 case int x when x > 1:
-                    Console.WriteLine("You see the following exits:");
+                    Game.Narrate("You see the following exits:");
                     break;
                 case int x when x == 1:
-                    Console.WriteLine("You see one exit:");
+                    Game.Narrate("You see one exit:");
                     break;
                 default:
-                    Console.WriteLine("You do not see any way out.");
+                    Game.Narrate("You do not see any way out.");
                     break;
             }
 
@@ -89,11 +89,11 @@ namespace Arcatos.Types
                 Scene newRoom = exit.Value.Adjacencies[this];
                 if (newRoom.IsKnown && CheckExitDistance(newRoom) && (newRoom.Name != null))
                 {
-                    Game.Narrate([newRoom.Name]);
+                    Game.Narrate(newRoom.Name);
                 }
                 else
                 {
-                    Game.Narrate([newRoom.Glance()]);
+                    Game.Narrate(newRoom.Glance());
                 }
             }
         }
