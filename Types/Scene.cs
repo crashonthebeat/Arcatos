@@ -24,9 +24,10 @@ namespace Arcatos.Types
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
     public class Scene : Entity
     {
-        public int x { get; set; }      // X Coordinate on Map
-        public int y { get; set; }      // Y Coordinate on Map
-        public Dictionary<string, Door> Exits { get; set; }
+        public (int x, int y) loc;      // Coordinates (x,y) on map.
+        public (int x, int y) size;     // Length and Width of Scene
+        public (int x, int y) center; // Center coordinate of scene.
+        public Dictionary<string, Exit> Exits { get; set; }
         public override Box Inventory { get; set; }
         // Todo: Add Map Parameter to object.
 
@@ -34,10 +35,13 @@ namespace Arcatos.Types
                    : base(id, summary, desc, name, isKnown)
         {
             this.EntityType = "scene";
-            this.x = coords[0];
-            this.y = coords[1];
-            this.Exits = new Dictionary<string, Door>();
+            this.loc.x = coords[0];
+            this.loc.y = coords[1];
+            this.Exits = new Dictionary<string, Exit>();
             this.Inventory = new Box(this, BoxType.Int);
+
+            this.center.x = this.loc.x + this.size.x;
+            this.center.y = this.loc.y + this.size.y;
         }
 
         public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.coords, dto.visited)
@@ -78,7 +82,7 @@ namespace Arcatos.Types
             Console.ResetColor();
 
             // Enumerate and Display Exits
-            foreach (KeyValuePair<string, Door> exit in this.Exits)
+            foreach (KeyValuePair<string, Exit> exit in this.Exits)
             {
                 // Write Direction in Light Blue with no new line
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -99,7 +103,7 @@ namespace Arcatos.Types
         }
 
         // On Map Construction, this is the per-scene method that processes all the exits into Scenes.
-        public void AddExit(Door exit)
+        public void AddExit(Exit exit)
         {            
             // Get Other Room
             Scene scene = exit.Adjacencies[this];
@@ -118,8 +122,8 @@ namespace Arcatos.Types
         // where a separate room does not make sense. 
         private bool CheckExitDistance(Scene scene)
         {
-            double xdist = this.x - scene.x;
-            double ydist = this.y - scene.y;
+            double xdist = this.loc.x - scene.loc.x;
+            double ydist = this.loc.y - scene.loc.y;
             double ddist = Math.Pow(Math.Pow(xdist, 2) + Math.Pow(ydist, 2), 0.5);
 
             return ((xdist < 3) && (ydist < 3) && (ddist < 3));
@@ -133,6 +137,38 @@ namespace Arcatos.Types
                 Dev.Log(itemDefs[itemid].ToString());
                 this.Inventory.Items.Add(Game.Items[itemid], itemDefs[itemid]);
             }
+        }
+
+        // This calculates the outer coordinate of the scene.
+        public (int, int, int, int) GetBounds()
+        {
+            // Property loc will always be the north and west walls
+            int n = this.loc.y;
+            int w = this.loc.x;
+
+            // South and east walls are calculated by adding the size prop
+            int s = this.loc.y + this.size.y;
+            int e = this.loc.x + this.size.x;
+
+            return (n, e, s, w);
+        }
+
+        // This gives a range of x coords and y coords that lie in the scene
+        public (int[], int[]) GetRanges()
+        {
+            int[] xRange = new int[this.size.x];
+            for (int i = 0; i < this.size.x; i++)
+            {
+                xRange[i] = this.size.x + i;
+            }
+            
+            int[] yRange = new int[this.size.y];
+            for (int i = 0; i < this.size.y; i++)
+            {
+                yRange[i] = this.size.y + i;
+            }
+
+            return (xRange, yRange);
         }
     }
 }

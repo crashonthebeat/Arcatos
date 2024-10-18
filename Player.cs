@@ -102,7 +102,7 @@ namespace Arcatos
                 return false;
             }
 
-            Door exit = this.CurrentScene.Exits[command.DirObj];
+            Exit exit = this.CurrentScene.Exits[command.DirObj];
             Scene nextRoom = exit.Adjacencies[this.CurrentScene];
 
             Game.Narrate($"You {command.Action} {command.DirObj}.");

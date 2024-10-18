@@ -23,7 +23,7 @@ namespace Arcatos.Utils
     {
         public static Dir Direction(Scene orig, Scene dest)
         {
-            double rad = Math.Atan2(dest.x - orig.x, dest.y - orig.y);
+            double rad = Math.Atan2(dest.center.x - orig.center.x, dest.center.y - orig.center.y);
             rad += Math.PI;
             rad /= Math.PI / 4;
 
