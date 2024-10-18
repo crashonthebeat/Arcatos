@@ -39,6 +39,7 @@ namespace Arcatos.Types
                 this.Scenes.Add( $"{mapName}_{scene.id}", scene );
             }
 
+            // TODO: Redo Exit processing.
             // Process Exits array
             foreach (ExitDto model in dto.exits)
             {

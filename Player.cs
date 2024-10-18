@@ -96,13 +96,13 @@ namespace Arcatos
                 return false; 
                 
             }
-            else if (this.CurrentScene.Exits[command.DirObj].isClosed)
+            else if (this.CurrentScene.Exits[command.DirObj].IsClosed)
             {
                 Game.Narrate($"{this.CurrentScene.Exits[command.DirObj].summary} is closed");
                 return false;
             }
 
-            Exit exit = this.CurrentScene.Exits[command.DirObj];
+            Door exit = this.CurrentScene.Exits[command.DirObj];
             Scene nextRoom = exit.Adjacencies[this.CurrentScene];
 
             Game.Narrate($"You {command.Action} {command.DirObj}.");

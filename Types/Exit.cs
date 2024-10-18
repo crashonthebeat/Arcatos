@@ -25,8 +25,8 @@ namespace Arcatos.Types
     public class Exit : Entity, ILockable
     {
         public bool IsHidden { get; set; }
-        public bool isClosed { get; set; }  // Whether exit will always appear closed but be traversable.
-        public bool isLocked { get; set; }
+        public bool IsClosed { get; set; }  // Whether exit will always appear closed but be traversable.
+        public bool IsLocked { get; set; }
         public Dictionary<Scene, Scene> Adjacencies { get; init; }
         public override Box Inventory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -34,37 +34,40 @@ namespace Arcatos.Types
         {
             EntityType = "door";
             
-            this.Adjacencies = new Dictionary<Scene, Scene>();
-            this.Adjacencies.Add(scenes[0], scenes[1]);
-            this.Adjacencies.Add(scenes[1], scenes[0]);
+            this.Adjacencies = new Dictionary<Scene, Scene>
+            {
+                { scenes[0], scenes[1] },
+                { scenes[1], scenes[0] }
+            };
 
-            this.isClosed = dto.closed || dto.locked;
-            this.isLocked = dto.locked;
+            this.IsClosed = dto.closed || dto.locked;
+            this.IsLocked = dto.locked;
             this.IsHidden = dto.hidden;
         }
         
         // The following four methods manage the exit state, and they are called by the player.
         public bool Open()
         {
-            return this.isClosed && !this.isLocked;
+            return this.IsClosed && !this.IsLocked;
         }
 
         public bool Close()
         {
-            return !this.isClosed;
+            return !this.IsClosed;
         }
 
         public bool Lock()
         {
-            return this.isClosed && !this.isLocked;
+            return this.IsClosed && !this.IsLocked;
         }
 
         public bool Unlock()
         {
             // Check if Player has key.
-            return this.isLocked;
+            return this.IsLocked;
         }
 
+        // TODO: Move to Calc
         // This calculates which direction the exit should be listed as and sets it in each scene.
         public void SetDirectionality(Scene[] scenes)
         {

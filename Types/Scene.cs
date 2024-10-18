@@ -24,9 +24,8 @@ namespace Arcatos.Types
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
     public class Scene : Entity
     {
-        public (int x, int y) loc;      // Coordinates (x,y) on map.
+        public (int x, int y) loc;      // Coordinates (x,y) of top left corner of room.
         public (int x, int y) size;     // Length and Width of Scene
-        public (int x, int y) center; // Center coordinate of scene.
         public Dictionary<string, Exit> Exits { get; set; }
         public override Box Inventory { get; set; }
         // Todo: Add Map Parameter to object.
@@ -39,9 +38,6 @@ namespace Arcatos.Types
             this.loc.y = coords[1];
             this.Exits = new Dictionary<string, Exit>();
             this.Inventory = new Box(this, BoxType.Int);
-
-            this.center.x = this.loc.x + this.size.x;
-            this.center.y = this.loc.y + this.size.y;
         }
 
         public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.coords, dto.visited)
@@ -139,6 +135,8 @@ namespace Arcatos.Types
             }
         }
 
+        // TODO: Move these to Calc
+        
         // This calculates the outer coordinate of the scene.
         public (int, int, int, int) GetBounds()
         {
