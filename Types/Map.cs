@@ -39,19 +39,24 @@ namespace Arcatos.Types
                 this.Scenes.Add( $"{mapName}_{scene.id}", scene );
             }
 
-            // TODO: Redo Exit processing.
             // Process Exits array
             foreach (ExitDto model in dto.exits)
             {
-                // Grab Scenes from the id names in the ExitDto and create new Door Object.
+                // Grab Scenes from the id names in the ExitDto and create new Exit Object.
                 Scene[] adj = [this.Scenes[$"{mapName}_{model.scenes[0]}"], this.Scenes[$"{mapName}_{model.scenes[1]}"]];
                 this.Exits.Add(model.id, new Exit(model, adj));
+                
+                // Add the exit/dir[] pairs for each scene.
+                adj[0].ExitPairs.Add(this.Exits[model.id], Calc.RoomDirection(adj[0], adj[1]));
+                adj[1].ExitPairs.Add(this.Exits[model.id], Calc.RoomDirection(adj[1], adj[0]));
+            }
 
-                // Add exit to each scene in its adjacencies.
-                foreach (Scene scene in adj)
+            // Now resolve all exit pairs HAHAHAHHAHAH THIS PART IS GOING TO KILL ME WHAT HAVE I DONE WHY COULDN'T I JUST LEAVE IT AS IS.
+            List<Scene> unresolvedExits = new List<Scene>(this.Scenes.Values);  // Insert picture of robert stack
+            while (unresolvedExits.Count > 0) {
+                foreach (Scene scene in unresolvedExits)
                 {
-                    // Finally, add all adjacencies (construct the layout).
-                    scene.AddExit(Exits[model.id]);
+                    
                 }
             }
 

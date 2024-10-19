@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Arcatos.Utils;
 using Arcatos.Types.Interfaces;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Arcatos.Types
 {
@@ -18,6 +19,7 @@ namespace Arcatos.Types
         [JsonInclude] public required string summary;
         [JsonInclude] public required string[] desc;
         [JsonInclude] public required int[] coords;
+        [JsonInclude] public required int[] size;
         [JsonInclude] public bool visited;
     }
     
@@ -28,19 +30,21 @@ namespace Arcatos.Types
         public (int x, int y) size;     // Length and Width of Scene
         public Dictionary<string, Exit> Exits { get; set; }
         public override Box Inventory { get; set; }
+        public Dictionary<Exit, List<Dir>> ExitPairs;  // Holding property for possible exits.
         // Todo: Add Map Parameter to object.
 
-        public Scene(string id, string name, string summary, string[] desc, int[] coords, bool isKnown = false) 
+        public Scene(string id, string name, string summary, string[] desc, int[] coords, int[] size, bool isKnown = false) 
                    : base(id, summary, desc, name, isKnown)
         {
             this.EntityType = "scene";
-            this.loc.x = coords[0];
-            this.loc.y = coords[1];
-            this.Exits = new Dictionary<string, Exit>();
-            this.Inventory = new Box(this, BoxType.Int);
+            this.loc        = (coords[0], coords[1]);
+            this.size       = (size[0], size[1]);
+            this.Exits      = new Dictionary<string, Exit>();
+            this.Inventory  = new Box(this, BoxType.Int);
+            this.ExitPairs  = new Dictionary<Exit, List<Dir>>();
         }
 
-        public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.coords, dto.visited)
+        public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.coords, dto.size, dto.visited)
         {
             // Scene Constructor for initialization with json file.
         }
@@ -113,6 +117,89 @@ namespace Arcatos.Types
             this.Exits.Add(direction, exit);
         }
 
+        // I'm so sorry for what I am about to do. This is either genius or insanity. 
+        // This kind of works like arp, except spanning tree hasn't been invented.
+        // TODO: Invent spanning tree before I even think about running this code.
+        public bool ResolveExits()
+        {
+            // This first loop checks for easily resolvable exits.
+            foreach (KeyValuePair<Exit, List<Dir>> kvp in this.ExitPairs)
+            {
+                Exit exit = kvp.Key;
+                // Only one possible direction for this exit.
+                if (kvp.Value.Count == 1)
+                {
+                    Scene opp = exit.Adjacencies[this];
+                    Dir oppDir = Calc.OppDir(kvp.Value[0]);
+
+                    bool resolved = opp.ResolveAdjacent(oppDir, exit);
+
+                    // If the opposite exit could be resolved, then resolve the one in this scene as well.
+                    if (resolved)
+                    {
+                        this.AddExit(kvp.Value[0], exit);
+                        this.ExitPairs.Remove(exit);
+                        continue;
+                    }
+                    // I'm a baby coder and even I know that this line is going to give me a BAD time.
+                    // For my networking friends, this is what we call a BROADCAST STORM.
+                    else if (opp.ResolveExits())
+                    {
+                        // Opposite scene has been resolved
+                        this.AddExit(kvp.Value[0], exit);
+                        this.ExitPairs.Remove(exit);
+                        continue;
+                    }
+                }
+                else
+                {
+                    foreach (Dir dir in kvp.Value)
+                    {
+                        bool resolved = this.ResolveAdjacent(dir, exit);
+                        // TODO: finish this
+                    }
+                }
+            }
+
+            return this.ExitPairs.Count == 0;
+        }
+
+        public bool ResolveAdjacent(Dir dir, Exit exit)
+        {
+            // Check to see if the given direction is a possible direction for any other exit.
+            foreach (KeyValuePair<Exit, List<Dir>> kvp in this.ExitPairs)
+            {
+                if (kvp.Value.Contains(dir) && kvp.Key != exit)
+                {
+                    // If so, the adjacency cannot yet be resolved.
+                    return false;
+                }
+            }
+
+            // At this point there is no other exit that could use this direction so it will be claimed.
+            this.AddExit(dir, exit);
+            this.ExitPairs.Remove(exit);
+            return true;
+        }
+
+        public void AddExit(Dir dir, Exit exit) {
+            // Make it into a string because I'm dumb and made two different things to represent direction.
+            string? dirString = Enum.GetName(dir.GetType(), dir);
+            if (!String.IsNullOrEmpty(dirString))
+            {
+                // Add this exit and direction
+                this.Exits.Add(dirString, exit);
+                // Remove this pair from the checks.
+                this.ExitPairs.Remove(exit);
+                // Tell calling function we're good.
+            }
+            else
+            {
+                // string shouldn't be empty but if i don't do this visual studio gets mad at me :(
+                throw new Exception(); // TODO: Invent new exception
+            }
+        }
+
         // Checks if a scene is close enough to see past an exit
         // Scenes should only have a distance greater than 1 when connecting them via a hallway, cavern, or other space
         // where a separate room does not make sense. 
@@ -133,40 +220,6 @@ namespace Arcatos.Types
                 Dev.Log(itemDefs[itemid].ToString());
                 this.Inventory.Items.Add(Game.Items[itemid], itemDefs[itemid]);
             }
-        }
-
-        // TODO: Move these to Calc
-        
-        // This calculates the outer coordinate of the scene.
-        public (int, int, int, int) GetBounds()
-        {
-            // Property loc will always be the north and west walls
-            int n = this.loc.y;
-            int w = this.loc.x;
-
-            // South and east walls are calculated by adding the size prop
-            int s = this.loc.y + this.size.y;
-            int e = this.loc.x + this.size.x;
-
-            return (n, e, s, w);
-        }
-
-        // This gives a range of x coords and y coords that lie in the scene
-        public (int[], int[]) GetRanges()
-        {
-            int[] xRange = new int[this.size.x];
-            for (int i = 0; i < this.size.x; i++)
-            {
-                xRange[i] = this.size.x + i;
-            }
-            
-            int[] yRange = new int[this.size.y];
-            for (int i = 0; i < this.size.y; i++)
-            {
-                yRange[i] = this.size.y + i;
-            }
-
-            return (xRange, yRange);
         }
     }
 }

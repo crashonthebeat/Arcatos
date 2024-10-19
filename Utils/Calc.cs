@@ -38,7 +38,12 @@ namespace Arcatos.Utils
             return (Dir)slice;
         }
 
-        
+        public static Dir OppDir (Dir dir)
+        { 
+            return (Dir)(((int)dir + 4) % 8); 
+        }
+
+#region here be dragons
 
         // Calc.RoomDirection takes the scene calling the method and the scene that will be the destination, and returns a list of possible
         // directions for the destination scene. 
@@ -111,7 +116,9 @@ namespace Arcatos.Utils
                 possibleDirections.Add(dir);
             }
             
-            if (exitLoc > origCenter.x && !e && !w && n) possibleDirections.Add(Dir.northwest);
+            // *chanting* wall of ifs wall of ifs wall of ifs
+            // I will eventually think of a simpler way to do this and call myself stupid for even doing this.
+            if      (exitLoc > origCenter.x && !e && !w && n) possibleDirections.Add(Dir.northwest);
             else if (exitLoc > origCenter.x && !e && !w && s) possibleDirections.Add(Dir.southwest);
             else if (exitLoc < origCenter.x && !e && !w && n) possibleDirections.Add(Dir.northeast);
             else if (exitLoc < origCenter.x && !e && !w && s) possibleDirections.Add(Dir.southeast);
@@ -142,7 +149,7 @@ namespace Arcatos.Utils
         // Calc.ExitLoc returns the intersecting cells and the average of those cells, which is the x or y value of the exit along the wall.
         public static (double, List<int>) ExitLoc (Scene orig, Scene dest, Dir dir)
         {
-            Dir destDir = (Dir)(((int)dir + 4) % 8);
+            Dir destDir = Calc.OppDir(dir);
 
             (int origEdge, List<int> origCells) = Calc.EdgeCells(orig, dir);
             (int destEdge, List<int> destCells) = Calc.EdgeCells(dest, destDir);
@@ -154,7 +161,7 @@ namespace Arcatos.Utils
 
         // Calc.EdgeCells takes a scene and a direction and returns all the cells along that wall. The first int is either the x or y location of the wall
         // The array is all the x or y values along that wall.
-        public static (int, List<int>) EdgeCells(Scene scene, Dir dir)
+        public static (int, List<int>) EdgeCells (Scene scene, Dir dir)
         {
             // Get cells on wall
             int i;
@@ -197,4 +204,6 @@ namespace Arcatos.Utils
             return range;
         }
     }
+
+#endregion
 }

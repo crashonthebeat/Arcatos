@@ -66,32 +66,5 @@ namespace Arcatos.Types
             // Check if Player has key.
             return this.IsLocked;
         }
-
-        // TODO: Move to Calc
-        // This calculates which direction the exit should be listed as and sets it in each scene.
-        public void SetDirectionality(Scene[] scenes)
-        {
-            // Get x and y coordinates that match between rooms
-            (int[] xRange1, int[] yRange1) =  scenes[0].GetRanges();
-            (int[] xRange2, int[] yRange2) =  scenes[1].GetRanges();
-
-            List<int> xIntercept = xRange1.Intersect(xRange2).ToList();
-            List<int> yIntercept = yRange1.Intersect(yRange2).ToList();
-
-            double exitXLoc = xIntercept.Average();
-            double exitYLoc = yIntercept.Average();
-            
-            // Get Direction of scene 2 to scene 1
-            Dir dir = Calc.Direction(scenes[0], scenes[1]);
-
-            // Find matching walls
-            (int n1, int e1, int s1, int w1) = scenes[0].GetBounds();
-            (int n2, int e2, int s2, int w2) = scenes[1].GetBounds();
-
-            bool northWall = (n1 - 0.5 == s2 + 0.5);
-            bool southWall = (s1 + 0.5 == n2 - 0.5);
-            bool eastWall  = (e1 - 0.5 == w2 + 0.5);
-            bool westWall  = (w1 + 0.5 == e2 - 0.5);
-        }
     }
 }
