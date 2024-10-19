@@ -46,17 +46,9 @@ namespace Arcatos.Types
                 Scene[] adj = [this.Scenes[$"{mapName}_{model.scenes[0]}"], this.Scenes[$"{mapName}_{model.scenes[1]}"]];
                 this.Exits.Add(model.id, new Exit(model, adj));
                 
-                // Add the exit/dir[] pairs for each scene.
-                adj[0].ExitPairs.Add(this.Exits[model.id], Calc.RoomDirection(adj[0], adj[1]));
-                adj[1].ExitPairs.Add(this.Exits[model.id], Calc.RoomDirection(adj[1], adj[0]));
-            }
-
-            // Now resolve all exit pairs HAHAHAHHAHAH THIS PART IS GOING TO KILL ME WHAT HAVE I DONE WHY COULDN'T I JUST LEAVE IT AS IS.
-            List<Scene> unresolvedExits = new List<Scene>(this.Scenes.Values);  // Insert picture of robert stack
-            while (unresolvedExits.Count > 0) {
-                foreach (Scene scene in unresolvedExits)
+                foreach (Scene scene in adj)
                 {
-                    
+
                 }
             }
 

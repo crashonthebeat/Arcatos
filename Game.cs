@@ -122,7 +122,7 @@ namespace Arcatos
 
             Game.Narrate(joined);
 
-            // Todo: Wrap strings based on a detected (or set or standard) console size.
+            // Todo: Wrap strings based on a detected (or set or standard) console CornerSE.
         }
         
     }

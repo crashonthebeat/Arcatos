@@ -8,8 +8,6 @@ namespace Arcatos.Types.Interfaces
 {
     interface ILockable
     {
-        bool Open();
-        bool Close();
         bool Unlock();
         bool Lock();
     }
