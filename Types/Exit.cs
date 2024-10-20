@@ -105,7 +105,7 @@ namespace Arcatos.Types
                     wallPos = origWalls.w;
                     break;
                 default:
-                    throw new Exception(); // TODO: Make exception for this (weast exception)
+                    throw new WeastException("Could not find matching wall");
             }
 
             // Next need to find the points where the walls meet.
@@ -131,7 +131,7 @@ namespace Arcatos.Types
             }
             else
             {
-                throw new Exception(); // TODO: weast exception
+                throw new WeastException("Could not place exit along wall");
             }
         }
     }

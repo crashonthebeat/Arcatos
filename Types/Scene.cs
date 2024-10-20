@@ -330,7 +330,7 @@ namespace Arcatos.Types
                         break;
 
                     default:
-                        throw new Exception(); //TODO: weast exception
+                        throw new WeastException();
                 }
 
 
