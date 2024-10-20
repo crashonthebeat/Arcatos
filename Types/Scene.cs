@@ -125,71 +125,6 @@ namespace Arcatos.Types
             this.Exits.Add(direction, exit);
         }
 
-        // I'm so sorry for what I am about to do. This is either genius or insanity. 
-        // This kind of works like arp, except spanning tree hasn't been invented.
-        // TODO: Invent spanning tree before I even think about running this code.
-        public bool ResolveExits()
-        {
-            // This first loop checks for easily resolvable exits.
-            foreach (KeyValuePair<Exit, List<Dir>> kvp in this.ExitPairs)
-            {
-                Exit exit = kvp.Key;
-                // Only one possible direction for this exit.
-                if (kvp.Value.Count == 1)
-                {
-                    Scene opp = exit.Adjacencies[this];
-                    Dir oppDir = Calc.OppDir(kvp.Value[0]);
-
-                    bool resolved = opp.ResolveAdjacent(oppDir, exit);
-
-                    // If the opposite exit could be resolved, then resolve the one in this scene as well.
-                    if (resolved)
-                    {
-                        this.AddExit(kvp.Value[0], exit);
-                        this.ExitPairs.Remove(exit);
-                        continue;
-                    }
-                    // I'm a baby coder and even I know that this line is going to give me a BAD time.
-                    // For my networking friends, this is what we call a BROADCAST STORM.
-                    else if (opp.ResolveExits())
-                    {
-                        // Opposite scene has been resolved
-                        this.AddExit(kvp.Value[0], exit);
-                        this.ExitPairs.Remove(exit);
-                        continue;
-                    }
-                }
-                else
-                {
-                    foreach (Dir dir in kvp.Value)
-                    {
-                        bool resolved = this.ResolveAdjacent(dir, exit);
-                        // TODO: finish this
-                    }
-                }
-            }
-
-            return this.ExitPairs.Count == 0;
-        }
-
-        public bool ResolveAdjacent(Dir dir, Exit exit)
-        {
-            // Check to see if the given direction is a possible direction for any other exit.
-            foreach (KeyValuePair<Exit, List<Dir>> kvp in this.ExitPairs)
-            {
-                if (kvp.Value.Contains(dir) && kvp.Key != exit)
-                {
-                    // If so, the adjacency cannot yet be resolved.
-                    return false;
-                }
-            }
-
-            // At this point there is no other exit that could use this direction so it will be claimed.
-            this.AddExit(dir, exit);
-            this.ExitPairs.Remove(exit);
-            return true;
-        }
-
         public bool AddExit(Dir dir, Exit exit) {
             // Make it into a string because I'm dumb and made two different things to represent direction.
             string? dirString = Enum.GetName(dir.GetType(), dir);
@@ -209,147 +144,252 @@ namespace Arcatos.Types
         public bool GetExitDirection(Exit exit, Dir wall, int conf)
         {
             double xCornerDist = Calc.SceneCornerWidth(this.CornerSE.x - this.CornerNW.x);
-            double yCornerDist = Calc.SceneCornerWidth(this.CornerSE.y - this.CornerNW.x);
-            double minDist = Math.Max(xCornerDist, yCornerDist);
+            double yCornerDist = Calc.SceneCornerWidth(this.CornerSE.y - this.CornerNW.y);
+            double xCenter = (this.CornerSE.x - this.CornerNW.x) / 2;
+            double yCenter = (this.CornerSE.y - this.CornerNW.y) / 2;
 
-            double check = conf switch
+            if (xCornerDist > yCornerDist)
             {
-                90 => Math.Min(xCornerDist, yCornerDist),
-                75 => Math.Max(xCornerDist, yCornerDist),
-                _ => 0
-            };
+                xCornerDist = conf switch
+                {
+                    3 => Math.Min(xCornerDist, yCornerDist),
+                    2  => xCornerDist,
+                    1  => xCenter,
+                    _ => 0
+                };
+            }
+            else
+            {
+                yCornerDist = conf switch
+                {
+                    3 => Math.Min(xCornerDist, yCornerDist),
+                    2 => yCornerDist,
+                    1 => yCenter,
+                    _ => 0
+                };
+            }
 
             bool added;
             // Confident exit is in northwest corner
-            if      ((wall == Dir.north && exit.Loc.x <= this.CornerNW.x + minDist)
-                  || (wall == Dir.west  && exit.Loc.y <= this.CornerNW.y + minDist))
+            if      ((wall == Dir.north && exit.Loc.x < this.CornerNW.x + xCornerDist)     // west corner of north wall
+                  || (wall == Dir.west  && exit.Loc.y < this.CornerNW.y + yCornerDist))    // north corner of west wall
             {
-                added = this.AddExit(Dir.northwest, exit);
+                if (!this.Exits.ContainsKey("northwest"))
+                {
+                    return this.AddExit(Dir.northwest, exit);
+                }
+                else if (!this.Exits.ContainsKey("west") && conf == 1 && wall == Dir.west)
+                {
+                    return this.AddExit(Dir.west, exit);
+                }
+                else if (!this.Exits.ContainsKey("north") && conf == 1 && wall == Dir.north)
+                {
+                    return this.AddExit(Dir.north, exit);
+                }
+                else
+                {
+                    return false;
+                }
             }
             // Confident exit is in northeast corner
-            else if ((wall == Dir.north && exit.Loc.x >= this.CornerSE.x - minDist)
-                  || (wall == Dir.east  && exit.Loc.y <= this.CornerNW.y + minDist))
+            else if ((wall == Dir.north && exit.Loc.x > this.CornerSE.x - xCornerDist)     // east corner of north wall
+                  || (wall == Dir.east  && exit.Loc.y < this.CornerNW.y + yCornerDist))    // north corner of east wall
             {
-                added = this.AddExit(Dir.northeast, exit);
+                if (!this.Exits.ContainsKey("northeast"))
+                {
+                    return this.AddExit(Dir.northeast, exit);
+                }
+                else if (!this.Exits.ContainsKey("east") && conf == 1 && wall == Dir.east)
+                {
+                    return this.AddExit(Dir.east, exit);
+                }
+                else if (!this.Exits.ContainsKey("north") && conf == 1 && wall == Dir.north)
+                {
+                    return this.AddExit(Dir.north, exit);
+                }
+                else
+                {
+                    return false;
+                }
             }
             // Confident exit is in southwest corner
-            else if ((wall == Dir.south && exit.Loc.x <= this.CornerNW.x + minDist)
-                  || (wall == Dir.west  && exit.Loc.y >= this.CornerSE.y - minDist))
+            else if ((wall == Dir.south && exit.Loc.x < this.CornerNW.x + xCornerDist)     // west corner of south wall
+                  || (wall == Dir.west  && exit.Loc.y > this.CornerSE.y - yCornerDist))    // south corner of west wall
             {
-                added = this.AddExit(Dir.southwest, exit);
+                if (!this.Exits.ContainsKey("southwest"))
+                {
+                    return this.AddExit(Dir.southwest, exit);
+                }
+                else if (!this.Exits.ContainsKey("west") && conf == 1 && wall == Dir.west)
+                {
+                    return this.AddExit(Dir.west, exit);
+                }
+                else if (!this.Exits.ContainsKey("south") && conf == 1 && wall == Dir.south)
+                {
+                    return this.AddExit(Dir.south, exit);
+                }
+                else
+                {
+                    return false;
+                }
             }
             // Confident exit is in southeast corner
-            else if ((wall == Dir.south && exit.Loc.x >= this.CornerSE.x - minDist)
-                  || (wall == Dir.east  && exit.Loc.y >= this.CornerSE.y - minDist))
+            else if ((wall == Dir.south && exit.Loc.x > this.CornerSE.x - xCornerDist)     // east corner of south wall
+                  || (wall == Dir.east  && exit.Loc.y > this.CornerSE.y - yCornerDist))    // south corner of east wall
             {
-                added = this.AddExit (Dir.southeast, exit);
+                if (!this.Exits.ContainsKey("southeast"))
+                {
+                    return this.AddExit(Dir.southeast, exit);
+                }
+                else if (!this.Exits.ContainsKey("east") && conf == 1 && wall == Dir.east)
+                {
+                    return this.AddExit(Dir.east, exit);
+                }
+                else if (!this.Exits.ContainsKey("south") && conf == 1 && wall == Dir.south)
+                {
+                    return this.AddExit(Dir.south, exit);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            // Confident exit is center north
+            else if (wall == Dir.north && !this.Exits.ContainsKey("north") 
+                  && xCenter - xCornerDist < exit.Loc.x && exit.Loc.x < xCenter + xCornerDist)
+            {
+                return this.AddExit(Dir.north, exit);
+            }
+            // Confident exit is center east
+            else if (wall == Dir.east && !this.Exits.ContainsKey("east")
+                  && yCenter - yCornerDist < exit.Loc.y && exit.Loc.y < yCenter + yCornerDist)
+            {
+                return this.AddExit(Dir.east, exit);
+            }
+            // Confident exit is center south
+            else if (wall == Dir.south && !this.Exits.ContainsKey("south")
+                  && xCenter - xCornerDist < exit.Loc.x && exit.Loc.x < xCenter + xCornerDist)
+            {
+                return this.AddExit(Dir.south, exit);
+            }
+            // Confident exit is center west
+            else if (wall == Dir.west && !this.Exits.ContainsKey("west")
+                  && yCenter - yCornerDist < exit.Loc.y && exit.Loc.y < yCenter + yCornerDist)
+            {
+                return this.AddExit(Dir.west, exit);
+            }
+            else
+            {
+                return false;
             }
         }
 
+        // This will loop through a list of exits to add to the scene, and continue until the list is empty
+        // In other words, loop until all exits have been added to the scene. 
+        // It does this by assigning a confidence level needed to put the exit in a certain direction.
+        // For the first go-around, the function will look for anything dead-center on the directions.
+        // Examples being scene center on a wall, or exactly on a corner.
+        // Next, it's going to look for anything within a specific corner distance to place in a corner
+        // Outside of that distance would be a wall direction. 
+        // The margin gets larger as the confidence decreases until basically anything is 
         public void AddExits(List<Exit> exits)
         {
             int i = 0;
-            //double xCornerDist = Calc.SceneCornerWidth(this.CornerSE.x - this.CornerNW.x);
-            //double yCornerDist = Calc.SceneCornerWidth(this.CornerSE.y - this.CornerNW.x);
+            int conf = 3;
             (double x, double y) cent = GetRoomCenter();
 
             while (exits.Count > 0)
             {
                 Exit exit = exits[i];
 
-                Dir wall;
-                bool corner;
                 switch (exit.Loc)
                 {
                     // Exit is at northeast corner
                     case (double x, double y) when (x == this.wallPos.e && y == this.wallPos.n): 
                         this.AddExit(Dir.northeast, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is at northwest corner
                     case (double x, double y) when (x == this.wallPos.w && y == this.wallPos.n):
                         this.AddExit(Dir.northwest, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is at southeast corner
                     case (double x, double y) when (x == this.wallPos.e && y == this.wallPos.s):
                         this.AddExit(Dir.southeast, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is at southwest corner
                     case (double x, double y) when (x == this.wallPos.w && y == this.wallPos.s):
                         this.AddExit(Dir.southwest, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is dead center north
                     case (double x, double y) when (x == cent.x && y == this.wallPos.n):
                         this.AddExit(Dir.north, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is dead center south
                     case (var x, var y) when (x == cent.x && y == this.wallPos.s):
                         this.AddExit(Dir.north, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is dead center east
                     case (var x, var y) when (x == this.wallPos.e && y == cent.y):
                         this.AddExit(Dir.east, exit);
                         exits.Remove(exit);
-                        continue;
+                        break;
 
                     // Exit is dead center west
                     case (var x, var y) when (x == this.wallPos.w && y == cent.y):
                         this.AddExit(Dir.west, exit);
                         exits.Remove(exit);
-                        continue;
-
-                    // Exit is on east wall
-                        case (var x, var _) when x == this.wallPos.e:
-                        wall = Dir.east;
                         break;
 
+                    // Exit is on east wall
+                        case (var x, var _) when x == this.wallPos.e && conf < 3:
+                        this.GetExitDirection(exit, Dir.east, conf);
+                        break;
+                        
                     // Exit is on west wall
-                    case (var x, var _) when x == this.wallPos.w:
-                        wall = Dir.west;
+                    case (var x, var _) when x == this.wallPos.w && conf < 3:
+                        this.GetExitDirection(exit, Dir.west, conf);
                         break;
 
                     // Exit is on north wall
-                    case (var _, var y) when y == this.wallPos.n:
-                        wall = Dir.north;
+                    case (var _, var y) when y == this.wallPos.n && conf < 3:
+                        this.GetExitDirection(exit, Dir.north, conf);
                         break;
 
                     // Exit is on south wall
-                    case (var _x, var y) when y == this.wallPos.s:
-                        wall = Dir.south;
+                    case (var _x, var y) when y == this.wallPos.s && conf < 3:
+                        this.GetExitDirection(exit, Dir.south, conf);
                         break;
 
                     default:
-                        throw new WeastException();
+                        throw new WeastException($"Unknown exit wall or direction on {exit.id} in {this.id}");
                 }
-
-
 
                 // Increment but keep looping through list.
                 i = (i + 1) % exits.Count;
+                i++;
+                if (i >= exits.Count)
+                {
+                    // Once we reached the end of the loop, go back to 0.
+                    i = 0;
+                    conf--;
+                }
+                if (conf == 0)
+                {
+                    throw new WeastException($"Cannot place all exits for {this.id}.");
+                }
             }
-        }
-
-        // Checks if a scene is close enough to see past an exit
-        // Scenes should only have a distance greater than 1 when connecting them via a hallway, cavern, or other space
-        // where a separate room does not make sense. 
-        private bool CheckExitDistance(Scene scene)
-        {
-            double xdist = this.CornerNW.x - scene.CornerNW.x;
-            double ydist = this.CornerNW.y - scene.CornerNW.y;
-            double ddist = Math.Pow(Math.Pow(xdist, 2) + Math.Pow(ydist, 2), 0.5);
-
-            return ((xdist < 3) && (ydist < 3) && (ddist < 3));
         }
 
         // Load Room Inventory (from world load)
