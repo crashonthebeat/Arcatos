@@ -19,8 +19,8 @@ namespace Arcatos.Types
         [JsonInclude] public string name;
         [JsonInclude] public required string summary;
         [JsonInclude] public required string[] desc;
-        [JsonInclude] public required int[] coords;
-        [JsonInclude] public required int[] size;
+        [JsonInclude] public required int[] nw_corner;
+        [JsonInclude] public required int[] se_corner;
         [JsonInclude] public bool visited;
     }
     
@@ -31,23 +31,21 @@ namespace Arcatos.Types
         public (int x, int y) CornerSE;     // Coordinates of southeastern cell center.
         public Dictionary<string, Exit> Exits { get; set; }
         public override Box Inventory { get; set; }
-        public Dictionary<Exit, List<Dir>> ExitPairs;  // Holding property for possible exits.
         private (double n, double e, double s, double w) wallPos;
         // Todo: Add Map Parameter to object.
 
-        public Scene(string id, string name, string summary, string[] desc, int[] coords, int[] size, bool isKnown = false) 
+        public Scene(string id, string name, string summary, string[] desc, int[] nwcorner, int[] secorner, bool isKnown = false) 
                    : base(id, summary, desc, name, isKnown)
         {
             this.EntityType = "scene";
-            this.CornerNW        = (coords[0], coords[1]);
-            this.CornerSE       = (this.CornerNW.x + size[0], this.CornerNW.y + size[1]);
+            this.CornerNW        = (nwcorner[0], nwcorner[1]);
+            this.CornerSE       = (secorner[0], secorner[1]);
             this.Exits      = new Dictionary<string, Exit>();
             this.Inventory  = new Box(this, BoxType.Int);
-            this.ExitPairs  = new Dictionary<Exit, List<Dir>>();
             this.wallPos    = GetWallPositions();
         }
 
-        public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.coords, dto.size, dto.visited)
+        public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.nw_corner, dto.se_corner, dto.visited)
         {
             // Scene Constructor for initialization with json file.
         }
@@ -131,6 +129,7 @@ namespace Arcatos.Types
             if (!String.IsNullOrEmpty(dirString) && !this.Exits.Keys.Contains(dirString))
             {
                 // Add this exit and direction
+                Dev.Log($"{exit.id} added at {dirString}");
                 this.Exits.Add(dirString, exit);
                 return true;
             }
@@ -147,33 +146,46 @@ namespace Arcatos.Types
             double yCornerDist = Calc.SceneCornerWidth(this.CornerSE.y - this.CornerNW.y);
             double xCenter = (this.CornerSE.x - this.CornerNW.x) / 2;
             double yCenter = (this.CornerSE.y - this.CornerNW.y) / 2;
+            double xMaxCornerDist, yMaxCornerDist;
 
             if (xCornerDist > yCornerDist)
             {
+                xMaxCornerDist = xCornerDist;
+                yMaxCornerDist = yCornerDist;
+                xCornerDist = yCornerDist;
+                
                 xCornerDist = conf switch
                 {
-                    3 => Math.Min(xCornerDist, yCornerDist),
-                    2  => xCornerDist,
-                    1  => xCenter,
+                    2 => Math.Min(xCornerDist, yCornerDist),
+                    1  => xCornerDist,
+                    0  => xCenter + 0.5 - this.CornerNW.x,
                     _ => 0
                 };
             }
             else
             {
+                xMaxCornerDist = xCornerDist;
+                yMaxCornerDist = yCornerDist;
+                yCornerDist = xCornerDist;
+
                 yCornerDist = conf switch
                 {
-                    3 => Math.Min(xCornerDist, yCornerDist),
-                    2 => yCornerDist,
-                    1 => yCenter,
+                    2 => Math.Min(xCornerDist, yCornerDist),
+                    1 => yCornerDist,
+                    0 => yCenter + 0.5,
                     _ => 0
                 };
             }
 
+            Dev.Log($"* * E corner is < {this.CornerNW.x + xCornerDist - 0.5} and W corner is > {this.CornerSE.x - xCornerDist + 0.5}");
+            Dev.Log($"* * N Corner is < {this.CornerNW.y + yCornerDist - 0.5} and S corner is > {this.CornerSE.y - yCornerDist + 0.5}");
+
             bool added;
             // Confident exit is in northwest corner
-            if      ((wall == Dir.north && exit.Loc.x < this.CornerNW.x + xCornerDist)     // west corner of north wall
-                  || (wall == Dir.west  && exit.Loc.y < this.CornerNW.y + yCornerDist))    // north corner of west wall
+            if      ((wall == Dir.north && exit.Loc.x < this.CornerNW.x + xCornerDist - 0.5 )     // west corner of north wall
+                  || (wall == Dir.west  && exit.Loc.y < this.CornerNW.y + yCornerDist - 0.5))    // north corner of west wall
             {
+                //Dev.Log($"  * ");
                 if (!this.Exits.ContainsKey("northwest"))
                 {
                     return this.AddExit(Dir.northwest, exit);
@@ -192,8 +204,8 @@ namespace Arcatos.Types
                 }
             }
             // Confident exit is in northeast corner
-            else if ((wall == Dir.north && exit.Loc.x > this.CornerSE.x - xCornerDist)     // east corner of north wall
-                  || (wall == Dir.east  && exit.Loc.y < this.CornerNW.y + yCornerDist))    // north corner of east wall
+            else if ((wall == Dir.north && exit.Loc.x > this.CornerSE.x - xCornerDist + 0.5)     // east corner of north wall
+                  || (wall == Dir.east  && exit.Loc.y < this.CornerNW.y + yCornerDist - 0.5))    // north corner of east wall
             {
                 if (!this.Exits.ContainsKey("northeast"))
                 {
@@ -213,8 +225,8 @@ namespace Arcatos.Types
                 }
             }
             // Confident exit is in southwest corner
-            else if ((wall == Dir.south && exit.Loc.x < this.CornerNW.x + xCornerDist)     // west corner of south wall
-                  || (wall == Dir.west  && exit.Loc.y > this.CornerSE.y - yCornerDist))    // south corner of west wall
+            else if ((wall == Dir.south && exit.Loc.x < this.CornerNW.x + xCornerDist - 0.5)     // west corner of south wall
+                  || (wall == Dir.west  && exit.Loc.y > this.CornerSE.y - yCornerDist + 0.5))    // south corner of west wall
             {
                 if (!this.Exits.ContainsKey("southwest"))
                 {
@@ -234,8 +246,8 @@ namespace Arcatos.Types
                 }
             }
             // Confident exit is in southeast corner
-            else if ((wall == Dir.south && exit.Loc.x > this.CornerSE.x - xCornerDist)     // east corner of south wall
-                  || (wall == Dir.east  && exit.Loc.y > this.CornerSE.y - yCornerDist))    // south corner of east wall
+            else if ((wall == Dir.south && exit.Loc.x > this.CornerSE.x - xCornerDist + 0.5)     // east corner of south wall
+                  || (wall == Dir.east  && exit.Loc.y > this.CornerSE.y - yCornerDist + 0.5))    // south corner of east wall
             {
                 if (!this.Exits.ContainsKey("southeast"))
                 {
@@ -297,95 +309,95 @@ namespace Arcatos.Types
             int i = 0;
             int conf = 3;
             (double x, double y) cent = GetRoomCenter();
+            Dev.Log($"* Walls at N: {this.wallPos.n}, E: {this.wallPos.e}, S: {this.wallPos.s}, W: {this.wallPos.w}");
+            Dev.Log($"* Center at {cent.x}, {cent.y}");
 
             while (exits.Count > 0)
             {
                 Exit exit = exits[i];
+                Dev.Log($"*i{i} {exit.id} at {exit.Loc.x}, {exit.Loc.y}");
 
-                switch (exit.Loc)
+                switch ((exit.Loc.x, exit.Loc.y))
                 {
                     // Exit is at northeast corner
                     case (double x, double y) when (x == this.wallPos.e && y == this.wallPos.n): 
                         this.AddExit(Dir.northeast, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is at northwest corner
                     case (double x, double y) when (x == this.wallPos.w && y == this.wallPos.n):
                         this.AddExit(Dir.northwest, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is at southeast corner
                     case (double x, double y) when (x == this.wallPos.e && y == this.wallPos.s):
                         this.AddExit(Dir.southeast, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is at southwest corner
                     case (double x, double y) when (x == this.wallPos.w && y == this.wallPos.s):
                         this.AddExit(Dir.southwest, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is dead center north
                     case (double x, double y) when (x == cent.x && y == this.wallPos.n):
                         this.AddExit(Dir.north, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is dead center south
                     case (var x, var y) when (x == cent.x && y == this.wallPos.s):
-                        this.AddExit(Dir.north, exit);
-                        exits.Remove(exit);
+                        this.AddExit(Dir.south, exit);
                         break;
 
                     // Exit is dead center east
                     case (var x, var y) when (x == this.wallPos.e && y == cent.y):
                         this.AddExit(Dir.east, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is dead center west
                     case (var x, var y) when (x == this.wallPos.w && y == cent.y):
                         this.AddExit(Dir.west, exit);
-                        exits.Remove(exit);
                         break;
 
                     // Exit is on east wall
-                        case (var x, var _) when x == this.wallPos.e && conf < 3:
+                    case (var x, var _) when x == this.wallPos.e && conf < 3:
+                        Dev.Log($"* Checking east wall for {exit.id}");
                         this.GetExitDirection(exit, Dir.east, conf);
                         break;
                         
                     // Exit is on west wall
                     case (var x, var _) when x == this.wallPos.w && conf < 3:
+                        Dev.Log($"* Checking west wall for {exit.id}");
                         this.GetExitDirection(exit, Dir.west, conf);
                         break;
 
                     // Exit is on north wall
                     case (var _, var y) when y == this.wallPos.n && conf < 3:
+                        Dev.Log($"* Checking north wall for {exit.id}");
                         this.GetExitDirection(exit, Dir.north, conf);
                         break;
 
                     // Exit is on south wall
                     case (var _x, var y) when y == this.wallPos.s && conf < 3:
+                        Dev.Log($"* Checking south wall for {exit.id}");
                         this.GetExitDirection(exit, Dir.south, conf);
                         break;
 
                     default:
-                        throw new WeastException($"Unknown exit wall or direction on {exit.id} in {this.id}");
+                        break;
                 }
 
                 // Increment but keep looping through list.
-                i = (i + 1) % exits.Count;
                 i++;
                 if (i >= exits.Count)
                 {
                     // Once we reached the end of the loop, go back to 0.
                     i = 0;
                     conf--;
+                    Dev.Log($"LOOP ENDED: CONFIDENCE TO {conf}");
+                    exits = exits.Except(this.Exits.Values).ToList();
                 }
-                if (conf == 0)
+                if (conf < 0)
                 {
                     throw new WeastException($"Cannot place all exits for {this.id}.");
                 }
@@ -414,8 +426,8 @@ namespace Arcatos.Types
 
         public (double, double) GetRoomCenter()
         {
-            double x = this.CornerNW.x + (this.CornerSE.x / 2);
-            double y = this.CornerNW.y + (this.CornerSE.y / 2);
+            double x = ((this.CornerSE.x + this.CornerNW.x) / 2);
+            double y = ((this.CornerSE.y + this.CornerNW.y) / 2);
 
             return (x, y);
         }

@@ -45,7 +45,7 @@
       "se_corner": [ 7, 5 ]
     },
     {
-      "id": "bath",
+      "id": "bathhouse",
       "name": "Bathing Room",
       "summary": "a steam-filled room",
       "desc": [
@@ -219,8 +219,8 @@
       "desc": [
         "nestairs placeholder desc"
       ],
-      "nw_corner": [1,9],
-      "se_corner": [1,9]
+      "nw_corner": [9,1],
+      "se_corner": [9,1]
     },
     {
       "id": "swstairs",
@@ -425,7 +425,7 @@
       "scenes": [ "maingate", "frontyard" ]
     },
     {
-      "id": "ext_8",
+      "id": "ext_9",
       "summary": "a set of large wooden doors",
       "desc": [ "a set of large wooden doors" ],
       "scenes": [ "mainhall", "frontyard" ]
