@@ -17,8 +17,13 @@ namespace Arcatos
         // Program Initialization
         static Program()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Initializing Program");
+            Console.ResetColor();
+
             using FileStream json = File.OpenRead("EngineSettings.json");
             Settings = JsonSerializer.Deserialize<Settings>(json)!;
+            Settings.DebugMode = true;
         }
 
         static void Main(string[] args)

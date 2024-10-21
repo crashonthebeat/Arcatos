@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Arcatos.Utils;
 
 namespace Arcatos.Types
 {
@@ -31,6 +32,7 @@ namespace Arcatos.Types
         // When player moves to a new world it should discard any non-adjacent worlds and then add any new adjacent ones.
         private Dictionary<string, Map> LoadMaps()
         {
+            Dev.Log($"Loading {this.WorldId}\n################################################");
             // Empty Dict
             Dictionary<string, Map> loadedMaps = new Dictionary<string, Map>();
             
@@ -41,11 +43,13 @@ namespace Arcatos.Types
             // Run through map IDs
             foreach (string mapName in dto.mapNames)
             {
+                Dev.Log($"Loading {mapName}");
                 // Construct path to map file
                 string path = Path.Combine(Program.Dir, "World", "Maps", this.WorldId, mapName + ".json");
                 
                 // Construct Map ID
                 string mapId = $"{this.WorldId}_{mapName}";
+                Dev.Log($"Loading {mapId}");
 
                 // Load Data Object for map and create new object.
                 using FileStream mapJson = File.OpenRead(path);

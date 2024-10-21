@@ -17,7 +17,6 @@ namespace Arcatos.Types
         [JsonInclude] public required string[] desc;
         [JsonInclude] public required string[] scenes;
         [JsonInclude] public bool closed;
-        [JsonInclude] public bool remainsClosed;
         [JsonInclude] public bool locked;
         [JsonInclude] public bool hidden;
     }
@@ -118,6 +117,7 @@ namespace Arcatos.Types
                 max = Math.Min(orig.CornerSE.x, dest.CornerSE.x);
 
                 // Inline position is the x coordinate, Wall position is the y coordinate.
+                Dev.Log($"* Door at {(min + max) / 2}, {wallPos}");
                 return ((min + max) / 2, wallPos);
             }
             else if (e ^ w) // If only east or only west (XOR).
@@ -127,6 +127,7 @@ namespace Arcatos.Types
                 max = Math.Min(orig.CornerSE.y, dest.CornerSE.y);
 
                 // Wall Position will be the x coordinate, the Inline position the y coordinate.
+                Dev.Log($"* Intersect at {wallPos}, {(min + max) / 2}");
                 return (wallPos, (min + max) / 2);
             }
             else
