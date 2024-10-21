@@ -256,176 +256,176 @@
   ],
   "exits": [
     {
-      "id": "int_1",
+      "id": "int_mainhall_sestairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "mainhall", "sestairs" ]
     },
     {
-      "id": "int_2",
+      "id": "int_mainhall_swstairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "mainhall", "swstairs" ]
     },
     {
-      "id": "int_3",
+      "id": "int_westwing_swstairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "westwing", "swstairs" ]
     },
     {
-      "id": "int_4",
+      "id": "int_eastwing_sestairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "eastwing", "sestairs" ]
     },
     {
-      "id": "int_5",
+      "id": "int_eastwing_courtyard",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "eastwing", "courtyard" ]
     },
     {
-      "id": "int_6",
+      "id": "int_westwing_courtyard",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "westwing", "courtyard" ]
     },
     {
-      "id": "int_7",
+      "id": "int_bathhouse_changingroom",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "bathhouse", "changingroom" ],
       "closed": true
     },
     {
-      "id": "int_8",
+      "id": "int_eastwing_changingroom",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "eastwing", "changingroom" ]
     },
     {
-      "id": "int_9",
+      "id": "int_eastwing_conference",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "eastwing", "conference" ]
     },
     {
-      "id": "int_10",
+      "id": "int_eastwing_worship",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "eastwing", "worship" ]
     },
     {
-      "id": "int_11",
+      "id": "int_eastwing_kitchen",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "eastwing", "kitchen" ]
     },
     {
-      "id": "int_12",
+      "id": "int_pantry_kitchen",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "pantry", "kitchen" ]
     },
     {
-      "id": "int_13",
+      "id": "int_mainhall_kitchen",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "mainhall", "kitchen" ]
     },
     {
-      "id": "int_14",
+      "id": "int_mainhall_library",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "mainhall", "library" ]
     },
     {
-      "id": "int_15",
+      "id": "int_westwing_library",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "westwing", "library" ]
     },
     {
-      "id": "int_16",
+      "id": "int_westwing_armory",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "westwing", "armory" ]
     },
     {
-      "id": "int_17",
+      "id": "int_westwing_barracks",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "westwing", "barracks" ]
     },
     {
-      "id": "int_18",
+      "id": "int_armory_barracks",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "armory", "barracks" ]
     },
     {
-      "id": "int_19",
+      "id": "int_eastwing_nestairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "eastwing", "nestairs" ]
     },
     {
-      "id": "int_20",
+      "id": "int_westwing_nwstairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "westwing", "nwstairs" ]
     },
     {
-      "id": "ext_1",
+      "id": "ext_pantry_yardstorage",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "pantry", "yardstorage" ]
     },
     {
-      "id": "ext_2",
+      "id": "ext_armory_guardalley",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "armory", "guardalley" ]
     },
     {
-      "id": "ext_3",
+      "id": "ext_trainingground_guardalley",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
       "scenes": [ "trainingground", "guardalley" ]
     },
     {
-      "id": "ext_4",
+      "id": "ext_trainingground_frontyard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
       "scenes": [ "trainingground", "frontyard" ]
     },
     {
-      "id": "ext_5",
+      "id": "ext_yardstorage_frontyard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
       "scenes": [ "yardstorage", "frontyard" ]
     },
     {
-      "id": "ext_6",
+      "id": "ext_stables_frontyard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
       "scenes": [ "stables", "frontyard" ]
     },
     {
-      "id": "ext_7",
+      "id": "ext_blacksmith_frontyard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
       "scenes": [ "blacksmith", "frontyard" ]
     },
     {
-      "id": "ext_8",
+      "id": "ext_maingate_frontyard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
       "scenes": [ "maingate", "frontyard" ]
     },
     {
-      "id": "ext_9",
+      "id": "ext_mainhall_frontyard",
       "summary": "a set of large wooden doors",
       "desc": [ "a set of large wooden doors" ],
       "scenes": [ "mainhall", "frontyard" ]
