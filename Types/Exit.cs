@@ -1,12 +1,6 @@
 ﻿using Arcatos.Types.Interfaces;
 using Arcatos.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Arcatos.Types
 {
@@ -23,18 +17,16 @@ namespace Arcatos.Types
     
     public class Exit : Entity, ILockable
     {
-        public bool IsClosed { get; set; }  // Whether exit always appears closed (will never show next room on look)
+        public bool IsClosed { get; }  // Whether exit always appears closed (will never show next room on look)
         public bool IsLocked { get; set; }
         public bool IsHidden { get; set; }
-        public Dictionary<Scene, Scene> Adjacencies { get; init; }
-        public (double x, double y) Loc { get; set; }
+        public Dictionary<Scene, Scene> AdjScenes { get; }
+        public (double x, double y) Loc { get; }
         public override Box Inventory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Exit(ExitDto dto, Scene[] scenes) : base(dto.id, dto.summary, dto.desc)
         {
-            EntityType = "door";
-            
-            this.Adjacencies = new Dictionary<Scene, Scene>
+            this.AdjScenes = new Dictionary<Scene, Scene>
             {
                 { scenes[0], scenes[1] },
                 { scenes[1], scenes[0] }
@@ -59,15 +51,17 @@ namespace Arcatos.Types
         }
 
         // GetPosition is called at construction to return the coordinates of the exit on the map.
-        public static (double, double) GetPosition(Scene orig, Scene dest)
+        private static (double, double) GetPosition(Scene orig, Scene dest)
         {
             // First we check which walls are intersecting, for that we need to get the wall positions of each scene.
             (double n, double e, double s, double w) origWalls = orig.GetWallPositions();
             (double n, double e, double s, double w) destWalls = dest.GetWallPositions();
 
             // Find which values match
-            var (n, e, s, w) = (origWalls.n == destWalls.s, origWalls.e == destWalls.w,
-                                origWalls.s == destWalls.n, origWalls.w == destWalls.e);
+            (bool n, bool e, bool s, bool w) = (Math.Abs(origWalls.n - destWalls.s) <= 0, 
+                                                Math.Abs(origWalls.e - destWalls.w) <= 0,
+                                                Math.Abs(origWalls.s - destWalls.n) <= 0, 
+                                                Math.Abs(origWalls.w - destWalls.e) <= 0);
 
 
             double wallPos;
@@ -117,10 +111,9 @@ namespace Arcatos.Types
                 max = Math.Min(orig.CornerSE.x, dest.CornerSE.x);
 
                 // Inline position is the x coordinate, Wall position is the y coordinate.
-                Dev.Log($"* Door at {(min + max) / 2}, {wallPos}");
                 return ((min + max) / 2, wallPos);
             }
-            else if (e ^ w) // If only east or only west (XOR).
+            if (e ^ w) // If only east or only west (XOR).
             {
                 // If it's an east/west match, find the min of the south points and the max of the north points
                 min = Math.Max(orig.CornerNW.y, dest.CornerNW.y);
@@ -130,10 +123,8 @@ namespace Arcatos.Types
                 Dev.Log($"* Intersect at {wallPos}, {(min + max) / 2}");
                 return (wallPos, (min + max) / 2);
             }
-            else
-            {
-                throw new WeastException("Could not place exit along wall");
-            }
+            
+            throw new WeastException("Could not place exit along wall");
         }
     }
 }
