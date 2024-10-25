@@ -90,19 +90,16 @@ namespace Arcatos
         public bool Move(Command command)
         {
             // TryGetValue??
-            if (!this.CurrentScene.Exits.ContainsKey(command.DirObj))
+            if (!this.CurrentScene.Exits.ContainsKey((Dir)Enum.Parse(typeof(Dir), command.DirObj)))
             {
                 Game.Narrate("You cannot go that way.");
                 return false; 
                 
             }
-            else if (this.CurrentScene.Exits[command.DirObj].IsClosed)
-            {
-                Game.Narrate($"{this.CurrentScene.Exits[command.DirObj].summary} is closed");
-                return false;
-            }
 
-            Exit exit = this.CurrentScene.Exits[command.DirObj];
+            Dir dir = (Dir)Enum.Parse(typeof(Dir), command.DirObj);
+
+            Exit exit = this.CurrentScene.Exits[dir];
             Scene nextRoom = exit.AdjScenes[this.CurrentScene];
 
             Game.Narrate($"You {command.Action} {command.DirObj}.");

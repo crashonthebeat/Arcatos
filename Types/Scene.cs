@@ -19,12 +19,12 @@ namespace Arcatos.Types
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
     public class Scene : Entity
     {
-        public (int x, int y) CornerNW;     // Coordinates (x,y) northwestern cell center.
-        public (int x, int y) CornerSE;     // Coordinates of southeastern cell center.
-        public Dictionary<string, Exit> Exits { get; set; }
-        public override Box Inventory { get; set; }
+        public           (int x, int y)                           CornerNW; // Coordinates (x,y) northwestern cell center.
+        public           (int x, int y)                           CornerSE; // Coordinates of southeastern cell center.
+        public           Dictionary<Dir, Exit>                    Exits     { get; }
+        public override  Box                                      Inventory { get; set; }
         private readonly (double n, double e, double s, double w) _wallPos;
-        private readonly (double x, double y) _center;
+        private readonly (double x, double y)                     _center;
         // Todo: Add Map Parameter to object.
 
         private Scene(string id, string name, string summary, string[] desc, int[] nwCorner, int[] seCorner, bool isKnown = false) 
@@ -33,7 +33,7 @@ namespace Arcatos.Types
             this.EntityType = "scene";
             this.CornerNW   = (nwCorner[0], nwCorner[1]);
             this.CornerSE   = (seCorner[0], seCorner[1]);
-            this.Exits      = new Dictionary<string, Exit>();
+            this.Exits      = new Dictionary<Dir, Exit>();
             this.Inventory  = new Box(this, BoxType.Int);
             this._wallPos   = this.GetWallPositions();
             this._center    = this.GetRoomCenter();
@@ -77,11 +77,11 @@ namespace Arcatos.Types
             Console.ResetColor();
 
             // Enumerate and Display Exits
-            foreach (KeyValuePair<string, Exit> exit in this.Exits)
+            foreach (KeyValuePair<Dir, Exit> exit in this.Exits)
             {
                 // Write Direction in Light Blue with no new line
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.Write($"{exit.Key.ToUpper()}: ");
+                Console.Write($"{exit.Key.ToString().ToUpper()}: ");
                 Console.ResetColor();
 
                 // If the exit is closed, display the glance of the exit.
@@ -103,13 +103,12 @@ namespace Arcatos.Types
         }
 
         // On Map Construction, this is the per-scene method that processes all the exits into Scenes.
+        // Check both scenes for the exit and if they don't match, see which direction makes more sense.
+        // If the two exits are so different that they can't be resolved or they can't be moved, leave it be.
         private void AddExit(Dir dir, Exit exit) {
-            // Make it into a string because I'm dumb and made two different things to represent direction.
-            string? dirString = Enum.GetName(dir.GetType(), dir);
-            // Exit function if the room contains that direction of exit.
-            if (!string.IsNullOrEmpty(dirString)) this.Exits.Add(dirString, exit);
+            this.Exits.Add(dir, exit);
             // Add this exit and direction
-            Dev.Log($"{exit.id} added at {dirString}");
+            Dev.Log($"{exit.id} added at {dir.ToString()}");
         }
         
         // This will loop through a list of exits to add to the scene, and continue until the list is empty
@@ -144,56 +143,56 @@ namespace Arcatos.Types
                     // Exit is at northeast corner
                     case var (x, y) when Math.Abs( x - this._wallPos.e ) <= xTolerance 
                                          && Math.Abs( y - this._wallPos.n) <= yTolerance
-                                         && !this.Exits.ContainsKey("northeast"): 
+                                         && !this.Exits.ContainsKey(Dir.northeast): 
                         this.AddExit(Dir.northeast, exit);
                         break;
 
                     // Exit is at northwest corner
                     case var (x, y) when Math.Abs( x - this._wallPos.w ) <= xTolerance 
                                          && Math.Abs( y - this._wallPos.n) <= yTolerance
-                                         && !this.Exits.ContainsKey("northwest"):
+                                         && !this.Exits.ContainsKey(Dir.northwest):
                         this.AddExit(Dir.northwest, exit);
                         break;
 
                     // Exit is at southeast corner
                     case var (x, y) when Math.Abs( x - this._wallPos.e ) <= xTolerance 
                                          && Math.Abs( y - this._wallPos.s) <= yTolerance
-                                         && !this.Exits.ContainsKey("southeast"):
+                                         && !this.Exits.ContainsKey(Dir.southeast):
                         this.AddExit(Dir.southeast, exit);
                         break;
 
                     // Exit is at southwest corner
                     case var (x, y) when Math.Abs( x - this._wallPos.w ) <= xTolerance 
                                          && Math.Abs( y - this._wallPos.s) <= yTolerance
-                                         && !this.Exits.ContainsKey("southwest"):
+                                         && !this.Exits.ContainsKey(Dir.southwest):
                         this.AddExit(Dir.southwest, exit);
                         break;
 
                     // Exit is center north
                     case var (x, y) when Math.Abs( x - this._center.x ) <= xTolerance 
                                          && Math.Abs( y - this._wallPos.n ) <= 0
-                                         && !this.Exits.ContainsKey("north"):
+                                         && !this.Exits.ContainsKey(Dir.north):
                         this.AddExit(Dir.north, exit);
                         break;
 
                     // Exit is dead center south
                     case var (x, y) when Math.Abs( x - this._center.x ) <= xTolerance 
                                          && Math.Abs( y - this._wallPos.s ) <= 0
-                                         && !this.Exits.ContainsKey("south"):
+                                         && !this.Exits.ContainsKey(Dir.south):
                         this.AddExit(Dir.south, exit);
                         break;
 
                     // Exit is dead center east
                     case var (x, y) when Math.Abs( y - this._center.y ) <= yTolerance 
                                          && Math.Abs( x - this._wallPos.e ) <= 0
-                                         && !this.Exits.ContainsKey("east"):
+                                         && !this.Exits.ContainsKey(Dir.east):
                         this.AddExit(Dir.east, exit);
                         break;
 
                     // Exit is dead center west
                     case var (x, y) when Math.Abs( y - this._center.y ) <= yTolerance 
                                          && Math.Abs( x - this._wallPos.w ) <= 0
-                                         && !this.Exits.ContainsKey("west"):
+                                         && !this.Exits.ContainsKey(Dir.west):
                         this.AddExit(Dir.west, exit);
                         break;
                 }
@@ -242,12 +241,14 @@ namespace Arcatos.Types
             }
         }
 
+        // This function isn't needed anymore since I set the coordinates to be the wall corner positions.
+        // But I'm lazy and superstitious.
         public (double, double, double, double) GetWallPositions()
         {
-            double n = this.CornerNW.y - 0.5;
-            double w = this.CornerNW.x - 0.5;
-            double s = this.CornerSE.y + 0.5;
-            double e = this.CornerSE.x + 0.5;
+            double n = this.CornerNW.y;
+            double w = this.CornerNW.x;
+            double s = this.CornerSE.y;
+            double e = this.CornerSE.x;
 
             return (n, e, s, w);
         }

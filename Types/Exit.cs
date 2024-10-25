@@ -103,7 +103,7 @@ namespace Arcatos.Types
 
             // Next need to find the points where the walls meet.
 
-            int min, max;   // The bounds of the wall's meeting point
+            double min, max;   // The bounds of the wall's meeting point
             if (n ^ s)      // If only north or only south.
             {
                 // If it's a north/south match, find the min of the east points and the max of the west points
@@ -120,7 +120,6 @@ namespace Arcatos.Types
                 max = Math.Min(orig.CornerSE.y, dest.CornerSE.y);
 
                 // Wall Position will be the x coordinate, the Inline position the y coordinate.
-                Dev.Log($"* Intersect at {wallPos}, {(min + max) / 2}");
                 return (wallPos, (min + max) / 2);
             }
             

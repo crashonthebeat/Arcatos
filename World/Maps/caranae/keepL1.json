@@ -10,7 +10,7 @@
         "largest in the region, but it is the most well known. On the long walls hang several banners of the House Garraves."
       ],
       "nw_corner": [ 4, 6 ],
-      "se_corner": [ 6, 10 ]
+      "se_corner": [ 7, 11 ]
     },
     {
       "id": "westwing",
@@ -20,17 +20,17 @@
         "You are in a carpeted hallway with well-worn masonry walls. On the west side of the hallway you can see the courtyard through glass windows."
       ],
       "nw_corner": [ 2, 1 ],
-      "se_corner": [ 2, 6 ]
+      "se_corner": [ 3, 7 ]
     },
     {
       "id": "eastwing",
-      "name": "South Wing",
+      "name": "East Wing",
       "summary": "a quiet hallway",
       "desc": [
         "You are in a carpeted hallway with well-worn masonry walls. On the west side of the hallway you can see the courtyard through glass windows."
       ],
       "nw_corner": [ 8, 1 ],
-      "se_corner": [ 8, 6 ]
+      "se_corner": [ 9, 7 ]
     },
     {
       "id": "courtyard",
@@ -42,7 +42,7 @@
         "traverse. The aroma of the herbs and flowers growing in the garden plots fill your body with warmth and ease."
       ],
       "nw_corner": [ 3, 2 ],
-      "se_corner": [ 7, 5 ]
+      "se_corner": [ 8, 6 ]
     },
     {
       "id": "bathhouse",
@@ -54,7 +54,7 @@
         "of the castle to monitor the hours of men's, women's and mixed bathing."
       ],
       "nw_corner": [ 4, 0 ],
-      "se_corner": [ 6, 1 ]
+      "se_corner": [ 7, 2 ]
     },
     {
       "id": "changingroom",
@@ -64,7 +64,7 @@
         "changingroom placeholder desc"
       ],
       "nw_corner": [ 7, 1 ],
-      "se_corner": [ 7, 1 ]
+      "se_corner": [ 8, 2 ]
     },
     {
       "id": "conference",
@@ -74,7 +74,7 @@
         "conference placeholder desc"
       ],
       "nw_corner": [ 9, 2 ],
-      "se_corner": [ 10, 3 ]
+      "se_corner": [ 11, 4 ]
     },
     {
       "id": "worship",
@@ -84,7 +84,7 @@
         "worship placeholder desc"
       ],
       "nw_corner": [ 9, 4 ],
-      "se_corner": [ 10, 6 ]
+      "se_corner": [ 11, 7 ]
     },
     {
       "id": "kitchen",
@@ -94,7 +94,7 @@
         "kitchen placeholder desc"
       ],
       "nw_corner": [ 7, 7 ],
-      "se_corner": [ 8, 8 ]
+      "se_corner": [ 9, 9 ]
     },
     {
       "id": "armory",
@@ -104,7 +104,7 @@
         "armory placeholder desc"
       ],
       "nw_corner": [ 0, 5 ],
-      "se_corner": [ 1, 6 ]
+      "se_corner": [ 2, 7 ]
     },
     {
       "id": "barracks",
@@ -114,7 +114,7 @@
         "barracks placeholder desc"
       ],
       "nw_corner": [ 0, 2 ],
-      "se_corner": [ 1, 4 ]
+      "se_corner": [ 2, 5 ]
     },
     {
       "id": "library",
@@ -124,7 +124,7 @@
         "library placeholder desc"
       ],
       "nw_corner": [ 1, 7 ],
-      "se_corner": [ 3, 8 ]
+      "se_corner": [ 4, 9 ]
     },
     {
       "id": "frontyard",
@@ -136,7 +136,7 @@
         "tired, dead eyes."
       ],
       "nw_corner": [ 3, 11 ],
-      "se_corner": [ 7, 15 ]
+      "se_corner": [ 8, 16 ]
     },
     {
       "id": "blacksmith",
@@ -148,7 +148,7 @@
         "the Garraves' House Guard."
       ],
       "nw_corner": [ 2, 13 ],
-      "se_corner": [ 2, 14 ]
+      "se_corner": [ 3, 15 ]
     },
     {
       "id": "stables",
@@ -160,7 +160,7 @@
         "their shit still stinks."
       ],
       "nw_corner": [ 8, 13 ],
-      "se_corner": [ 9, 14 ]
+      "se_corner": [ 10, 15 ]
     },
     {
       "id": "maingate",
@@ -170,7 +170,7 @@
         "maingate placeholder description"
       ],
       "nw_corner": [ 5, 16 ],
-      "se_corner": [ 5, 16 ]
+      "se_corner": [ 6, 17 ]
     },
     {
       "id": "yardstorage",
@@ -180,7 +180,7 @@
         "yardstorage placeholder desc"
       ],
       "nw_corner": [ 7, 9 ],
-      "se_corner": [ 10, 10 ]
+      "se_corner": [ 11, 11 ]
     },
     {
       "id": "trainingground",
@@ -190,7 +190,7 @@
         "trainingground placeholder desc"
       ],
       "nw_corner": [ 1, 9 ],
-      "se_corner": [ 3, 10 ]
+      "se_corner": [ 4, 11 ]
     },
     {
       "id": "guardalley",
@@ -200,7 +200,7 @@
         "guardalley placeholder desc"
       ],
       "nw_corner": [ 0, 7 ],
-      "se_corner": [ 0, 10 ]
+      "se_corner": [ 1, 11 ]
     },
     {
       "id": "nwstairs",
@@ -210,7 +210,7 @@
         "nwstairs placeholder desc"
       ],
       "nw_corner": [1,1],
-      "se_corner": [1,1]
+      "se_corner": [2,2]
     },
     {
       "id": "nestairs",
@@ -220,7 +220,7 @@
         "nestairs placeholder desc"
       ],
       "nw_corner": [9,1],
-      "se_corner": [9,1]
+      "se_corner": [10,2]
     },
     {
       "id": "swstairs",
@@ -230,7 +230,7 @@
         "swstairs placeholder desc"
       ],
       "nw_corner": [3,6],
-      "se_corner": [3,6]
+      "se_corner": [4,7]
     },
     {
       "id": "sestairs",
@@ -240,7 +240,7 @@
         "sestairs placeholder desc"
       ],
       "nw_corner": [7,6],
-      "se_corner": [7,6]
+      "se_corner": [8,7]
     },
     {
       "id": "pantry",
@@ -250,7 +250,7 @@
         "pantry placeholder desc"
       ],
       "nw_corner": [9,7],
-      "se_corner": [9,8]
+      "se_corner": [10,9]
     }
 
   ],
