@@ -17,12 +17,13 @@ namespace Arcatos.Types
     }
     
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
-    public class Scene : Entity
+    public sealed class Scene : Entity
     {
-        public           (int x, int y)                           CornerNW; // Coordinates (x,y) northwestern cell center.
-        public           (int x, int y)                           CornerSE; // Coordinates of southeastern cell center.
-        public           Dictionary<Dir, Exit>                    Exits     { get; }
-        public override  Box                                      Inventory { get; set; }
+        public           (int x, int y)        CornerNW; // Coordinates (x,y) northwestern cell center.
+        public           (int x, int y)        CornerSE; // Coordinates of southeastern cell center.
+        public           Dictionary<Dir, Exit> Exits { get; }
+        public override  Box                   Inventory { get; set; }
+        
         private readonly (double n, double e, double s, double w) _wallPos;
         private readonly (double x, double y)                     _center;
         // Todo: Add Map Parameter to object.
@@ -30,7 +31,6 @@ namespace Arcatos.Types
         private Scene(string id, string name, string summary, string[] desc, int[] nwCorner, int[] seCorner, bool isKnown = false) 
                    : base(id, summary, desc, name, isKnown)
         {
-            this.EntityType = "scene";
             this.CornerNW   = (nwCorner[0], nwCorner[1]);
             this.CornerSE   = (seCorner[0], seCorner[1]);
             this.Exits      = new Dictionary<Dir, Exit>();

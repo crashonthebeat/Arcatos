@@ -57,21 +57,12 @@
       "se_corner": [ 7, 2 ]
     },
     {
-      "id": "changingroom",
-      "name": "Dressing Room",
-      "summary": "changingroom placeholder summary",
-      "desc": [
-        "changingroom placeholder desc"
-      ],
-      "nw_corner": [ 7, 1 ],
-      "se_corner": [ 8, 2 ]
-    },
-    {
       "id": "conference",
       "name": "Meeting Room",
-      "summary": "conference placeholder summary",
+      "summary": "a small torchlit room",
       "desc": [
-        "conference placeholder desc"
+        "This small room holds a dark wooden table with golden trim. The top of the table has been carved and painted with a gold wreath. ",
+        "On the back wall you see a map of Dostrie marked the heraldry of long dead houses."
       ],
       "nw_corner": [ 9, 2 ],
       "se_corner": [ 11, 4 ]
@@ -79,9 +70,11 @@
     {
       "id": "worship",
       "name": "Temple",
-      "summary": "worship placeholder summary",
+      "summary": "a slightly smoky room with benches",
       "desc": [
-        "worship placeholder desc"
+        "You enter the small worship room inside the keep. A few benches have been arranged for viewing of the altar, currently holding ",
+        "a few incense burners giving the room a pleasant and calming smell. Above the altar you see a stone carving of Charais, the ",
+        "mother goddess."
       ],
       "nw_corner": [ 9, 4 ],
       "se_corner": [ 11, 7 ]
@@ -89,9 +82,11 @@
     {
       "id": "kitchen",
       "name": "Kitchen",
-      "summary": "kitchen placeholder summary",
+      "summary": "a busy kitchen",
       "desc": [
-        "kitchen placeholder desc"
+        "You enter the kitchen and immediately are met by cooks and servants buzzing around with purpose. You can smell the pragvan roast ",
+        "slowly cooking in the oven. How long has it been since you've last had a meal that wasn't dried or stale? The kitchen staff steal",
+        " glances at you, hoping you will get the picture and leave them be."
       ],
       "nw_corner": [ 7, 7 ],
       "se_corner": [ 9, 9 ]
@@ -99,9 +94,10 @@
     {
       "id": "armory",
       "name": "Armory",
-      "summary": "armory placeholder summary",
+      "summary": "a room with shelves",
       "desc": [
-        "armory placeholder desc"
+        "You are in the guards' armory. Racks of swords, halberds, and shields line the walls, and various pieces of armor sit on shelves ",
+        "and in chests."
       ],
       "nw_corner": [ 0, 5 ],
       "se_corner": [ 2, 7 ]
@@ -109,9 +105,11 @@
     {
       "id": "barracks",
       "name": "Barracks",
-      "summary": "barracks placeholder summary",
+      "summary": "a room crammed with bunks",
       "desc": [
-        "barracks placeholder desc"
+        "The guard barracks at Caranae is likely one of the most luxurious, mainly for the fact that the guards have full access to the ",
+        "bathhouse and kitchen and all the other facilities of the keep. In the bunks you see guards sleeping or conversing with each ",
+        "other, all relieved to be here."
       ],
       "nw_corner": [ 0, 2 ],
       "se_corner": [ 2, 5 ]
@@ -119,17 +117,18 @@
     {
       "id": "library",
       "name": "Library",
-      "summary": "library placeholder summary",
+      "summary": "a well-lit library",
       "desc": [
-        "library placeholder desc"
+        "As you gaze upon the tall bookshelves surrounding you, the smell of old parchment and bound leather makes its way into your nose ",
+        "and makes you wish you could read."
       ],
       "nw_corner": [ 1, 7 ],
       "se_corner": [ 4, 9 ]
     },
     {
       "id": "frontyard",
-      "name": "Entrance",
-      "summary": "inside the walls of the keep",
+      "name": "Front Courtyard",
+      "summary": "the front courtyard",
       "desc": [
         "You stand before the doors to the ancient castle at Caranae. Armored guards patrol the walls and grounds, staring at everything that comes through ",
         "the front gates. Messengers and other petitioners stand before the large doors of the main hall demanding entrance, and are vetted by a steward with ",
@@ -165,9 +164,10 @@
     {
       "id": "maingate",
       "name": "Front Gate",
-      "summary": "maingate placeholder summary",
+      "summary": "inside the gates at the keep",
       "desc": [
-        "maingate placeholder description"
+        "As you pass under the portcullis, the two guards to either side of you look you up and down, assessing you for any threats. You ",
+        "have a decent feeling that there are more than those two watching you."
       ],
       "nw_corner": [ 5, 16 ],
       "se_corner": [ 6, 17 ]
@@ -175,9 +175,10 @@
     {
       "id": "yardstorage",
       "name": "Storage Area",
-      "summary": "yardstorage placeholder summary",
+      "summary": "a covered storage area",
       "desc": [
-        "yardstorage placeholder desc"
+        "Nestled in the northeastern corner of the front yard is a holding area for supply deliveries to be taken to the pantry or other ",
+        "places in the castle. You seem to be here between deliveries, as aside from a few empty barrels and broken boxes, nothing is here."
       ],
       "nw_corner": [ 7, 9 ],
       "se_corner": [ 11, 11 ]
@@ -185,9 +186,10 @@
     {
       "id": "trainingground",
       "name": "Training Ground",
-      "summary": "trainingground placeholder summary",
+      "summary": "a fenced in ground with dummies and targets",
       "desc": [
-        "trainingground placeholder desc"
+        "The guards at Caranae try to keep their skills honed, living up to their reputation as an elite unit. The guards themselves duel ",
+        "with full armor and sharp blades, and you can guess by the red stained dirt that some have met their end here by training."
       ],
       "nw_corner": [ 1, 9 ],
       "se_corner": [ 4, 11 ]
@@ -195,9 +197,10 @@
     {
       "id": "guardalley",
       "name": "Guards' Alley'",
-      "summary": "guardalley placeholder summary",
+      "summary": "a side alley to the barracks",
       "desc": [
-        "guardalley placeholder desc"
+        "This dark alley is a quick way for guards to get from the barracks and armory to the front yard of the castle, avoiding the ",
+        "sometimes lively main hall. "
       ],
       "nw_corner": [ 0, 7 ],
       "se_corner": [ 1, 11 ]
@@ -205,9 +208,10 @@
     {
       "id": "nwstairs",
       "name": "Northwest Stairs",
-      "summary": "nwstairs placeholder summary",
+      "summary": "a stairwell",
       "desc": [
-        "nwstairs placeholder desc"
+        "You walk past a spiral staircase that takes you between the floors of the castle. The stairs are narrow and somewhat treacherous ",
+        "but only in contrast to the comparatively broad stairs on the south side."
       ],
       "nw_corner": [1,1],
       "se_corner": [2,2]
@@ -215,9 +219,10 @@
     {
       "id": "nestairs",
       "name": "Northeast Stairs",
-      "summary": "nestairs placeholder summary",
+      "summary": "a stairwell",
       "desc": [
-        "nestairs placeholder desc"
+        "You walk past a spiral staircase that takes you between the floors of the castle. The stairs are narrow and somewhat treacherous ",
+        "but only in contrast to the comparatively broad stairs on the south side."
       ],
       "nw_corner": [9,1],
       "se_corner": [10,2]
@@ -225,9 +230,10 @@
     {
       "id": "swstairs",
       "name": "Southwest Stairs",
-      "summary": "swstairs placeholder summary",
+      "summary": "a stairwell",
       "desc": [
-        "swstairs placeholder desc"
+        "You enter an atrium with a modestly sized staircase spiraling up one of the main towers. Between each floor is a small landing ",
+        "with a portrait and candle, providing mood and light for the unique journey."
       ],
       "nw_corner": [3,6],
       "se_corner": [4,7]
@@ -235,9 +241,10 @@
     {
       "id": "sestairs",
       "name": "Southeast Stairs",
-      "summary": "sestairs placeholder summary",
+      "summary": "a stairwell",
       "desc": [
-        "sestairs placeholder desc"
+        "You enter an atrium with a modestly sized staircase spiraling up one of the main towers. Between each floor is a small landing ",
+        "with a portrait and candle, providing mood and light for the unique journey."
       ],
       "nw_corner": [7,6],
       "se_corner": [8,7]
@@ -245,9 +252,10 @@
     {
       "id": "pantry",
       "name": "Pantry",
-      "summary": "pantry placeholder summary",
+      "summary": "a cramped pantry",
       "desc": [
-        "pantry placeholder desc"
+        "Okay its a damn pantry I just tried to run through all of these descriptions in a night and I'm tired. There's food, bread, what",
+        "do you expect to be in here, a corpse? Maybe later when I finish this game in 30 more years."
       ],
       "nw_corner": [9,7],
       "se_corner": [10,9]
@@ -290,19 +298,6 @@
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "westwing", "courtyard" ]
-    },
-    {
-      "id": "int_bathhouse_changingroom",
-      "summary": "wooden door",
-      "desc": [ "a wooden door" ],
-      "scenes": [ "bathhouse", "changingroom" ],
-      "closed": true
-    },
-    {
-      "id": "int_eastwing_changingroom",
-      "summary": "wooden door",
-      "desc": [ "a wooden door" ],
-      "scenes": [ "eastwing", "changingroom" ]
     },
     {
       "id": "int_eastwing_conference",

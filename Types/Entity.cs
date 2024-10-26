@@ -17,13 +17,11 @@ namespace Arcatos.Types
         internal string summary;
         internal string desc;
         internal Dictionary<int, Entity> reveal;
-        public string EntityType { get; set; }
         public bool IsKnown { get; set; }
         public abstract Box Inventory{ get; set;}
 
         public Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
         {
-            this.EntityType = "base";
             this.id = id;
             // Some items are not going to have a separate name, in this case, parse the summary to have an article.
             if (name == "$mundane")
@@ -44,7 +42,7 @@ namespace Arcatos.Types
         // noticed on a specific perception check score. Entities can be an item, exit, clue, or person of interest.
         public virtual void Examine()
         {
-            string s = desc;
+            string s = this.desc;
 
 
             // TODO:
@@ -60,13 +58,14 @@ namespace Arcatos.Types
 
             Game.Narrate(s);
 
-            if ((this.Inventory != null) && (this.Inventory.Items.Count > 0))
+            switch (this.Inventory.Items.Count)
             {
-                this.Inventory.ListItems();
-            }
-            else if ((this.Inventory != null) && (this.Inventory.Items.Count == 0))
-            {
-                Game.Narrate("Nothing.");
+                case > 0:
+                    this.Inventory.ListItems();
+                    break;
+                case 0:
+                    Game.Narrate("Nothing.");
+                    break;
             }
         }
 

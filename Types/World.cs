@@ -25,7 +25,7 @@ namespace Arcatos.Types
         public World(string id)
         {
             this.WorldId = id;
-            this.Maps = LoadMaps();
+            this.Maps = this.LoadMaps();
         }
 
         // LoadMaps initializes the world. This should be called as many times during initial load as there are adjacent worlds to the player.

@@ -1,9 +1,11 @@
 ﻿using Arcatos.Types.Interfaces;
 using Arcatos.Utils;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Arcatos.Types
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public struct ExitDto
     {
         [JsonInclude] public required string id;
