@@ -1,6 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Arcatos.Types.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Arcatos.Utils;
+using System.Runtime.CompilerServices;
 
 namespace Arcatos.Types
 {
@@ -17,12 +19,12 @@ namespace Arcatos.Types
     }
     
     // Scene is the type for each location in the game, it is the base for Overworld cells and map cells.
-    public sealed class Scene : Entity
+    public sealed class Scene : Entity, IBox
     {
-        public           (int x, int y)        CornerNW; // Coordinates (x,y) northwestern cell center.
-        public           (int x, int y)        CornerSE; // Coordinates of southeastern cell center.
-        public           Dictionary<Dir, Exit> Exits { get; }
-        public override  Box                   Inventory { get; set; }
+        public (int x, int y)        CornerNW; // Coordinates (x,y) northwestern cell center.
+        public (int x, int y)        CornerSE; // Coordinates of southeastern cell center.
+        public Dictionary<Dir, Exit> Exits     { get; }
+        public Box                   Inventory { get; }
         
         private readonly (double n, double e, double s, double w) _wallPos;
         private readonly (double x, double y)                     _center;
@@ -54,7 +56,14 @@ namespace Arcatos.Types
 
             // Print Description and Exits
             this.Examine();
+            if (this.Inventory.Items.Count > 0) this.ListItems();
             this.ListExits();
+            this.IsKnown = true;
+        }
+
+        public void ListItems()
+        {
+            this.Inventory.ListItems();
         }
 
         private void ListExits()
@@ -100,6 +109,12 @@ namespace Arcatos.Types
                     Game.Narrate(newRoom.Glance());
                 }
             }
+        }
+
+        // Scene summaries are going to be a bit more dynamic than just "a/an blankety blank blank" so this needed to be overridden.
+        public override string Glance()
+        {
+            return (this.IsKnown) ? this.Name : $"{this.summary}";
         }
 
         // On Map Construction, this is the per-scene method that processes all the exits into Scenes.
@@ -236,8 +251,14 @@ namespace Arcatos.Types
         {
             foreach (string itemId in itemDefs.Keys)
             {
-                Dev.Log(itemDefs[itemId].ToString());
-                this.Inventory.Items.Add(Game.Items[itemId], itemDefs[itemId]);
+                Dev.Log(itemId);
+                Item item = itemId switch
+                {
+                    not null when Game.Catalog.ContainsKey(itemId)     => Game.Catalog[itemId],
+                    not null when Game.UniqueItems.ContainsKey(itemId) => new Item(itemId, Game.UniqueItems[itemId]),
+                    _                                                  => throw new Exception($"Could not load item {itemId}")
+                };
+                this.Inventory.Items.Add(item, itemDefs[itemId]);
             }
         }
 

@@ -3,25 +3,29 @@ using Arcatos.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace Arcatos
 {
     public class Game
     {        
-        public bool Playing { get; set; }
-        public static World CurrentWorld { get; set; }
-        public static Player Player { get; set; }
-        public static Dictionary<string,Item> Items { get; set; }
-        public static Boxscope Boxscope { get; set; }
+        public        bool                       Playing      { get; set; }
+        public static World                      CurrentWorld { get; set; }
+        public static Player                     Player       { get; private set; }
+        public static Dictionary<string,Item>    Catalog      { get; private set; } // Common items that can be stacked as they will always be the same
+        public static Dictionary<string,ItemDto> UniqueItems  { get; private set; } // Unique items like containers that should not be duplicated.
+        public static Boxscope                   Boxscope     { get; private set; }
 
         // TODO: Make this a static constructor? Not sure how those work yet
         public Game(string currentSceneId)
         {
             // Load all game items
-            Game.Items = LoadItemsCatalog();
+            Game.Catalog = LoadCommonItems();
+            Game.UniqueItems = LoadUniqueItems();
             
             // Get WorldId and Scene for Player State
             string worldId = currentSceneId.Split('_')[0];
@@ -72,32 +76,52 @@ namespace Arcatos
             return true;
         }
 
-        // LoadItemsCatalog does the heavy lifting of creating...the items catalog.
-        // All items in the game.
-        public static Dictionary<string,Item> LoadItemsCatalog()
+        // LoadUniqueItems all the files from the unique folder and loads them as item models for the map processing to instantiate as new objects
+        // This allows for less duplication of entries in the unique items list for things like containers that have common properties.
+        private static Dictionary<string,ItemDto> LoadUniqueItems()
         {
             // Grab all the item files
-            string[] itemFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items"));
+            string[] uniqueItemFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "unique"));
             
-            // Load create list for all the json arrays to merge into.
-            // I'm sure this part can be made a lot simpler it's just not coming to brain right now.
-            List<ItemDto> models = new List<ItemDto>();
-            Dictionary<string,Item> list = new Dictionary<string,Item>();
+            // Create new dictionary to return to unique items.
+            // Key difference between this and common items is that this dict is string to *dto*, not the item itself.
+            Dictionary<string,ItemDto> models = new Dictionary<string,ItemDto>();
 
-            foreach (string file in itemFiles)
+            foreach (string file in uniqueItemFiles)
+            {
+                using FileStream json = File.OpenRead(file);
+                foreach (KeyValuePair<string, ItemDto> item in JsonSerializer.Deserialize<Dictionary<string, ItemDto>>(json)!)
+                {
+                    models.Add(item.Key, item.Value);
+                }
+            }
+
+            return models;
+        }
+
+        // Where this method differs from unique items is that this creates the objects themselves in the game catalog
+        // Map processing makes references to this object, as the model itself is made to be copied. 
+        // What I don't know is if it would make more sense to load everything as unique items, and then changing how boxes work
+        // The box.items would then be a List of items, where the qty would be the count and would mix only if the ids mixed and item.isUnique = false.
+        // I'm thinking it uses less memory to just do it this way but what do I know.
+        private static Dictionary<string, Item> LoadCommonItems()
+        {
+            string[] commonItemFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "common"));
+            
+            // New Dictionary to return to common items.
+            Dictionary<string,Item> catalog = new Dictionary<string,Item>();
+            
+            foreach (string file in commonItemFiles)
             {
                 using FileStream json = File.OpenRead(file);
                 //ItemDto[] models = JsonSerializer.Deserialize<ItemDto[]>(json)!;
-                models.AddRange(JsonSerializer.Deserialize<ItemDto[]>(json)!);
+                foreach (KeyValuePair<string, ItemDto> model in JsonSerializer.Deserialize<Dictionary<string, ItemDto>>(json)!)
+                {
+                    catalog.Add(model.Key, new Item(model.Key, model.Value));
+                }
             }
 
-            foreach (ItemDto dto in models)
-            {
-                Item item = new Item(dto);
-                list.Add(dto.id, item);
-            }
-
-            return list;
+            return catalog;
         }
 
 #region Narration

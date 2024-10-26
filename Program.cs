@@ -31,7 +31,7 @@ namespace Arcatos
             Dev.Log("Game Initialized");
 
             // This line will be called from a loaded player state or new game state.
-            Game = new("caranae_keepL1_mainhall");
+            Game = new("caranae_keepL1_main_hall");
 
             while (Game.Playing)
             {

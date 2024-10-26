@@ -161,8 +161,7 @@ namespace Arcatos
 
             return false;
         }
-    
-        // TODO: Broken - not finding item despite one match found.
+        
         // TODO: Also should probably get command parsing to take an input with only an indObj to make it a dirObj
         public (Item?, Box?) FindItem(string search, List<Box> scope)
         {

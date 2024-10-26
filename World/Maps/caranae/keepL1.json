@@ -2,7 +2,7 @@
   "mapname": "Ground Floor",
   "scenes": [
     {
-      "id": "mainhall",
+      "id": "main_hall",
       "name": "Main Hall",
       "summary": "a warm, modestly sized castle hall",
       "desc": [
@@ -13,7 +13,7 @@
       "se_corner": [ 7, 11 ]
     },
     {
-      "id": "westwing",
+      "id": "west_wing",
       "name": "West Wing",
       "summary": "a quiet hallway",
       "desc": [
@@ -23,7 +23,7 @@
       "se_corner": [ 3, 7 ]
     },
     {
-      "id": "eastwing",
+      "id": "east_wing",
       "name": "East Wing",
       "summary": "a quiet hallway",
       "desc": [
@@ -126,7 +126,7 @@
       "se_corner": [ 4, 9 ]
     },
     {
-      "id": "frontyard",
+      "id": "front_yard",
       "name": "Front Courtyard",
       "summary": "the front courtyard",
       "desc": [
@@ -162,7 +162,7 @@
       "se_corner": [ 10, 15 ]
     },
     {
-      "id": "maingate",
+      "id": "main_gate",
       "name": "Front Gate",
       "summary": "inside the gates at the keep",
       "desc": [
@@ -173,7 +173,7 @@
       "se_corner": [ 6, 17 ]
     },
     {
-      "id": "yardstorage",
+      "id": "yard_storage",
       "name": "Storage Area",
       "summary": "a covered storage area",
       "desc": [
@@ -184,7 +184,7 @@
       "se_corner": [ 11, 11 ]
     },
     {
-      "id": "trainingground",
+      "id": "training_ground",
       "name": "Training Ground",
       "summary": "a fenced in ground with dummies and targets",
       "desc": [
@@ -195,7 +195,7 @@
       "se_corner": [ 4, 11 ]
     },
     {
-      "id": "guardalley",
+      "id": "guard_alley",
       "name": "Guards' Alley'",
       "summary": "a side alley to the barracks",
       "desc": [
@@ -206,8 +206,8 @@
       "se_corner": [ 1, 11 ]
     },
     {
-      "id": "nwstairs",
-      "name": "Northwest Stairs",
+      "id": "nw_stairs",
+      "name": "Northwest stairs",
       "summary": "a stairwell",
       "desc": [
         "You walk past a spiral staircase that takes you between the floors of the castle. The stairs are narrow and somewhat treacherous ",
@@ -217,7 +217,7 @@
       "se_corner": [2,2]
     },
     {
-      "id": "nestairs",
+      "id": "ne_stairs",
       "name": "Northeast Stairs",
       "summary": "a stairwell",
       "desc": [
@@ -228,7 +228,7 @@
       "se_corner": [10,2]
     },
     {
-      "id": "swstairs",
+      "id": "sw_stairs",
       "name": "Southwest Stairs",
       "summary": "a stairwell",
       "desc": [
@@ -239,7 +239,7 @@
       "se_corner": [4,7]
     },
     {
-      "id": "sestairs",
+      "id": "se_stairs",
       "name": "Southeast Stairs",
       "summary": "a stairwell",
       "desc": [
@@ -264,58 +264,58 @@
   ],
   "exits": [
     {
-      "id": "int_mainhall_sestairs",
+      "id": "int_main_hall_se_stairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
-      "scenes": [ "mainhall", "sestairs" ]
+      "scenes": [ "main_hall", "se_stairs" ]
     },
     {
-      "id": "int_mainhall_swstairs",
+      "id": "int_main_hall_sw_stairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
-      "scenes": [ "mainhall", "swstairs" ]
+      "scenes": [ "main_hall", "sw_stairs" ]
     },
     {
-      "id": "int_westwing_swstairs",
+      "id": "int_west_wing_sw_stairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
-      "scenes": [ "westwing", "swstairs" ]
+      "scenes": [ "west_wing", "sw_stairs" ]
     },
     {
-      "id": "int_eastwing_sestairs",
+      "id": "int_east_wing_se_stairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
-      "scenes": [ "eastwing", "sestairs" ]
+      "scenes": [ "east_wing", "se_stairs" ]
     },
     {
-      "id": "int_eastwing_courtyard",
+      "id": "int_east_wing_courtyard",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "eastwing", "courtyard" ]
+      "scenes": [ "east_wing", "courtyard" ]
     },
     {
-      "id": "int_westwing_courtyard",
+      "id": "int_west_wing_courtyard",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "westwing", "courtyard" ]
+      "scenes": [ "west_wing", "courtyard" ]
     },
     {
-      "id": "int_eastwing_conference",
+      "id": "int_east_wing_conference",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "eastwing", "conference" ]
+      "scenes": [ "east_wing", "conference" ]
     },
     {
-      "id": "int_eastwing_worship",
+      "id": "int_east_wing_worship",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "eastwing", "worship" ]
+      "scenes": [ "east_wing", "worship" ]
     },
     {
-      "id": "int_eastwing_kitchen",
+      "id": "int_east_wing_kitchen",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "eastwing", "kitchen" ]
+      "scenes": [ "east_wing", "kitchen" ]
     },
     {
       "id": "int_pantry_kitchen",
@@ -324,34 +324,34 @@
       "scenes": [ "pantry", "kitchen" ]
     },
     {
-      "id": "int_mainhall_kitchen",
+      "id": "int_main_hall_kitchen",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "mainhall", "kitchen" ]
+      "scenes": [ "main_hall", "kitchen" ]
     },
     {
-      "id": "int_mainhall_library",
+      "id": "int_main_hall_library",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "mainhall", "library" ]
+      "scenes": [ "main_hall", "library" ]
     },
     {
-      "id": "int_westwing_library",
+      "id": "int_west_wing_library",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "westwing", "library" ]
+      "scenes": [ "west_wing", "library" ]
     },
     {
-      "id": "int_westwing_armory",
+      "id": "int_west_wing_armory",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "westwing", "armory" ]
+      "scenes": [ "west_wing", "armory" ]
     },
     {
-      "id": "int_westwing_barracks",
+      "id": "int_west_wing_barracks",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "westwing", "barracks" ]
+      "scenes": [ "west_wing", "barracks" ]
     },
     {
       "id": "int_armory_barracks",
@@ -360,71 +360,81 @@
       "scenes": [ "armory", "barracks" ]
     },
     {
-      "id": "int_eastwing_nestairs",
+      "id": "int_east_wing_ne_stairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
-      "scenes": [ "eastwing", "nestairs" ]
+      "scenes": [ "east_wing", "ne_stairs" ]
     },
     {
-      "id": "int_westwing_nwstairs",
+      "id": "int_west_wing_nw_stairs",
       "summary": "open archway",
       "desc": [ "an open archway" ],
-      "scenes": [ "westwing", "nwstairs" ]
+      "scenes": [ "west_wing", "nw_stairs" ]
     },
     {
-      "id": "ext_pantry_yardstorage",
+      "id": "ext_pantry_yard_storage",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "pantry", "yardstorage" ]
+      "scenes": [ "pantry", "yard_storage" ]
     },
     {
-      "id": "ext_armory_guardalley",
+      "id": "ext_armory_guard_alley",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "armory", "guardalley" ]
+      "scenes": [ "armory", "guard_alley" ]
     },
     {
-      "id": "ext_trainingground_guardalley",
+      "id": "ext_training_ground_guard_alley",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
-      "scenes": [ "trainingground", "guardalley" ]
+      "scenes": [ "training_ground", "guard_alley" ]
     },
     {
-      "id": "ext_trainingground_frontyard",
+      "id": "ext_training_ground_front_yard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
-      "scenes": [ "trainingground", "frontyard" ]
+      "scenes": [ "training_ground", "front_yard" ]
     },
     {
-      "id": "ext_yardstorage_frontyard",
+      "id": "ext_yard_storage_front_yard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
-      "scenes": [ "yardstorage", "frontyard" ]
+      "scenes": [ "yard_storage", "front_yard" ]
     },
     {
-      "id": "ext_stables_frontyard",
+      "id": "ext_stables_front_yard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
-      "scenes": [ "stables", "frontyard" ]
+      "scenes": [ "stables", "front_yard" ]
     },
     {
-      "id": "ext_blacksmith_frontyard",
+      "id": "ext_blacksmith_front_yard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
-      "scenes": [ "blacksmith", "frontyard" ]
+      "scenes": [ "blacksmith", "front_yard" ]
     },
     {
-      "id": "ext_maingate_frontyard",
+      "id": "ext_main_gate_front_yard",
       "summary": "$nodoor",
       "desc": [ "$nodoor" ],
-      "scenes": [ "maingate", "frontyard" ]
+      "scenes": [ "main_gate", "front_yard" ]
     },
     {
-      "id": "ext_mainhall_frontyard",
+      "id": "ext_main_hall_front_yard",
       "summary": "a set of large wooden doors",
       "desc": [ "a set of large wooden doors" ],
-      "scenes": [ "mainhall", "frontyard" ]
+      "scenes": [ "main_hall", "front_yard" ]
     }
   ],
-  "inventories": {}
+  "inventories": {
+    "main_hall": {
+      "stick": 1,
+      "ceramic_bowl": 1,
+      "hall_table": 1
+    },
+    "kitchen": {
+      "ceramic_bowl": 1,
+      "hall_table": 1
+    }
+  }
 }
