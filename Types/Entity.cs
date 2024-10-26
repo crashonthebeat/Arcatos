@@ -14,11 +14,12 @@ namespace Arcatos.Types
     {
         public string Name { get; init; }
         internal string id;
+        public string Id { get => this.id; }
         internal string summary;
         internal string desc;
         internal Dictionary<int, Entity> reveal;
         public bool IsKnown { get; set; }
-        public abstract Box Inventory{ get; set;}
+        //public abstract Box Inventory{ get; set; }
 
         public Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
         {
@@ -57,24 +58,26 @@ namespace Arcatos.Types
             //}
 
             Game.Narrate(s);
-
-            switch (this.Inventory.Items.Count)
-            {
-                case > 0:
-                    this.Inventory.ListItems();
-                    break;
-                case 0:
-                    Game.Narrate("Nothing.");
-                    break;
-            }
+            
+            // switch (this.Inventory.Items.Count)
+            // {
+            //     case > 0:
+            //         this.Inventory.ListItems();
+            //         break;
+            //     case 0:
+            //         Game.Narrate("Nothing.");
+            //         break;
+            // }
         }
 
         // Glance returns a short description of the item depending on where the item is located and what the item is.
         // This method will change depending on the type of Entity.
         public virtual string Glance()
         {
+            char[] vowels = ['a', 'e', 'i', 'o', 'u'];
+            
             // If the first letter of the summary is a vowel, use "an", otherwise use "a".
-            string article = ((new[] { 'a', 'e', 'i', 'o', 'u' }).Contains(summary[0])) ? "an" : "a";
+            string article = vowels.Contains(this.summary[0]) ? "an" : "a";
 
             // If the player is familiar with the entity, return its name.
             return (this.IsKnown) ? this.Name : $"{article} {this.summary}";

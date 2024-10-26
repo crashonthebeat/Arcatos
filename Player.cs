@@ -14,14 +14,14 @@ namespace Arcatos
 {
     public class Player : IEntity
     {
-        public Scene CurrentScene { get; private set; }
-        public int checkScore;
-        public Box HeldItems { get; private set; }
+        public string Id           { get => "player"; }
+        public Scene  CurrentScene { get; private set; }
+        public Box    HeldItems    { get; }
 
         public Player(Scene currentScene)
         {
             this.CurrentScene = currentScene;
-            this.HeldItems = new Box(this, BoxType.Int);
+            this.HeldItems    = new Box(this, BoxType.Int);
         }
 
         public bool Execute(Command command)
@@ -34,19 +34,19 @@ namespace Arcatos
 
             switch (command.Action)
             {
-                case string s when (new string[] { "look", "view", "examine", "gander" }).Contains(s):
+                case { } s when lookVerbs.Contains(s):
                     this.LookAt(command);
                     return true;
-                case string s when (new string[] { "go", "move", "walk", "mosey" }).Contains(s):
+                case { } s when moveVerbs.Contains(s):
                     this.Move(command);
                     return true;
-                case string s when (new string[] { "use" }).Contains(s):
+                case { } s when useVerbs.Contains(s):
                     this.UseItem(command);
                     return true;
-                case string s when (new string[] { "get", "take", "grab", "yoink" }).Contains(s):
+                case { } s when getVerbs.Contains(s):
                     this.GetItem(command);
                     return true;
-                case string s when (new string[] { "drop", "toss", "yeet" }).Contains(s):
+                case { } s when dropVerbs.Contains(s):
                     this.DropItem(command);
                     return true;
                 case "quit":
@@ -61,30 +61,29 @@ namespace Arcatos
 
         public bool LookAt(Command command)
         {
+            string[] fstPsnPronouns = ["self", "me"];
+            
             // If dirobj is "room"
             if (command.DirObj == "room" || this.CurrentScene.Name.Contains(command.DirObj))
             {
                 this.CurrentScene.Enter();
                 return true;
             }
-            else if ((new string[] {"self", "me"}).Contains(command.DirObj))
+            else if (fstPsnPronouns.Contains(command.DirObj))
             {
                 this.Examine();
                 return true;
             }
 
             // FindItem
-            (Item? item, Box? _) = FindItem(command.DirObj, Game.Boxscope.Local);
-            if (item != null)
-            {
-                item.Examine();
-                // Use the item
-                return true;
-            }
+            (Item? item, Box? _) = this.FindItem(command.DirObj, Game.Boxscope.Local);
+            if (item == null) return false;
+            item.Examine();
+            // Use the item
+            return true;
 
             // FindNPC
 
-            return false;
         }
 
         public bool Move(Command command)
@@ -105,6 +104,7 @@ namespace Arcatos
             Game.Narrate($"You {command.Action} {command.DirObj}.");
             this.CurrentScene = nextRoom;
             this.CurrentScene.Enter();
+            Boxscope.UpdateLocal();
             return true;
         }
 
@@ -161,38 +161,44 @@ namespace Arcatos
 
             return false;
         }
-
+    
+        // TODO: Broken - not finding item despite one match found.
+        // TODO: Also should probably get command parsing to take an input with only an indObj to make it a dirObj
         public (Item?, Box?) FindItem(string search, List<Box> scope)
         {
-            bool found = false;
-            Item foundItem = null;
-            Box foundBox = null;
+            //bool found = false;
+            Item? foundItem = null;
+            Box? foundBox = null;
             
             // Loop through all the boxes in scope, call FindItem on each box.
             foreach (Box box in scope)
             {
-                List<Item> foundItems = box.FindItem(search);
+                List<Item>? foundItems = box.FindItem(search);
+                
+                // Check if items are found:
 
-                // Case if FindItem found a single item, and the item has not been found.
-                if (foundItems != null && foundItems.Count == 1 && !found)
+                switch (foundItems)
                 {
-                    found = true;
-                    foundItem = foundItems[0];
-                    foundBox = box;
-                    foreach (Item item in foundItems)
+                    // Case if FindItem found a single item and nothing has been found yet.
+                    case { Count: 1 } when foundItem == null:
                     {
-                        Dev.Log($"* Found {item.ToString()}");
+                        //found = true;
+                        foundItem = foundItems[0];
+                        foundBox = box;
+                        Dev.Log($"* Found {foundItem.ToString()}");
+                        break;
                     }
-                }
-                // Case if items were found but there were multiple matches or a match has already been found.
-                else if (foundItems != null && (found || foundItems.Count > 1))
-                {
-                    Game.Narrate($"Which {search} do you mean?");
-                    return (null, null);
-                }
-                else
-                {
-                    continue;
+                    // When the box has a matching item, but an item has been found.
+                    case { Count: 1 }:
+                        Dev.Log($"* Found {foundItem.ToString()}");
+                        Game.Narrate($"Which {search} do you mean?");
+                        return (null, null);
+                    // Case if items were found but there were multiple matches or a match has already been found.
+                    case { Count: > 1 }:
+                        Game.Narrate($"Which {search} do you mean?");
+                        return (null, null);
+                    default:
+                        continue;
                 }
             }
 

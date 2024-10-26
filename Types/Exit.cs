@@ -24,7 +24,6 @@ namespace Arcatos.Types
         public bool IsHidden { get; set; }
         public Dictionary<Scene, Scene> AdjScenes { get; }
         public (double x, double y) Loc { get; }
-        public override Box Inventory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Exit(ExitDto dto, Scene[] scenes) : base(dto.id, dto.summary, dto.desc)
         {

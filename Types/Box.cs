@@ -13,6 +13,7 @@ namespace Arcatos.Types
     public class Box
     {
         // A dictionary of each Item to its quantity
+        public string Id { get; }
         public Dictionary<Item, int> Items { get; set; }
         private IEntity _parentEntity;
         private BoxType _boxType;
@@ -22,12 +23,20 @@ namespace Arcatos.Types
             Items = new Dictionary<Item, int>();
             this._parentEntity = parent;
             this._boxType = type;
+            this.Id = parent.Id;
         }
 
         public void AddItem(Item item)
         {
-            if (Items.ContainsKey(item)) Items[item]++;
-            else Items[item] = 1;
+            if (!this.Items.TryAdd(item, 1))
+            {
+                this.Items[item]++;
+                Dev.Log($"Increased qty of {item.ToString()} to {this.Items[item]}");
+            }
+            else
+            {
+                Dev.Log($"Added new {item.ToString()}");
+            }
         }
         
         public bool RemoveItem(Item item)
@@ -56,21 +65,16 @@ namespace Arcatos.Types
                 BoxType.Int => "in",
                 _ => "around"
             };
+
+            if (this.Items.Count == 0) return;
             
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             // This is going to get integrated into the narration function.
-            if (this._parentEntity.GetType() == typeof(Player))
-            {
-                Game.Narrate($"You are holding:");
-            }
-            else
-            {
-                Game.Narrate($"You see {p} {this._parentEntity.Glance()}:");
-            }
+            Game.Narrate(this._parentEntity.GetType() == typeof(Player) ? $"You are holding:" : $"You see {p} {this._parentEntity.Glance()}:");
             Console.ResetColor();
             foreach (Item item in this.Items.Keys)
             {
-                Game.Narrate(item.Glance());
+                Game.Narrate($"{item.Glance()} x{this.Items[item]}");
             }
         }
 

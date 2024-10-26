@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,15 +32,14 @@ namespace Arcatos.Types
         public static List<Box> GetBoxes(Box box)
         {
             // This is a recursive search of all boxes in a box if the item has a box then the box is searched for more boxes
-            List<Box> foundBoxes = new List<Box>();
+            List<Box> foundBoxes = [];
 
             foreach (Item item in box.Items.Keys)
             {
-                if (item.Inventory != null && !foundBoxes.Contains(item.Inventory))
-                {
-                    foundBoxes.Add(item.Inventory);
-                    foundBoxes.AddRange(GetBoxes(item.Inventory));
-                }
+                if (item is not IBox) continue;
+                if (foundBoxes.Contains(((IBox)item).Inventory)) continue;
+                foundBoxes.Add(((IBox)item).Inventory);
+                foundBoxes.AddRange(GetBoxes(((IBox)item).Inventory));
             }
 
             foundBoxes.Add(box);

@@ -9,17 +9,15 @@ namespace Arcatos.Types
 {
     public struct ItemDto
     {
-        [JsonInclude] public required string id;
-        [JsonInclude] public string name;
-        [JsonInclude] public required string summary;
+        [JsonInclude] public          string   name;
+        [JsonInclude] public required string   summary;
         [JsonInclude] public required string[] desc;
+        [JsonInclude] public          bool     isUnique;
     }
     
     public class Item : Entity
     {
-        public override Box? Inventory{ get; set; }
-
-        public Item (ItemDto dto) : base(dto.id, dto.summary, dto.desc, dto.name)
+        public Item (string id, ItemDto dto) : base(id, dto.summary, dto.desc, dto.name)
         {
             
         }
