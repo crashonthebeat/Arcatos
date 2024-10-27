@@ -57,6 +57,8 @@ namespace Arcatos.Types
             // First we check which walls are intersecting, for that we need to get the wall positions of each scene.
             (double n, double e, double s, double w) origWalls = orig.GetWallPositions();
             (double n, double e, double s, double w) destWalls = dest.GetWallPositions();
+            Dev.Log($"* {orig.id}: {origWalls.n} {origWalls.e} {origWalls.s} {origWalls.w}");
+            Dev.Log($"* {dest.id}: {destWalls.n} {destWalls.e} {destWalls.s} {destWalls.w}");
 
             // Find which values match
             (bool n, bool e, bool s, bool w) = (Math.Abs(origWalls.n - destWalls.s) <= 0, 

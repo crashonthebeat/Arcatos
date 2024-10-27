@@ -13,8 +13,8 @@ namespace Arcatos.Types
         [JsonInclude] public string name;
         [JsonInclude] public required string summary;
         [JsonInclude] public required string[] desc;
-        [JsonInclude] public required int[] nw_corner;
-        [JsonInclude] public required int[] se_corner;
+        //[JsonInclude] public required int[] nw_corner;
+        //[JsonInclude] public required int[] se_corner;
         [JsonInclude] public bool visited;
     }
     
@@ -41,7 +41,7 @@ namespace Arcatos.Types
             this._center    = this.GetRoomCenter();
         }
 
-        public Scene(SceneDto dto) : this(dto.id, dto.name, dto.summary, dto.desc, dto.nw_corner, dto.se_corner, dto.visited)
+        public Scene(SceneDto dto, LayoutDto layout) : this(dto.id, dto.name, dto.summary, dto.desc, layout.CornerNW, layout.CornerSE, dto.visited)
         {
             // Scene Constructor for initialization with json file.
         }

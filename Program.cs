@@ -5,6 +5,8 @@ using System.Text.Json;
 using System.Windows;
 using Arcatos.Types;
 using Arcatos.Utils;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Arcatos
 {
@@ -29,10 +31,10 @@ namespace Arcatos
         static void Main(string[] args)
         {
             Dev.Log("Game Initialized");
-
+            
             // This line will be called from a loaded player state or new game state.
-            Game = new("caranae_keepL1_main_hall");
-
+            Game = new Game("caranae_keepL1_main_hall");
+            
             while (Game.Playing)
             {
                Game.Play();

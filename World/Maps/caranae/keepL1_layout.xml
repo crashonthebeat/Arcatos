@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0" version="24.8.3">
+  <diagram name="Page-1" id="bBZSjG6AJj1DRk9rzdat">
+    <mxGraphModel dx="1788" dy="979" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rTrzvhVt_IHogarVdNae-1" value="main_hall" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="160" y="240" width="120" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-2" value="courtyard" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;imageVerticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="120" y="80" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-5" value="sw_stairs" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="120" y="240" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-6" value="east_wing" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="320" y="40" width="40" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-7" value="west_wing" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="80" y="40" width="40" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-10" value="ne_stairs" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="360" y="40" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-11" value="nw_stairs" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-12" value="barracks" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry y="80" width="80" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-13" value="conference" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="360" y="80" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-14" value="armory" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry y="200" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-15" value="worship" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="360" y="160" width="80" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-16" value="library" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="40" y="280" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-17" value="pantry" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="360" y="280" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-18" value="kitchen" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="280" y="280" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-44" value="front_yard" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="120" y="440" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-45" value="yard_storage" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="280" y="360" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-48" value="training_ground" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="40" y="360" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-49" value="guard_alley" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;textDirection=vertical-lr;" parent="1" vertex="1">
+          <mxGeometry y="280" width="40" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-53" value="blacksmith" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="80" y="520" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-54" value="stables" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="320" y="520" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rTrzvhVt_IHogarVdNae-55" value="main_gate" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="200" y="640" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4JnmGmZCQ1Iqpz3pOC5n-1" value="se_stairs" style="rounded=0;fillColor=#ffe6cc;glass=0;shadow=0;strokeWidth=1;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="280" y="240" width="40" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
