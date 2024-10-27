@@ -1,5 +1,5 @@
 {
-  "mapname": "Ground Floor",
+  "map_name": "Main Floor",
   "scenes": [
     {
       "id": "main_hall",
@@ -203,6 +203,14 @@
         "Okay its a damn pantry I just tried to run through all of these descriptions in a night and I'm tired. There's food, bread, what",
         "do you expect to be in here, a corpse? Maybe later when I finish this game in 30 more years."
       ]
+    },
+    {
+      "id": "secret_stairs",
+      "name": "Vault Stairwell",
+      "summary": "a well-hidden stairwell",
+      "desc": [
+        "While these stairs seem to be well hidden and unguarded, they seem to be strangely well used."
+      ]
     }
 
   ],
@@ -314,6 +322,15 @@
       "summary": "open archway",
       "desc": [ "an open archway" ],
       "scenes": [ "west_wing", "nw_stairs" ]
+    },
+    {
+      "id": "hidden_worship_secret_stairs",
+      "summary": "peculiar banner",
+      "desc": [
+        "The banner looks to be different from the others hanging on this wall, there's an unsettling feel to the asymmetry it gives off."
+      ],
+      "scenes": [ "worship", "secret_stairs" ],
+      "hidden": true
     },
     {
       "id": "ext_pantry_yard_storage",

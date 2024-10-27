@@ -21,6 +21,8 @@ namespace Arcatos.Types
         public bool IsKnown { get; set; }
         //public abstract Box Inventory{ get; set; }
 
+        public static bool Debug = false;
+
         public Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
         {
             this.id = id;

@@ -19,7 +19,9 @@ namespace Arcatos.Utils
         south,
         southeast,
         east,
-        northeast
+        northeast,
+        up,
+        down
     }
 
     internal static class Calc

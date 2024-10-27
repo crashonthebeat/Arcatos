@@ -16,29 +16,42 @@ namespace Arcatos.Types
     // Data Struct for Json
     public struct WorldDto
     {
-        [JsonInclude] public required string worldName;
-        [JsonInclude] public required string[] mapNames;
+        [JsonInclude] public required string WorldName;
+        [JsonInclude] public required string[] MapNames;
+
+        [JsonInclude] public required Dictionary<string, MapExitDto[]> MapExits;
+    }
+    
+    public struct MapExitDto
+    {
+        [JsonInclude] public required string MapId;
+        [JsonInclude] public required string SceneId;
+        [JsonInclude] public required string ExitDirection;
     }
     
     public class World
     {
-        private string _path;
-        
+        private readonly string _path;
         public string WorldId { get; init; }
-        public Dictionary<string, Map> Maps { get; init; }
+        public Dictionary<string, Map> Maps { get; }
+        
+        private Dictionary<string, MapExitDto[]> _mapExits;
+
+        public static bool Debug = true;
 
         public World(string id)
         {
             this.WorldId = id;
             this._path   = Path.Combine(Program.Dir, "World", "Maps", this.WorldId);
             this.Maps    = this.LoadMaps();
+            this.JoinMaps();
         }
-
+        
         // LoadMaps initializes the world. This should be called as many times during initial load as there are adjacent worlds to the player.
         // When player moves to a new world it should discard any non-adjacent worlds and then add any new adjacent ones.
         private Dictionary<string, Map> LoadMaps()
         {
-            Dev.Log($"Loading {this.WorldId}\n################################################");
+            Dev.Log($"Loading {this.WorldId}\n################################################", World.Debug);
             // Empty Dict
             Dictionary<string, Map> loadedMaps = new Dictionary<string, Map>();
             
@@ -47,15 +60,15 @@ namespace Arcatos.Types
             WorldDto         dto  = JsonSerializer.Deserialize<WorldDto>(json)!;
             
             // Run through map IDs
-            foreach (string mapName in dto.mapNames)
+            foreach (string mapName in dto.MapNames)
             {
-                Dev.Log($"Loading {mapName}");
+                Dev.Log($"Loading {mapName}", World.Debug);
                 // Construct path to map file
                 string data = Path.Combine(this._path, mapName + ".json");
                 
                 // Construct Map ID
                 string mapId = $"{this.WorldId}_{mapName}";
-                Dev.Log($"Loading {mapId}");
+                Dev.Log($"Loading {mapId}", World.Debug);
                 
                 // Load all layouts to pass to map constructor
                 Dictionary<string, LayoutDto> layouts = this.LoadLayouts(mapName);
@@ -66,7 +79,33 @@ namespace Arcatos.Types
                 loadedMaps[mapId] = new Map(model, layouts, mapId);
             }
 
+            this._mapExits = dto.MapExits;
+
             return loadedMaps;
+        }
+
+        // This method creates an exit adjacency between two scenes on a map.
+        private void JoinMaps()
+        {
+            foreach ((string? id, MapExitDto[]? exitDefs) in this._mapExits)
+            {
+                string origId    = $"{this.WorldId}_{exitDefs[0].MapId}";
+                string destId    = $"{this.WorldId}_{exitDefs[1].MapId}";
+                Dev.Log($"Joining {origId} to {destId}", World.Debug);
+                
+                Map    origMap   = this.Maps[origId];
+                Scene  origScene = origMap.Scenes[$"{origId}_{exitDefs[0].SceneId}"];
+                Dir    origDir   = (Dir)Enum.Parse(typeof(Dir), exitDefs[0].ExitDirection);
+                
+                Map   destMap   = this.Maps[destId];
+                Scene destScene = destMap.Scenes[$"{destId}_{exitDefs[1].SceneId}"];
+                Dir   destDir   = (Dir)Enum.Parse(typeof(Dir), exitDefs[1].ExitDirection);
+                Dev.Log($"Scene 1:{exitDefs[0].MapId}_{origScene.Id} Scene 2: {exitDefs[1].MapId}_{destScene.Id}", World.Debug);
+
+                Exit exit = new Exit(id, [origScene, destScene]);
+                origScene.AddExit(origDir, exit);
+                destScene.AddExit(destDir, exit);
+            }
         }
 
         // I am so proud of this it's insane.
@@ -92,7 +131,7 @@ namespace Arcatos.Types
                 if (id is null) continue;
                 
                 string? xStr = node.FirstChild?.Attributes?["x"]?.Value;
-                Dev.Log(id);
+                Dev.Log(id, World.Debug);
                 int x = xStr != null ? Convert.ToInt32(xStr) : 0;
                 
                 string? yStr = node.FirstChild?.Attributes?["y"]?.Value;

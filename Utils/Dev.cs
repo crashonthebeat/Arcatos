@@ -16,12 +16,18 @@ namespace Arcatos.Utils
         // or exclude them from the console output. 
         public static void Log(string msg)
         {
-            if (Program.Settings.DebugMode)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"DEBUG: {msg}");
-                Console.ResetColor();
-            }
+            if (!Program.Settings.DebugMode) return;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"DEBUG: {msg}");
+            Console.ResetColor();
+        }
+
+        public static void Log(string msg, bool mode)
+        {
+            if (!mode) return;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"DEBUG: {msg}");
+            Console.ResetColor();
         }
     }
 }

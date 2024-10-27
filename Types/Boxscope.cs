@@ -1,6 +1,7 @@
 ﻿using Arcatos.Types.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
@@ -21,6 +22,8 @@ namespace Arcatos.Types
         public List<Box> Player { get; set; }
         public List<Box> Scene { get; set; }
         public List<Box> Local { get; set; }
+        
+        public static bool Debug = false;
 
         public Boxscope()
         {

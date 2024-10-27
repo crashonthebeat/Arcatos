@@ -13,8 +13,8 @@ namespace Arcatos
     static class Program
     {
         public static Settings Settings { get; set; }   // Program Settings
-        public static Game? Game { get; set; }
-        public static string Dir = Environment.CurrentDirectory;
+        public static Game?    Game     { get; set; }
+        public static string   Dir   = Environment.CurrentDirectory;
 
         // Program Initialization
         static Program()
@@ -28,7 +28,7 @@ namespace Arcatos
             Settings.DebugMode = true;
         }
 
-        static void Main(string[] args)
+        static void StartGame()
         {
             Dev.Log("Game Initialized");
             
@@ -37,8 +37,16 @@ namespace Arcatos
             
             while (Game.Playing)
             {
-               Game.Play();
+                Game.Play();
             }
+        }
+
+        static void Main(string[] args)
+        {
+            Item test = new Item("blag", "bag", "dfsdfs", ["tesdt"]);
+            Type blah = test.GetType();
+
+            //StartGame();
         }
     }
 }

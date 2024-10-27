@@ -19,11 +19,14 @@ namespace Arcatos.Types
     
     public class Exit : Entity, ILockable
     {
-        public bool IsClosed { get; }  // Whether exit always appears closed (will never show next room on look)
-        public bool IsLocked { get; set; }
-        public bool IsHidden { get; set; }
+        public bool                     IsClosed  { get; }  // Whether exit always appears closed (will never show next room on look)
+        public bool                     IsLocked  { get; set; }
+        public bool                     IsHidden  { get; set; }
         public Dictionary<Scene, Scene> AdjScenes { get; }
-        public (double x, double y) Loc { get; }
+        public (double x, double y)     Loc       { get; }
+        public bool                     IsMapExit { get; }
+        
+        public new static bool Debug = true;
 
         public Exit(ExitDto dto, Scene[] scenes) : base(dto.id, dto.summary, dto.desc)
         {
@@ -33,10 +36,23 @@ namespace Arcatos.Types
                 { scenes[1], scenes[0] }
             };
 
-            this.IsClosed = dto.closed;
-            this.IsLocked = dto.locked;
-            this.IsHidden = dto.hidden;
-            this.Loc = GetPosition(scenes[0], scenes[1]);
+            this.IsClosed  = dto.closed;
+            this.IsLocked  = dto.locked;
+            this.IsHidden  = dto.hidden;
+            this.Loc       = GetPosition(scenes[0], scenes[1]);
+            this.IsMapExit = false;
+        }
+
+        // This is the constructor for a map exit. 
+        public Exit(string id, Scene[] scenes) : base(id, "$nodoor", ["$nodoor"])
+        {
+            this.AdjScenes = new Dictionary<Scene, Scene>
+            {
+                { scenes[0], scenes[1] },
+                { scenes[1], scenes[0] }
+            };
+            this.Loc       = scenes[0].GetRoomCenter();
+            this.IsMapExit = true;
         }
         
         // The following four methods manage the exit state, and they are called by the player.
@@ -57,8 +73,8 @@ namespace Arcatos.Types
             // First we check which walls are intersecting, for that we need to get the wall positions of each scene.
             (double n, double e, double s, double w) origWalls = orig.GetWallPositions();
             (double n, double e, double s, double w) destWalls = dest.GetWallPositions();
-            Dev.Log($"* {orig.id}: {origWalls.n} {origWalls.e} {origWalls.s} {origWalls.w}");
-            Dev.Log($"* {dest.id}: {destWalls.n} {destWalls.e} {destWalls.s} {destWalls.w}");
+            Dev.Log($"* {orig.id}: {origWalls.n} {origWalls.e} {origWalls.s} {origWalls.w}", Exit.Debug);
+            Dev.Log($"* {dest.id}: {destWalls.n} {destWalls.e} {destWalls.s} {destWalls.w}", Exit.Debug);
 
             // Find which values match
             (bool n, bool e, bool s, bool w) = (Math.Abs(origWalls.n - destWalls.s) <= 0, 

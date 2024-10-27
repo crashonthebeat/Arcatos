@@ -18,6 +18,8 @@ namespace Arcatos
         public Scene  CurrentScene { get; private set; }
         public Box    HeldItems    { get; }
 
+        public static bool Debug = false;
+
         public Player(Scene currentScene)
         {
             this.CurrentScene = currentScene;
@@ -184,12 +186,12 @@ namespace Arcatos
                         //found = true;
                         foundItem = foundItems[0];
                         foundBox = box;
-                        Dev.Log($"* Found {foundItem.ToString()}");
+                        Dev.Log($"* Found {foundItem.ToString()}", Player.Debug);
                         break;
                     }
                     // When the box has a matching item, but an item has been found.
                     case { Count: 1 }:
-                        Dev.Log($"* Found {foundItem.ToString()}");
+                        Dev.Log($"* Found {foundItem.ToString()}", Player.Debug);
                         Game.Narrate($"Which {search} do you mean?");
                         return (null, null);
                     // Case if items were found but there were multiple matches or a match has already been found.

@@ -13,7 +13,7 @@ namespace Arcatos.Utils
         public string Action { get; set; }
         public string DirObj { get; set; }
         public string? IndObj { get; set; }
-        private Dictionary<string, string> Directions = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> _directions = new Dictionary<string, string>()
         {
             { "n", "north" }, { "s", "south" }, { "w", "west" }, { "e", "east" }, 
             { "nw", "northwest" }, { "ne", "northeast" }, { "sw", "southwest" }, { "se", "southeast" },
@@ -28,19 +28,19 @@ namespace Arcatos.Utils
             this.Action = p[0];
 
             // Check if player just entered a direction or a directional letter.
-            if (Directions.ContainsKey(this.Action))
+            if (this._directions.TryGetValue(this.Action, out string? value))
             {
-                this.DirObj = Directions[this.Action];
+                this.DirObj = value;
                 this.Action = "go";
             }
-            else if (Directions.ContainsValue(this.Action))
+            else if (this._directions.ContainsValue(this.Action))
             {
                 this.DirObj = this.Action;
                 this.Action = "go";
             }
             else
             {
-                this.DirObj = GetObjects(p[1..]);
+                this.DirObj = this.GetObjects(p[1..]);
             }
 
             Dev.Log($"Action - {this.Action}");
@@ -65,7 +65,7 @@ namespace Arcatos.Utils
             string obj = String.Join(" ", input[(i + 1)..]);
 
             // Check if player put direction after preposition like "walk to the north"
-            if (this.Directions.ContainsValue(obj))
+            if (this._directions.ContainsValue(obj))
             {
                 return obj;
             }

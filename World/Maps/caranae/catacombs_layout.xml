@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0" version="24.8.3">
+  <diagram name="Page-1" id="GgBlouJwV7Sy-lw40HxG">
+    <mxGraphModel dx="2373" dy="947" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="stairs_to_keep" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;noLabel=0;" vertex="1" parent="1">
+          <mxGeometry y="220" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="stairs_to_temple" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;noLabel=0;" vertex="1" parent="1">
+          <mxGeometry x="520" y="520" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="secret_crypt" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="440" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="puzzle_hall_3" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="80" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="puzzle_hall_2" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="120" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="puzzle_hall_1" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="200" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="secret_tunnel" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="240" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="balrichs_barrow" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="160" width="160" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="n_crypt" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="360" width="80" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="mortuary" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="500" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="s_crypt" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="560" width="100" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="alchemist_lab" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="440" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="back_hall" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="520" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="crypt_entry" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="520" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="sewer_tunnel" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="dark_tunnel" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="360" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="keep_vault" style="rounded=0;fillColor=none;glass=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

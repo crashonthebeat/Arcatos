@@ -1,0 +1,284 @@
+{
+  "map_name": "Catacombs",
+  "scenes": [
+    
+    {
+      "id": "stairs_to_keep",
+      "name": "Stairs to the Chapel",
+      "summary": "an old stone staircase",
+      "desc": [ 
+        "This well-hidden staircase seems to have gotten quite a bit of use, as there are no signs of abandon like cobwebs or piles of ",
+        "dust or dirt. It almost feels like you could be discovered at any time."
+      ]
+    },
+    {
+      "id": "stairs_to_temple",
+      "name": " Stairs to the Temple",
+      "summary": "an ornate spiral staircase",
+      "desc": [ 
+        "These stairs have likely seen thousands of mourners over the centuries since their construction. The statuettes of the gods ",
+        "of death seem to be a little morbid given the circumstances."
+      ]
+    },
+    {
+      "id": "puzzle_hall_1",
+      "name": "Challenge of the Arcane",
+      "summary": "a large, strange room",
+      "desc": [ 
+        "You stand in a large room surrounded by statues representing the various demigods of the world, and above them are the symbols ",
+        "of their patron god or goddess. No matter where you are in the room their eyes seem to follow you with an appearance of emotion."
+      ]
+    },
+    {
+      "id": "puzzle_hall_2",
+      "name": "Challenge of the Infernal",
+      "summary": "a narrow hallway",
+      "desc": [ 
+        "This room would almost seem like an antechamber, or dead end to your journey through Caranae's catacombs. There is barely enough ",
+        "room for you to make your way in sideways, the walls getting tighter and the room getting warmer as you go deeper."
+      ]
+    },
+    {
+      "id": "puzzle_hall_3",
+      "name": "Challenge of the Divine",
+      "summary": "a strange room",
+      "desc": [ 
+        "You stand now in a room strewn with skeletons and other evidence of failed adventurers, warning you to be very careful in this ",
+        "particular room. You don't see any place where arrows will shoot out or even any large swinging blades, so you are unsure of why ",
+        "this place has claimed so many lives. Just as that thought leaves your mind, the iron door closes behind you, locking you in."
+      ]
+    },
+    {
+      "id": "secret_tunnel",
+      "name": "Dark Cavern",
+      "summary": "a dark cave tunnel",
+      "desc": [ 
+        "This deceptively natural-looking cavern, carved out of the rock underneath the keep, looks to be created intentionally by ",
+        "whomever designed this place. As you venture further from the torchlit room you were in, the cavern gets increasingly darker."
+      ]
+    },
+    {
+      "id": "balrichs_barrow",
+      "name": "Balrich's Barrow",
+      "summary": "a large, cavernous room",
+      "desc": [ 
+        "You are now what appears to be in the central part of Caranae's catacombs. Alcoves with haphazardly wrapped corpses fill the ",
+        "walls around a wide ledge that encircles the room. In the center is a seemingly bottomless pit with treacherous stairs and more ",
+        "carve-outs for the dead."
+      ]
+    },
+    {
+      "id": "n_crypt",
+      "name": "North Crypt",
+      "summary": "a dimly lit crypt",
+      "desc": [ 
+        "You stand in a long crypt, its walls carved with shelves that hold the dead. The room itself is a maze of stone tombs and ",
+        "pedestals of remembrance holding various objects that represent the loved ones of Caranae's people."
+      ]
+    },
+    {
+      "id": "mortuary",
+      "name": "Temple Mortuary",
+      "summary": "a torchlit room",
+      "desc": [ 
+        "This is the mortuary of Caranae's temple. The stinging smell of the various alchemical substances hits you just as strongly as ",
+        "the taste of death in the air. Surrounding you is a dizzying arrangement of various modern and old tools for preparing the dead."
+      ]
+    },
+    {
+      "id": "s_crypt",
+      "name": "South Crypt",
+      "summary": "a dimly lit crypt",
+      "desc": [ 
+        "You stand in a large, well-organized crypt that looks to be fairly new, perhaps built in the last century. Most of the cadavers ",
+        "are stored in what look to be very recently developed receptacles."
+      ]
+    },
+    {
+      "id": "alchemist_lab",
+      "name": "Morticians Alchemy Lab",
+      "summary": "a creepy laboratory",
+      "desc": [ 
+        "You step into the lab and you feel your stomach drop with dread. The smell of death and decay along with the display of body ",
+        "parts in various states of preservation make you sick to your stomach. This is where the mortician must perform experiments on ",
+        "the remains of those who cannot afford a proper burial."
+      ]
+    },
+    {
+      "id": "back_hall",
+      "name": "Escape Hallway",
+      "summary": "a forgotten hallway",
+      "desc": [ 
+        "This hallway is peculiar, it raises a question as to why one would need to go deeper underground from a mortuary. There is no ",
+        "crypt here nor are there any signs of this being a room sanctified by the temple."
+      ]
+    },
+    {
+      "id": "crypt_entry",
+      "name": "Crypt Reception",
+      "summary": "a solemn reception room",
+      "desc": [ 
+        "You stand in the reception room of the crypt, where the mortician on duty or a priest of the temple would meet with mourners to ",
+        "let them say their goodbyes to the recently deceased, and perform the last rituals over their remains."
+      ]
+    },
+    {
+      "id": "dark_tunnel",
+      "name": "A Dark Cavern",
+      "summary": "a strange cavern",
+      "desc": [ 
+        "A feeling of unease washes over you as you venture deeper into the catacombs. This endless cavern seems to go on forever, but ",
+        "can easily find your way through for now. Perhaps in the future you may forget the way and get lost in the barrows."
+      ]
+    },
+    {
+      "id": "keep_vault",
+      "name": "Caranae Royal Vault",
+      "summary": "a large treasure room",
+      "desc": [ 
+        "The most closely kept secret at Caranae must even be secret from the guards and current keepers of the castle. Surrounding you ",
+        "are various treasures of the city, no doubt stolen from the Irvantese tribes in the foothills of the eastwall mountains."
+      ]
+    },
+    {
+      "id": "sewer_tunnel",
+      "name": "Tunnel to Sewers",
+      "summary": "a cramped and foul smelling tunnel",
+      "desc": [ 
+        "This must be the secret path between the sewers and the crypts. The smell of death as well as human waste is overwhelming here ",
+        "and you feel ever more faint the longer you stay in this place."
+      ]
+    },
+    {
+      "id": "secret_crypt",
+      "name": "Erivan's Tomb",
+      "summary": "a dusty and stale firelit tomb",
+      "desc": [
+        "This part of the catacombs has almost certainly never seen a living soul for centuries, yet in the center of the room sits a ",
+        "pedestal with a well-burning fire. The fire's fuel is not obvious, it seems to burn off the very stone it sits on. Across the ",
+        "entrance is a single tomb encased in steel. Kneeling on the lid is the likeness of Erivan, made of pure silver. The statue ",
+        "shimmers in the firelight, and you immediately feel the imposing presence of something or someone else unseen."
+      ]
+    }
+  ],
+  "exits": [
+    {
+      "id": "int_secret_tunnel_puzzle_1",
+      "summary": "strangely ornate door",
+      "desc": [ 
+        "This door appears to be hand crafted with silver trim and steel fittings, very out of place for such a tucked away place."
+      ],
+      "scenes": [ "secret_tunnel", "puzzle_hall_1" ]
+    },
+    {
+      "id": "int_puzzle_1_2",
+      "summary": "heavy-looking stone door",
+      "desc": [ 
+        "The door has carved into its face the faces of three ancient sorcerers, however each of the sorcerers seems to be missing an eye.",
+        " In their place is what looks like a slot that would fit a small gem."
+      ],
+      "scenes": [ "puzzle_hall_1", "puzzle_hall_2" ],
+      "locked": true
+    },
+    {
+      "id": "int_puzzle_2_3",
+      "summary": "puzzling iron door",
+      "desc": [ 
+        "At the end of the hall you see an iron door with no hinges or handles, but you are sure it has to be a door. There's no way that ",
+        "the creators of this strange place would install a puzzle-locked door to a dead-end hallway, would they?"
+      ],
+      "scenes": [ "puzzle_hall_2", "puzzle_hall_3" ],
+      "locked": true
+    },
+    {
+      "id": "int_puzzle_3_secret_crypt",
+      "summary": "large door with strange patterns",
+      "desc": [ 
+        "Another with no obvious way inside. Whomever designed this place must not have wanted you to go this far. As you look at the ",
+        "design of the door, you can see five stone squares carved into the rock, each with a specific symbol on them."
+      ],
+      "scenes": [ "puzzle_hall_3", "secret_crypt" ],
+      "locked": true
+    },
+    {
+      "id": "int_stairs_keep_vault",
+      "summary": "heavy-looking wooden door",
+      "desc": [ "a heavy-looking wooden door" ],
+      "scenes": [ "stairs_to_keep", "keep_vault" ],
+      "locked": true
+    },
+    {
+      "id": "int_keep_vault_barrow",
+      "summary": "suspicious-looking alcove",
+      "desc": [ "an alcove with an unevenly polished bronze statue" ],
+      "scenes": [ "keep_vault", "balrichs_barrow" ],
+      "locked": true
+    },
+    {
+      "id": "int_barrow_secret_tunnel",
+      "summary": "large ornate fresco",
+      "desc": [ "A large ornate relief depicting Erivan's defeat of the Mantar, Balrich." ],
+      "scenes": [ "balrichs_barrow", "secret_tunnel" ],
+      "hidden": true
+    },
+    {
+      "id": "int_barrow_dark_tunnel",
+      "summary": "shadowy cavern",
+      "desc": [ "a shadowy cavern" ],
+      "scenes": [ "balrichs_barrow", "dark_tunnel" ],
+      "closed": true
+    },
+    {
+      "id": "int_alchemist_dark_tunnel",
+      "summary": "unsettling door",
+      "desc": [ "an unsettling door" ],
+      "scenes": [ "alchemist_lab", "dark_tunnel" ],
+      "hidden": true
+    },
+    {
+      "id": "int_alchemist_back_hall",
+      "summary": "creepy, ornate door",
+      "desc": [ "a creepy, ornate door" ],
+      "scenes": [ "back_hall", "alchemist_lab"],
+      "locked": true
+    },
+    {
+      "id": "int_back_hall_sewer_tunnel",
+      "summary": "moldy wooden door",
+      "desc": [ "a moldy wooden door" ],
+      "scenes": [ "back_hall", "sewer_tunnel" ]
+    },
+    {
+      "id": "int_back_hall_mortuary",
+      "summary": "strange supply shelf",
+      "desc": [ "You see a well disguised door masquerading as a shelf of alchemists' tools." ],
+      "scenes": [ "mortuary", "back_hall" ],
+      "hidden": true
+    },
+    {
+      "id": "int_crypt_entry_mortuary",
+      "summary": "hanging black curtain",
+      "desc": [ "a hanging black curtain" ],
+      "scenes": [ "crypt_entry", "mortuary" ]
+    },
+    {
+      "id": "int_crypt_entry_n",
+      "summary": "stone archway",
+      "desc": [ "a stone archway" ],
+      "scenes": [ "crypt_entry", "n_crypt" ]
+    },
+    {
+      "id": "int_crypt_entry_s",
+      "summary": "stone archway",
+      "desc": [ "a stone archway" ],
+      "scenes": [ "crypt_entry", "s_crypt" ]
+    },
+    {
+      "id": "int_crypt_entry_temple_stairs",
+      "summary": "stone archway",
+      "desc": [ "a stone archway" ],
+      "scenes": [ "crypt_entry", "stairs_to_temple" ]
+    }
+  ],
+  "inventories": { }
+}

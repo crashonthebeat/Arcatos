@@ -30,6 +30,8 @@ namespace Arcatos.Types
         private readonly (double x, double y)                     _center;
         // Todo: Add Map Parameter to object.
 
+        public new static bool Debug = true;
+
         private Scene(string id, string name, string summary, string[] desc, int[] nwCorner, int[] seCorner, bool isKnown = false) 
                    : base(id, summary, desc, name, isKnown)
         {
@@ -120,10 +122,10 @@ namespace Arcatos.Types
         // On Map Construction, this is the per-scene method that processes all the exits into Scenes.
         // Check both scenes for the exit and if they don't match, see which direction makes more sense.
         // If the two exits are so different that they can't be resolved or they can't be moved, leave it be.
-        private void AddExit(Dir dir, Exit exit) {
+        public void AddExit(Dir dir, Exit exit) {
             this.Exits.Add(dir, exit);
             // Add this exit and direction
-            Dev.Log($"{exit.id} added at {dir.ToString()}");
+            Dev.Log($"{exit.id} added at {dir.ToString()}", Scene.Debug);
         }
         
         // This will loop through a list of exits to add to the scene, and continue until the list is empty
@@ -233,13 +235,13 @@ namespace Arcatos.Types
             if (exits.Count > 0)
             {
                 
-                Dev.Log($"N: {this._wallPos.n}, E: {this._wallPos.e}, S: {this._wallPos.s}, W: {this._wallPos.w}");
-                Dev.Log($"Center at {this._center.x}, {this._center.y}");
-                Dev.Log($"Confidence: X: {conf * xCornerDist * 0.075}, Y: {conf * yCornerDist * 0.075}");
-                Dev.Log("Remaining Exits:");
+                Dev.Log($"N: {this._wallPos.n}, E: {this._wallPos.e}, S: {this._wallPos.s}, W: {this._wallPos.w}", Scene.Debug);
+                Dev.Log($"Center at {this._center.x}, {this._center.y}", Scene.Debug);
+                Dev.Log($"Confidence: X: {conf * xCornerDist * 0.075}, Y: {conf * yCornerDist * 0.075}", Scene.Debug);
+                Dev.Log("Remaining Exits:", Scene.Debug);
                 foreach (Exit exit in exits)
                 {
-                    Dev.Log($"{exit.id}: {exit.Loc.x},{exit.Loc.y}");
+                    Dev.Log($"{exit.id}: {exit.Loc.x},{exit.Loc.y}", Scene.Debug);
                 }
 
                 throw new WeastException($"Could not place all exits in {this.id}");
@@ -251,7 +253,7 @@ namespace Arcatos.Types
         {
             foreach (string itemId in itemDefs.Keys)
             {
-                Dev.Log(itemId);
+                Dev.Log(itemId, Scene.Debug);
                 Item item = itemId switch
                 {
                     not null when Game.Catalog.ContainsKey(itemId)     => Game.Catalog[itemId],

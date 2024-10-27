@@ -18,6 +18,8 @@ namespace Arcatos.Types
         private IEntity _parentEntity;
         private BoxType _boxType;
 
+        public static bool Debug = true;
+
         public Box(IEntity parent, BoxType type)
         {
             Items = new Dictionary<Item, int>();
@@ -31,11 +33,11 @@ namespace Arcatos.Types
             if (!this.Items.TryAdd(item, 1))
             {
                 this.Items[item]++;
-                Dev.Log($"Increased qty of {item.ToString()} to {this.Items[item]}");
+                Dev.Log($"Increased qty of {item.ToString()} to {this.Items[item]}", Box.Debug);
             }
             else
             {
-                Dev.Log($"Added new {item.ToString()}");
+                Dev.Log($"Added new {item.ToString()}", Box.Debug);
             }
         }
         
@@ -80,7 +82,7 @@ namespace Arcatos.Types
 
         public List<Item>? FindItem(string name)
         {
-            Dev.Log($"Searching {this._parentEntity.ToString()}");
+            Dev.Log($"Searching {this._parentEntity.ToString()}", Box.Debug);
             // Find all objects that match the search name
             List<Item> found = Items.Keys.Where(item => item.Name == name).ToList();
 

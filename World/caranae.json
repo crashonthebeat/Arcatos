@@ -1,6 +1,20 @@
 {
-  "worldName": "caranae",
-  "mapNames": [
-    "keepL1"
-  ]
+  "WorldName": "caranae",
+  "MapNames": [
+    "keepL1", "catacombs"
+  ],
+  "MapExits": {
+    "keep_catacombs": [
+      {
+        "MapId": "catacombs",
+        "SceneId": "stairs_to_keep",
+        "ExitDirection": "up"
+      },
+      {
+        "MapId": "keepL1",
+        "SceneId": "secret_stairs",
+        "ExitDirection": "down"
+      }
+    ]
+  }
 }

@@ -8,6 +8,6 @@ namespace Arcatos.Utils
 {
     public class Settings
     {
-        public bool DebugMode { get; set; }
+        public bool                   DebugMode  { get; set; }
     }
 }
