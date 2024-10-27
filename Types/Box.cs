@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Arcatos.Types.Interfaces;
+using Arcatos.Types.Items;
 using Arcatos.Utils;
 
 namespace Arcatos.Types

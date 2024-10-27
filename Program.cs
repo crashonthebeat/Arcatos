@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using System.Windows;
 using Arcatos.Types;
+using Arcatos.Types.Items;
 using Arcatos.Utils;
 using System.Xml;
 using System.Xml.Serialization;

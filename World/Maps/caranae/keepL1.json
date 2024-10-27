@@ -336,13 +336,15 @@
       "id": "ext_pantry_yard_storage",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "pantry", "yard_storage" ]
+      "scenes": [ "yard_storage", "pantry" ],
+      "locked": true
     },
     {
       "id": "ext_armory_guard_alley",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
-      "scenes": [ "armory", "guard_alley" ]
+      "scenes": [ "guard_alley", "armory" ],
+      "locked": true
     },
     {
       "id": "ext_training_ground_guard_alley",

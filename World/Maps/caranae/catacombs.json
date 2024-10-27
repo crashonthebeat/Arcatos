@@ -240,7 +240,8 @@
       "summary": "creepy, ornate door",
       "desc": [ "a creepy, ornate door" ],
       "scenes": [ "back_hall", "alchemist_lab"],
-      "locked": true
+      "locked": true,
+      "key": "alchemist_lab_backdoor_key"
     },
     {
       "id": "int_back_hall_sewer_tunnel",

@@ -1,4 +1,5 @@
 ﻿using Arcatos.Types.Interfaces;
+using Arcatos.Types.Items;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Arcatos.Utils;
@@ -256,9 +257,9 @@ namespace Arcatos.Types
                 Dev.Log(itemId, Scene.Debug);
                 Item item = itemId switch
                 {
-                    not null when Game.Catalog.ContainsKey(itemId)     => Game.Catalog[itemId],
-                    not null when Game.UniqueItems.ContainsKey(itemId) => new Item(itemId, Game.UniqueItems[itemId]),
-                    _                                                  => throw new Exception($"Could not load item {itemId}")
+                    not null when Game.Catalog.ContainsKey(itemId)   => Game.Catalog[itemId],
+                    not null when Game.Templates.ContainsKey(itemId) => new Item(itemId, Game.Templates[itemId]),
+                    _                                                => throw new Exception($"Could not load item {itemId}")
                 };
                 this.Inventory.Items.Add(item, itemDefs[itemId]);
             }

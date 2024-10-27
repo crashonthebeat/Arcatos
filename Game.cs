@@ -1,4 +1,5 @@
 ﻿using Arcatos.Types;
+using Arcatos.Types.Items;
 using Arcatos.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Arcatos
         public static World                      CurrentWorld { get; set; }
         public static Player                     Player       { get; private set; }
         public static Dictionary<string,Item>    Catalog      { get; private set; } // Common items that can be stacked as they will always be the same
-        public static Dictionary<string,ItemDto> UniqueItems  { get; private set; } // Unique items like containers that should not be duplicated.
+        public static Dictionary<string,ItemDto> Templates  { get; private set; } // Unique items like containers that should not be duplicated.
         public static Boxscope                   Boxscope     { get; private set; }
 
         // TODO: Make this a static constructor? Not sure how those work yet
@@ -25,7 +26,7 @@ namespace Arcatos
         {
             // Load all game items
             Game.Catalog = LoadCommonItems();
-            Game.UniqueItems = LoadUniqueItems();
+            Game.Templates = LoadItemTemplates();
             
             // Get WorldId and Scene for Player State
             string worldId = currentSceneId.Split('_')[0];
@@ -78,16 +79,16 @@ namespace Arcatos
 
         // LoadUniqueItems all the files from the unique folder and loads them as item models for the map processing to instantiate as new objects
         // This allows for less duplication of entries in the unique items list for things like containers that have common properties.
-        private static Dictionary<string,ItemDto> LoadUniqueItems()
+        private static Dictionary<string,ItemDto> LoadItemTemplates()
         {
             // Grab all the item files
-            string[] uniqueItemFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "unique"));
+            string[] templateFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "templates"));
             
             // Create new dictionary to return to unique items.
             // Key difference between this and common items is that this dict is string to *dto*, not the item itself.
             Dictionary<string,ItemDto> models = new Dictionary<string,ItemDto>();
 
-            foreach (string file in uniqueItemFiles)
+            foreach (string file in templateFiles)
             {
                 using FileStream json = File.OpenRead(file);
                 foreach (KeyValuePair<string, ItemDto> item in JsonSerializer.Deserialize<Dictionary<string, ItemDto>>(json)!)

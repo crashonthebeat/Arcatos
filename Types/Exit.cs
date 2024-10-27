@@ -8,13 +8,14 @@ namespace Arcatos.Types
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public struct ExitDto
     {
-        [JsonInclude] public required string id;
-        [JsonInclude] public required string summary;
+        [JsonInclude] public required string   id;
+        [JsonInclude] public required string   summary;
         [JsonInclude] public required string[] desc;
         [JsonInclude] public required string[] scenes;
-        [JsonInclude] public bool closed;
-        [JsonInclude] public bool locked;
-        [JsonInclude] public bool hidden;
+        [JsonInclude] public          bool     closed;
+        [JsonInclude] public          bool     locked;
+        [JsonInclude] public          bool     hidden;
+        [JsonInclude] public          string   key;
     }
     
     public class Exit : Entity, ILockable

@@ -1,0 +1,30 @@
+{
+  "alchemist_lab_backdoor_key": {
+    "summary": "impossibly black key",
+    "desc": [
+      "This iron key feels freezing to the touch and seems to suck in all the heat around it."
+    ]
+  },
+  "crypt_puzzle_green_gem": {
+    "summary": "brilliant green gem",
+    "desc": [
+      "You see a gem that has a deep green color, when you hold it to the light it creates intoxicating patterns on the walls. ",
+      "As you gaze into its depths you become increasingly more possessive of it."
+    ]
+  },
+  "crypt_puzzle_red_gem": {
+    "summary": "opaque red gem",
+    "desc": [
+      "You see an opaque red gem. Despite its polished sides, the gem will not reflect light, making you increasingly infuriated every ",
+      "time you look at it, like you want to crush it under your boot."
+    ]
+  },
+  "crypt_puzzle_blue_gem": {
+    "summary": "clear blue gem",
+    "desc": [
+      "You hold a blue gem that you can see right through, tinting everything in a blue color. You can swear that things look different ",
+      "through this gem, almost as if you can see a world of your desire through the gem. Shortly after looking through it, you become ",
+      "disgusted with yourself, and soon after you are utterly depressed."
+    ]
+  }
+}

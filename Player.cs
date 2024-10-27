@@ -7,6 +7,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Arcatos.Types.Interfaces;
+using Arcatos.Types.Items;
 using System.Net;
 using System.Collections;
 

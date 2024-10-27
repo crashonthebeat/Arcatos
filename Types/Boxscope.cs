@@ -1,4 +1,5 @@
 ﻿using Arcatos.Types.Interfaces;
+using Arcatos.Types.Items;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
