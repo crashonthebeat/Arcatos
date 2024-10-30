@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Arcatos.Utils
+﻿namespace Arcatos.Utils
 {
     // Dev class holds all the methods used for debugging and logs
     // It also holds "cheat" methods that are "for testing purposes only".

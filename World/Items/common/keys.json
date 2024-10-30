@@ -1,11 +1,27 @@
 {
   "alchemist_lab_backdoor_key": {
+    "name": "Alchemist's Lab Key",
     "summary": "impossibly black key",
     "desc": [
       "This iron key feels freezing to the touch and seems to suck in all the heat around it."
     ]
   },
+  "keep_vault_key": {
+    "name": "Caranae Vault Key",
+    "summary": "ornate key",
+    "desc": [
+      "This shiny brass key has several small wards cut into the bit and the bow is embossed with the Garraves' arms."
+    ]
+  },
+  "keep_skeleton_key": {
+    "Name": "Caranae Guards' Skeleton Key",
+    "summary": "plain iron key",
+    "desc": [
+      "This key has a very particular bit, made to fit all the locks in the keep. Someone's getting fired."
+    ]
+  },
   "crypt_puzzle_green_gem": {
+    "Name": "Eye of Envy",
     "summary": "brilliant green gem",
     "desc": [
       "You see a gem that has a deep green color, when you hold it to the light it creates intoxicating patterns on the walls. ",
@@ -13,6 +29,7 @@
     ]
   },
   "crypt_puzzle_red_gem": {
+    "name": "Eye of Wrath",
     "summary": "opaque red gem",
     "desc": [
       "You see an opaque red gem. Despite its polished sides, the gem will not reflect light, making you increasingly infuriated every ",
@@ -20,6 +37,7 @@
     ]
   },
   "crypt_puzzle_blue_gem": {
+    "name": "Eye of Despair",
     "summary": "clear blue gem",
     "desc": [
       "You hold a blue gem that you can see right through, tinting everything in a blue color. You can swear that things look different ",

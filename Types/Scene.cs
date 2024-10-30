@@ -3,7 +3,6 @@ using Arcatos.Types.Items;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Arcatos.Utils;
-using System.Runtime.CompilerServices;
 
 namespace Arcatos.Types
 {
@@ -14,8 +13,6 @@ namespace Arcatos.Types
         [JsonInclude] public string name;
         [JsonInclude] public required string summary;
         [JsonInclude] public required string[] desc;
-        //[JsonInclude] public required int[] nw_corner;
-        //[JsonInclude] public required int[] se_corner;
         [JsonInclude] public bool visited;
     }
     
@@ -31,7 +28,7 @@ namespace Arcatos.Types
         private readonly (double x, double y)                     _center;
         // Todo: Add Map Parameter to object.
 
-        public new static bool Debug = true;
+        private new const bool Debug = false;
 
         private Scene(string id, string name, string summary, string[] desc, int[] nwCorner, int[] seCorner, bool isKnown = false) 
                    : base(id, summary, desc, name, isKnown)
@@ -61,7 +58,7 @@ namespace Arcatos.Types
             this.Examine();
             if (this.Inventory.Items.Count > 0) this.ListItems();
             this.ListExits();
-            this.IsKnown = true;
+            this.Learn();
         }
 
         public void ListItems()
@@ -91,6 +88,8 @@ namespace Arcatos.Types
             // Enumerate and Display Exits
             foreach (KeyValuePair<Dir, Exit> exit in this.Exits)
             {
+                if (exit.Value.IsHidden) continue;
+
                 // Write Direction in Light Blue with no new line
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.Write($"{exit.Key.ToString().ToUpper()}: ");
@@ -99,6 +98,7 @@ namespace Arcatos.Types
                 // If the exit is closed, display the glance of the exit.
                 // If next scene has been visited, display the name, otherwise display its short description.
                 Scene newRoom = exit.Value.AdjScenes[this];
+                
                 if (exit.Value.IsClosed || exit.Value.IsLocked)
                 {
                     Game.Narrate(exit.Value.Glance());
@@ -117,7 +117,7 @@ namespace Arcatos.Types
         // Scene summaries are going to be a bit more dynamic than just "a/an blankety blank blank" so this needed to be overridden.
         public override string Glance()
         {
-            return (this.IsKnown) ? this.Name : $"{this.summary}";
+            return this.IsKnown ? this.Name : $"{this.summary}";
         }
 
         // On Map Construction, this is the per-scene method that processes all the exits into Scenes.

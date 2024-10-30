@@ -1,15 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Arcatos.Utils;
-using System.Diagnostics;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace Arcatos.Types
 {
@@ -32,18 +24,19 @@ namespace Arcatos.Types
     public class World
     {
         private readonly string _path;
-        public string WorldId { get; init; }
+        public string WorldId { get; }
         public Dictionary<string, Map> Maps { get; }
         
         private Dictionary<string, MapExitDto[]> _mapExits;
 
-        public static bool Debug = true;
+        private const bool Debug = true;
 
         public World(string id)
         {
-            this.WorldId = id;
-            this._path   = Path.Combine(Program.Dir, "World", "Maps", this.WorldId);
-            this.Maps    = this.LoadMaps();
+            this.WorldId   = id;
+            this._path     = Path.Combine(Program.Dir, "World", "Maps", this.WorldId);
+            this.Maps      = this.LoadMaps();
+            //this._mapExits = new Dictionary<string, MapExitDto[]>();
             this.JoinMaps();
         }
         
@@ -53,11 +46,11 @@ namespace Arcatos.Types
         {
             Dev.Log($"Loading {this.WorldId}\n################################################", World.Debug);
             // Empty Dict
-            Dictionary<string, Map> loadedMaps = new Dictionary<string, Map>();
+            Dictionary<string, Map> loadedMaps = new();
             
             // Load Data Object
             using FileStream json = File.OpenRead(Path.Combine(Program.Dir, "World", this.WorldId + ".json"));
-            WorldDto         dto  = JsonSerializer.Deserialize<WorldDto>(json)!;
+            WorldDto         dto  = JsonSerializer.Deserialize<WorldDto>(json);
             
             // Run through map IDs
             foreach (string mapName in dto.MapNames)
@@ -75,7 +68,7 @@ namespace Arcatos.Types
 
                 // Load Data Object for map and create new object.
                 using FileStream mapJson = File.OpenRead(data);
-                MapDto model = JsonSerializer.Deserialize<MapDto>(mapJson)!;
+                MapDto model = JsonSerializer.Deserialize<MapDto>(mapJson);
                 loadedMaps[mapId] = new Map(model, layouts, mapId);
             }
 
@@ -87,8 +80,10 @@ namespace Arcatos.Types
         // This method creates an exit adjacency between two scenes on a map.
         private void JoinMaps()
         {
+            Dev.Log($"Joining {this._mapExits.Count} Maps", World.Debug);
             foreach ((string? id, MapExitDto[]? exitDefs) in this._mapExits)
             {
+                Dev.Log($"{id}");
                 string origId    = $"{this.WorldId}_{exitDefs[0].MapId}";
                 string destId    = $"{this.WorldId}_{exitDefs[1].MapId}";
                 Dev.Log($"Joining {origId} to {destId}", World.Debug);
@@ -102,7 +97,7 @@ namespace Arcatos.Types
                 Dir   destDir   = (Dir)Enum.Parse(typeof(Dir), exitDefs[1].ExitDirection);
                 Dev.Log($"Scene 1:{exitDefs[0].MapId}_{origScene.Id} Scene 2: {exitDefs[1].MapId}_{destScene.Id}", World.Debug);
 
-                Exit exit = new Exit(id, [origScene, destScene]);
+                Exit exit = new(id, [origScene, destScene]);
                 origScene.AddExit(origDir, exit);
                 destScene.AddExit(destDir, exit);
             }
@@ -114,12 +109,12 @@ namespace Arcatos.Types
         // So now. You can design something in draw.io, export it to xml, save it to the engine with the right name and THE ROOMS GET PLACED
         private Dictionary<string, LayoutDto> LoadLayouts(string mapName)
         {
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
             doc.Load(Path.Combine(this._path, mapName + "_layout.xml"));
 
             XmlNodeList? roomDefs = doc.FirstChild?.NextSibling?.FirstChild?.FirstChild?.FirstChild?.ChildNodes;
             
-            Dictionary<string, LayoutDto> layouts = new Dictionary<string, LayoutDto>();
+            Dictionary<string, LayoutDto> layouts = new();
 
             if (roomDefs == null) throw new WeastException($"Layout document {mapName}_layout.xml could not be parsed.");
             

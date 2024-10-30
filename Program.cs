@@ -1,21 +1,13 @@
-﻿using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text.Json;
-using System.Windows;
-using Arcatos.Types;
-using Arcatos.Types.Items;
+﻿using System.Text.Json;
 using Arcatos.Utils;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace Arcatos
 {
-    static class Program
+    internal static class Program
     {
-        public static Settings Settings { get; set; }   // Program Settings
-        public static Game?    Game     { get; set; }
-        public static string   Dir   = Environment.CurrentDirectory;
+        public static          Settings Settings { get; set; }   // Program Settings
+        public static          Game?    Game     { get; set; }
+        public static readonly string   Dir   = Environment.CurrentDirectory;
 
         // Program Initialization
         static Program()
@@ -25,11 +17,11 @@ namespace Arcatos
             Console.ResetColor();
 
             using FileStream json = File.OpenRead("EngineSettings.json");
-            Settings = JsonSerializer.Deserialize<Settings>(json)!;
-            Settings.DebugMode = true;
+            Program.Settings           = JsonSerializer.Deserialize<Settings>(json)!;
+            Program.Settings.DebugMode = true;
         }
 
-        static void StartGame()
+        private static void StartGame()
         {
             Dev.Log("Game Initialized");
             
@@ -44,10 +36,9 @@ namespace Arcatos
 
         static void Main(string[] args)
         {
-            Item test = new Item("blag", "bag", "dfsdfs", ["tesdt"]);
-            Type blah = test.GetType();
 
-            //StartGame();
+
+            StartGame();
         }
     }
 }

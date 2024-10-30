@@ -177,8 +177,7 @@
         "The door has carved into its face the faces of three ancient sorcerers, however each of the sorcerers seems to be missing an eye.",
         " In their place is what looks like a slot that would fit a small gem."
       ],
-      "scenes": [ "puzzle_hall_1", "puzzle_hall_2" ],
-      "locked": true
+      "scenes": [ "puzzle_hall_1", "puzzle_hall_2" ]
     },
     {
       "id": "int_puzzle_2_3",
@@ -187,8 +186,7 @@
         "At the end of the hall you see an iron door with no hinges or handles, but you are sure it has to be a door. There's no way that ",
         "the creators of this strange place would install a puzzle-locked door to a dead-end hallway, would they?"
       ],
-      "scenes": [ "puzzle_hall_2", "puzzle_hall_3" ],
-      "locked": true
+      "scenes": [ "puzzle_hall_2", "puzzle_hall_3" ]
     },
     {
       "id": "int_puzzle_3_secret_crypt",
@@ -197,22 +195,21 @@
         "Another with no obvious way inside. Whomever designed this place must not have wanted you to go this far. As you look at the ",
         "design of the door, you can see five stone squares carved into the rock, each with a specific symbol on them."
       ],
-      "scenes": [ "puzzle_hall_3", "secret_crypt" ],
-      "locked": true
+      "scenes": [ "puzzle_hall_3", "secret_crypt" ]
     },
     {
       "id": "int_stairs_keep_vault",
       "summary": "heavy-looking wooden door",
       "desc": [ "a heavy-looking wooden door" ],
       "scenes": [ "stairs_to_keep", "keep_vault" ],
-      "locked": true
+      "locked": true,
+      "key": "keep_vault_key"
     },
     {
       "id": "int_keep_vault_barrow",
       "summary": "suspicious-looking alcove",
       "desc": [ "an alcove with an unevenly polished bronze statue" ],
-      "scenes": [ "keep_vault", "balrichs_barrow" ],
-      "locked": true
+      "scenes": [ "keep_vault", "balrichs_barrow" ]
     },
     {
       "id": "int_barrow_secret_tunnel",

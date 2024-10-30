@@ -337,14 +337,16 @@
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "yard_storage", "pantry" ],
-      "locked": true
+      "locked": true,
+      "key": "keep_skeleton_key"
     },
     {
       "id": "ext_armory_guard_alley",
       "summary": "wooden door",
       "desc": [ "a wooden door" ],
       "scenes": [ "guard_alley", "armory" ],
-      "locked": true
+      "locked": true,
+      "key": "keep_skeleton_key"
     },
     {
       "id": "ext_training_ground_guard_alley",
@@ -398,6 +400,12 @@
     "kitchen": {
       "ceramic_bowl": 1,
       "hall_table": 1
+    },
+    "armory": {
+      "keep_skeleton_key": 1
+    },
+    "library": {
+      "keep_vault_key": 1
     }
   }
 }

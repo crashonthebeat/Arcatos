@@ -1,12 +1,4 @@
 ﻿using Arcatos.Types;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Arcatos.Utils
 {
@@ -53,18 +45,18 @@ namespace Arcatos.Utils
 
         public static (double, double) RoomCenter(Scene scene)
         {
-            double x = scene.CornerNW.x + (scene.CornerSE.x / 2);
-            double y = scene.CornerNW.y + (scene.CornerSE.y / 2);
+            double x = scene.CornerNW.x + scene.CornerSE.x / 2;
+            double y = scene.CornerNW.y + scene.CornerSE.y / 2;
 
             return (x, y);
         }
 
         // This method will return the distance from a corner that would be considered a diagonal direction.
-        public static double SceneCornerWidth(int Side)
+        public static double SceneCornerWidth(int side)
         {
             // Using the formula for determining the side lengths (x) of an Octagon, to get the corner (c) distance
             // of the triangular cutout on the side Side = x + 2c, where x = Side / (1 + Math.Sqrt(2))
-            return Side / (2 + Math.Sqrt(2));
+            return side / (2 + Math.Sqrt(2));
         }
     }
 }

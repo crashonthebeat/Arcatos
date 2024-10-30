@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Arcatos.Utils
+﻿namespace Arcatos.Utils
 {
     // This is some schoolhouse rock shit.
     public class Command
     {
-        public string Action { get; set; }
-        public string DirObj { get; set; }
+        public string  Action { get; }
+        public string  DirObj { get; }
         public string? IndObj { get; set; }
-        private readonly Dictionary<string, string> _directions = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> _directions = new()
         {
             { "n", "north" }, { "s", "south" }, { "w", "west" }, { "e", "east" }, 
             { "nw", "northwest" }, { "ne", "northeast" }, { "sw", "southwest" }, { "se", "southeast" },
             { "u", "up" }, { "d", "down" }
         };
+
+        private const bool Debug = false;
 
 
         public Command(string[] input)
@@ -43,9 +38,9 @@ namespace Arcatos.Utils
                 this.DirObj = this.GetObjects(p[1..]);
             }
 
-            Dev.Log($"Action - {this.Action}");
-            Dev.Log($"Direct Object - {this.DirObj}");
-            Dev.Log($"Indirect Object - {this.IndObj}");
+            Dev.Log($"Action - {this.Action}", Command.Debug);
+            Dev.Log($"Direct Object - {this.DirObj}", Command.Debug);
+            Dev.Log($"Indirect Object - {this.IndObj}", Command.Debug);
         }
 
         private string GetObjects(List<string> input)
@@ -69,12 +64,10 @@ namespace Arcatos.Utils
             {
                 return obj;
             }
-            else
-            {
-                this.IndObj = String.Join(" ", input[(i + 1)..]);
-            }
 
-            return String.Join(" ", input[0..i]);
+            this.IndObj = String.Join(" ", input[(i + 1)..]);
+
+            return String.Join(" ", input[..i]);
         }
     }
 }

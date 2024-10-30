@@ -1,25 +1,17 @@
 ﻿using Arcatos.Types;
 using Arcatos.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using Arcatos.Types.Interfaces;
 using Arcatos.Types.Items;
-using System.Net;
-using System.Collections;
 
 namespace Arcatos
 {
     public class Player : IEntity
     {
-        public string Id           { get => "player"; }
+        public string Id           => "player";
         public Scene  CurrentScene { get; private set; }
         public Box    HeldItems    { get; }
 
-        public static bool Debug = false;
+        private const bool Debug = false;
 
         public Player(Scene currentScene)
         {
@@ -29,11 +21,12 @@ namespace Arcatos
 
         public bool Execute(Command command)
         {
-            string[] lookVerbs = ["look", "view", "examine", "gander"];
-            string[] moveVerbs = ["go", "move", "walk", "mosey"];
-            string[] useVerbs = ["use"];
-            string[] getVerbs = ["get", "take", "grab", "yoink"];
-            string[] dropVerbs = ["drop", "toss", "yeet"];
+            string[] lookVerbs   = ["look", "view", "examine", "gander"];
+            string[] moveVerbs   = ["go", "move", "walk", "mosey"];
+            string[] useVerbs    = ["use"];
+            string[] getVerbs    = ["get", "take", "grab", "yoink"];
+            string[] dropVerbs   = ["drop", "toss", "yeet"];
+            string[] unlockVerbs = ["unlock"];
 
             switch (command.Action)
             {
@@ -52,6 +45,9 @@ namespace Arcatos
                 case { } s when dropVerbs.Contains(s):
                     this.DropItem(command);
                     return true;
+                case { } s when unlockVerbs.Contains(s):
+                    this.Unlock(command);
+                    return true;
                 case "quit":
                     return false;
                 default:
@@ -62,7 +58,7 @@ namespace Arcatos
 
         #region Basic Interactions
 
-        public bool LookAt(Command command)
+        private void LookAt(Command command)
         {
             string[] fstPsnPronouns = ["self", "me"];
             
@@ -70,103 +66,128 @@ namespace Arcatos
             if (command.DirObj == "room" || this.CurrentScene.Name.Contains(command.DirObj))
             {
                 this.CurrentScene.Enter();
-                return true;
+                return;
             }
-            else if (fstPsnPronouns.Contains(command.DirObj))
+            if (fstPsnPronouns.Contains(command.DirObj))
             {
                 this.Examine();
-                return true;
+                return;
             }
 
             // FindItem
-            (Item? item, Box? _) = this.FindItem(command.DirObj, Game.Boxscope.Local);
-            if (item == null) return false;
+            (Item? item, Box? _) = Player.FindItem(command.DirObj, Game.Boxscope.Local);
+            if (item == null) return;
             item.Examine();
             // Use the item
-            return true;
 
             // FindNPC
 
         }
-
-        public bool Move(Command command)
+        
+        private void UseItem(Command command)
         {
-            // TryGetValue??
-            if (!this.CurrentScene.Exits.ContainsKey((Dir)Enum.Parse(typeof(Dir), command.DirObj)))
+            (Item? item, Box? _) = Player.FindItem(command.DirObj, Game.Boxscope.Local);
+
+            if (item == null) return;
+            Game.Narrate($"You use {item.Name}.");
+            // Use the item
+        }
+
+        private static Exit? ValidateDirection(string d)
+        {
+            if (!Enum.TryParse(d, out Dir dir))
             {
-                Game.Narrate("You cannot go that way.");
-                return false; 
-                
+                Dev.Log($"Could not resolve direction {d}.");
+                return null;
+            }
+            Game.Player.CurrentScene.Exits.TryGetValue(dir, out Exit? exit);
+            if (exit != null) return exit;
+            Dev.Log($"Exit at {d} does not exist.");
+            return null;
+
+        }
+        
+        private void Move(Command command)
+        {
+            // Exit? exit = !Enum.TryParse(command.DirObj, out Dir dir) 
+            //     ? null : this.CurrentScene.Exits.GetValueOrDefault(dir);
+            Exit? exit = Player.ValidateDirection(command.DirObj);
+            if (exit == null)
+            {
+                Game.Narrate($"You cannot go {command.DirObj}.");
+                return;
             }
 
-            Dir dir = (Dir)Enum.Parse(typeof(Dir), command.DirObj);
-
-            Exit exit = this.CurrentScene.Exits[dir];
             Scene nextRoom = exit.AdjScenes[this.CurrentScene];
 
             Game.Narrate($"You {command.Action} {command.DirObj}.");
             this.CurrentScene = nextRoom;
             this.CurrentScene.Enter();
             Boxscope.UpdateLocal();
-            return true;
         }
 
-        public bool UseItem(Command command)
+        private void Unlock(Command command)
         {
-            (Item? item, Box? _) = FindItem(command.DirObj, Game.Boxscope.Local);
+            // Check if a valid direction was entered
+            // Exit? exit = !Enum.TryParse(command.DirObj, out Dir dir) 
+            //     ? null : this.CurrentScene.Exits.GetValueOrDefault(dir);
+            Exit? exit = Player.ValidateDirection(command.DirObj);
+            if (exit == null)
+            {
+                Game.Narrate("You don't see a door there.");
+                return;
+            }
+            
+            // Check if the player specified a key.
+            if (command.IndObj == null)
+            {
+                Game.Narrate("What are you going to unlock it with, magic? That's not implemented yet.");
+                Game.Narrate("You're lucky I didn't just make this an exception because I think that would be funny");
+                return;
+            }
 
-            if (item != null)
+            ( Item ? item, _ ) = Player.FindItem(command.DirObj, Game.Boxscope.Player);
+            if (item == null)
             {
-                Game.Narrate($"You use {item.Name}.");
-                // Use the item
-                return true;
+                Dev.Log("No key found");
+                return;
             }
-            else
-            {
-                return false;
-            }
+
+            exit.Unlock(item);
         }
 
         #endregion
         #region Inventory Interactions
 
-        public bool GetItem(Command command)
+        private void GetItem(Command command)
         {
-            (Item? item, Box? box) = FindItem(command.DirObj, Game.Boxscope.Scene);
+            (Item? item, Box? box) = Player.FindItem(command.DirObj, Game.Boxscope.Scene);
 
-            if (item != null)
-            {
-                box.RemoveItem(item);
-                this.HeldItems.AddItem(item);
-                Game.Narrate($"You {command.Action} {item.Glance()}.");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (item == null || box == null) return;
+            box.RemoveItem(item);
+            this.HeldItems.AddItem(item);
+            Game.Narrate($"You {command.Action} {item.Glance()}.");
+            item.Learn();
         }
 
-        public bool DropItem(Command command)
+        private void DropItem(Command command)
         {
-            (Item? item, Box? box) = FindItem(command.DirObj, Game.Boxscope.Player);
+            (Item? item, Box? box) = Player.FindItem(command.DirObj, Game.Boxscope.Player);
 
             if (item != null && box == this.HeldItems)
             {
                 Game.Narrate($"You {command.Action} {item.Glance()} on the floor.");
                 this.HeldItems.RemoveItem(item);
-                return true;
+                return;
             }
-            else if (item != null)
+            if (item != null)
             {
                 Game.Narrate([$"You are not holding {item.Glance()}"]);
             }
-
-            return false;
         }
         
         // TODO: Also should probably get command parsing to take an input with only an indObj to make it a dirObj
-        public (Item?, Box?) FindItem(string search, List<Box> scope)
+        public static (Item?, Box?) FindItem(string search, List<Box> scope)
         {
             //bool found = false;
             Item? foundItem = null;
@@ -175,7 +196,7 @@ namespace Arcatos
             // Loop through all the boxes in scope, call FindItem on each box.
             foreach (Box box in scope)
             {
-                List<Item>? foundItems = box.FindItem(search);
+                List<Item> foundItems = box.FindItem(search);
                 
                 // Check if items are found:
 
@@ -187,12 +208,12 @@ namespace Arcatos
                         //found = true;
                         foundItem = foundItems[0];
                         foundBox = box;
-                        Dev.Log($"* Found {foundItem.ToString()}", Player.Debug);
+                        Dev.Log($"* Found {foundItem}", Player.Debug);
                         break;
                     }
                     // When the box has a matching item, but an item has been found.
                     case { Count: 1 }:
-                        Dev.Log($"* Found {foundItem.ToString()}", Player.Debug);
+                        Dev.Log($"* Found {foundItem}", Player.Debug);
                         Game.Narrate($"Which {search} do you mean?");
                         return (null, null);
                     // Case if items were found but there were multiple matches or a match has already been found.
