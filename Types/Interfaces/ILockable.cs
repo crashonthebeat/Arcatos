@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Arcatos.Types.Items;
 
 namespace Arcatos.Types.Interfaces
 {
-    interface ILockable
+    internal interface ILockable
     {
-        bool Unlock();
-        bool Lock();
+        bool Unlock(Item key);
     }
 }

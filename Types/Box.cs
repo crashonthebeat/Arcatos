@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Arcatos.Types.Interfaces;
+﻿using Arcatos.Types.Interfaces;
 using Arcatos.Types.Items;
 using Arcatos.Utils;
 
@@ -11,58 +6,45 @@ namespace Arcatos.Types
 {
     public enum BoxType { Ext, Int }
     
-    public class Box
+    public class Box(IEntity parent, BoxType type)
     {
         // A dictionary of each Item to its quantity
-        public string Id { get; }
-        public Dictionary<Item, int> Items { get; set; }
-        private IEntity _parentEntity;
-        private BoxType _boxType;
+        public           string                Id    { get; } = parent.Id;
+        public           Dictionary<Item, int> Items { get; } = new();
 
-        public static bool Debug = true;
-
-        public Box(IEntity parent, BoxType type)
-        {
-            Items = new Dictionary<Item, int>();
-            this._parentEntity = parent;
-            this._boxType = type;
-            this.Id = parent.Id;
-        }
+        private const bool Debug = false;
 
         public void AddItem(Item item)
         {
             if (!this.Items.TryAdd(item, 1))
             {
                 this.Items[item]++;
-                Dev.Log($"Increased qty of {item.ToString()} to {this.Items[item]}", Box.Debug);
+                Dev.Log($"Increased qty of {item} to {this.Items[item]}", Box.Debug);
             }
             else
             {
-                Dev.Log($"Added new {item.ToString()}", Box.Debug);
+                Dev.Log($"Added new {item}", Box.Debug);
             }
         }
         
-        public bool RemoveItem(Item item)
+        public void RemoveItem(Item item)
         {
-            if (Items[item] == 1)
+            switch (this.Items[item])
             {
-                Items.Remove(item);
-                return true;
-            }
-            else if (Items[item] > 1)
-            {
-                Items[item]--;
-                return true;
-            }
-            else
-            {
-                return false;
+                case 1:
+                    this.Items.Remove(item);
+                    return;
+                case > 1:
+                    this.Items[item]--;
+                    return;
+                default:
+                    return;
             }
         }
 
         public void ListItems()
         {
-            string p = this._boxType switch
+            string p = type switch
             {
                 BoxType.Ext => "on",
                 BoxType.Int => "in",
@@ -73,7 +55,8 @@ namespace Arcatos.Types
             
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             // This is going to get integrated into the narration function.
-            Game.Narrate(this._parentEntity.GetType() == typeof(Player) ? $"You are holding:" : $"You see {p} {this._parentEntity.Glance()}:");
+            Game.Narrate(parent.GetType() == typeof(Player) 
+                             ? "You are holding:" : $"You see {p} {parent.Glance()}:");
             Console.ResetColor();
             foreach (Item item in this.Items.Keys)
             {
@@ -81,15 +64,14 @@ namespace Arcatos.Types
             }
         }
 
-        public List<Item>? FindItem(string name)
+        public List<Item> FindItem(string name)
         {
-            Dev.Log($"Searching {this._parentEntity.ToString()}", Box.Debug);
+            Dev.Log($"Searching {parent.ToString()}", Box.Debug);
             // Find all objects that match the search name
-            List<Item> found = Items.Keys.Where(item => item.Name == name).ToList();
+            List<Item> found = this.Items.Keys.Where(item => item.Name == name).ToList();
 
             // If no items found, try again by the summary (in case summary was displayed in inventory)
-            if (found.Count > 0) return found;
-            else return Items.Keys.Where(item => item.summary.Contains(name)).ToList();
+            return found.Count > 0 ? found : this.Items.Keys.Where(item => item.summary.Contains(name)).ToList();
         }
     }
 }

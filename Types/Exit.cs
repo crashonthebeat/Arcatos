@@ -2,6 +2,7 @@
 using Arcatos.Utils;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using Arcatos.Types.Items;
 
 namespace Arcatos.Types
 {
@@ -20,14 +21,16 @@ namespace Arcatos.Types
     
     public class Exit : Entity, ILockable
     {
+        private readonly Item? _key;
+        
         public bool                     IsClosed  { get; }  // Whether exit always appears closed (will never show next room on look)
         public bool                     IsLocked  { get; set; }
         public bool                     IsHidden  { get; set; }
         public Dictionary<Scene, Scene> AdjScenes { get; }
         public (double x, double y)     Loc       { get; }
         public bool                     IsMapExit { get; }
-        
-        public new static bool Debug = true;
+
+        private new const bool Debug = true;
 
         public Exit(ExitDto dto, Scene[] scenes) : base(dto.id, dto.summary, dto.desc)
         {
@@ -40,8 +43,11 @@ namespace Arcatos.Types
             this.IsClosed  = dto.closed;
             this.IsLocked  = dto.locked;
             this.IsHidden  = dto.hidden;
-            this.Loc       = GetPosition(scenes[0], scenes[1]);
+            this.Loc       = Exit.GetPosition(scenes[0], scenes[1]);
             this.IsMapExit = false;
+            
+            if (!string.IsNullOrEmpty(dto.key)) this._key = Game.Catalog[dto.key];
+            else if (this.IsLocked) throw new Exception($"{this.id} is locked but no key is assigned.");
         }
 
         // This is the constructor for a map exit. 
@@ -57,15 +63,22 @@ namespace Arcatos.Types
         }
         
         // The following four methods manage the exit state, and they are called by the player.
-        public bool Lock()
+        public bool Unlock(Item key)
         {
-            return !this.IsLocked;
-        }
-
-        public bool Unlock()
-        {
-            // Check if Player has key.
-            return this.IsLocked;
+            if (!this.IsLocked)
+            {
+                Game.Narrate($"You cannot find a place on {this.Name} to stick a key.");
+                return false;
+            }
+            Game.Narrate($"You insert {key.Name} into the slot and turn.");
+            if (key == this._key)
+            {
+                Game.Narrate($"With a satisfying click, the lock turns and {this.Name} opens!");
+                this.IsLocked = false;
+                return true;
+            }
+            Game.Narrate("You try twisting the key, but the lock does not budge.");
+            return false;
         }
 
         // GetPosition is called at construction to return the coordinates of the exit on the map.

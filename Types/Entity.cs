@@ -1,40 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Arcatos.Types.Interfaces;
+﻿using Arcatos.Types.Interfaces;
 
 namespace Arcatos.Types
 {
     // Base class for all game objects. 
     public abstract class Entity : IEntity
     {
-        public string Name { get; init; }
-        internal string id;
-        public string Id { get => this.id; }
-        internal string summary;
-        internal string desc;
+        public   string                  Name { get; init; }
+        internal string                  id;
+        public   string                  Id { get => this.id; }
+        internal string                  summary;
+        internal string                  desc;
         internal Dictionary<int, Entity> reveal;
-        public bool IsKnown { get; set; }
+        public   bool                    IsKnown { get; private set; }
         //public abstract Box Inventory{ get; set; }
 
         public static bool Debug = false;
 
-        public Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
+        protected Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
         {
             this.id = id;
             // Some items are not going to have a separate name, in this case, parse the summary to have an article.
-            if (name == "$mundane")
-            {
-                this.Name = (new[] {'a','e','i','o','u'}).Contains(summary[0]) ? $"an {summary}" : $"a {summary}";
-            }
-            else
-            {
-                this.Name = name;
-            }
+            this.Name = name != "$mundane" ? name
+                : Game.Titleize(new[] {'a','e','i','o','u'}.Contains(summary[0]) ? $"an {summary}" : $"a {summary}");
+
             this.summary = summary;
             this.desc = String.Concat(desc);
             this.IsKnown = isKnown;
@@ -82,7 +70,14 @@ namespace Arcatos.Types
             string article = vowels.Contains(this.summary[0]) ? "an" : "a";
 
             // If the player is familiar with the entity, return its name.
-            return (this.IsKnown) ? this.Name : $"{article} {this.summary}";
+            return this.IsKnown ? this.Name : $"{article} {this.summary}";
+        }
+
+        public virtual bool Learn()
+        {
+            // This method will be overridden with more complex types.
+            this.IsKnown = true;
+            return this.IsKnown;
         }
 
         public override string ToString()

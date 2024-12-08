@@ -31,7 +31,7 @@ namespace Arcatos.Types
         {
             if (this.SolveAttempt == this.solution)
             {
-                this.attachedExit.Unlock();
+                //this.attachedExit.Unlock();
                 return true;
             }
             else

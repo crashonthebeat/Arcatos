@@ -1,13 +1,5 @@
 ﻿using Arcatos.Types.Interfaces;
 using Arcatos.Types.Items;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Arcatos.Types
 {  
@@ -20,48 +12,42 @@ namespace Arcatos.Types
         // It is also insane to type box as many times as I have in creating this system.
         // To be honest I may not even need most of this as I keep going.
 
-        public List<Box> Player { get; set; }
-        public List<Box> Scene { get; set; }
-        public List<Box> Local { get; set; }
-        
+        public List<Box> Player { get; private set; } = [ ];
+        public List<Box> Scene  { get; private set; } = [ ];
+        public List<Box> Local  { get; private set; } = [ ];
+
         public static bool Debug = false;
 
-        public Boxscope()
-        {
-            this.Player = new List<Box>();
-            this.Scene = new List<Box>();
-            this.Local = new List<Box>();
-        }
-
-        public static List<Box> GetBoxes(Box box)
+        private static List<Box> GetBoxes(Box box)
         {
             // This is a recursive search of all boxes in a box if the item has a box then the box is searched for more boxes
             List<Box> foundBoxes = [];
 
             foreach (Item item in box.Items.Keys)
             {
-                if (item is not IBox) continue;
-                if (foundBoxes.Contains(((IBox)item).Inventory)) continue;
-                foundBoxes.Add(((IBox)item).Inventory);
-                foundBoxes.AddRange(GetBoxes(((IBox)item).Inventory));
+                IBox box1 = item as IBox;
+                if (box1 == null) continue;
+                if (foundBoxes.Contains(box1.Inventory)) continue;
+                foundBoxes.Add(box1.Inventory);
+                foundBoxes.AddRange(GetBoxes(box1.Inventory));
             }
 
             foundBoxes.Add(box);
             return foundBoxes;
         }
 
-        public static void UpdatePlayer()
+        private static void UpdatePlayer()
         {
-            List<Box> heldBoxes = GetBoxes(Game.Player.HeldItems);
+            List<Box> heldBoxes = Boxscope.GetBoxes(Game.Player.HeldItems);
             //List<Box> wornBoxes = GetBoxes(Game.Player.Equipment);
             //Game.Boxscope.Player = heldBoxes.Concat(wornBoxes).ToList();
 
             Game.Boxscope.Player = heldBoxes;
         }
-        
-        public static void UpdateScene()
+
+        private static void UpdateScene()
         {
-            Game.Boxscope.Scene = GetBoxes(Game.Player.CurrentScene.Inventory);
+            Game.Boxscope.Scene = Boxscope.GetBoxes(Game.Player.CurrentScene.Inventory);
         }
 
         public static void UpdateLocal()
