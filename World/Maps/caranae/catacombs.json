@@ -281,5 +281,8 @@
       "scenes": [ "crypt_entry", "stairs_to_temple" ]
     }
   ],
-  "inventories": { }
+  "inventories": 
+  { 
+    
+  }
 }

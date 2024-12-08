@@ -1,0 +1,15 @@
+{
+  "multipleExits": [
+    "You see the following exits:"
+  ],
+  "oneExit": [
+    "You see one exit:",
+    "There is only one way out:"
+  ],
+  "noExit": [
+    "You do not see any exit.",
+    "There is no way out that you can see.",
+    "There is no escape.",
+    "You are trapped."
+  ]
+}

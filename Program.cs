@@ -44,10 +44,28 @@ namespace Arcatos
 
         static void Main(string[] args)
         {
-            Item test = new Item("blag", "bag", "dfsdfs", ["tesdt"]);
-            Type blah = test.GetType();
+            //Item test = new Item("blag", "bag", "dfsdfs", ["tesdt"]);
+            //Type blah = test.GetType();
 
-            //StartGame();
+            StartGame();
+        }
+
+        public static Dictionary<string, T> LoadFiles<T>(string path)
+        {
+            string[] files = Directory.GetFiles(Path.Combine(Program.Dir, Path.Combine(path.Split('/'))));
+            
+            Dictionary<string,T> objs = new Dictionary<string, T>();
+
+            foreach (string file in files)
+            {
+                using FileStream json = File.OpenRead(file);
+                foreach (KeyValuePair<string, T> obj in JsonSerializer.Deserialize<Dictionary<string, T>>(json)!)
+                {
+                    objs.Add(obj.Key, obj.Value);
+                }
+            }
+
+            return objs;
         }
     }
 }

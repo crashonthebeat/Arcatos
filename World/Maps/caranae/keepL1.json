@@ -398,6 +398,9 @@
     "kitchen": {
       "ceramic_bowl": 1,
       "hall_table": 1
+    },
+    "armory": {
+      "alchemist_lab_backdoor_key": 1
     }
   }
 }

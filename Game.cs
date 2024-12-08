@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -20,7 +21,8 @@ namespace Arcatos
         public static Dictionary<string,Item>    Catalog      { get; private set; } // Common items that can be stacked as they will always be the same
         public static Dictionary<string,ItemDto> Templates  { get; private set; } // Unique items like containers that should not be duplicated.
         public static Boxscope                   Boxscope     { get; private set; }
-
+        public readonly Dictionary<string, Dictionary<string, string[]>> Narration;
+        
         // TODO: Make this a static constructor? Not sure how those work yet
         public Game(string currentSceneId)
         {
@@ -39,6 +41,8 @@ namespace Arcatos
             // HAIL BOXSCOPE
             Game.Boxscope = new Boxscope();
             Boxscope.UpdateLocal();
+
+            this.Narration = Program.LoadFiles<Dictionary<string, string[]>>("Narration");
 
             // and now u can play
             this.Playing = true;
@@ -130,6 +134,8 @@ namespace Arcatos
         
         // Narrate is a wrapper on top of console.write that takes game narration and presents it to the player.
         // This will have hella overloads, and in fact be broken out into several methods.
+        
+        
         public static void Narrate(string s)
         {
             Console.WriteLine(s);
