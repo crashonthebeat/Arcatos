@@ -69,19 +69,19 @@ namespace Arcatos.Types
         private void ListExits()
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Random   random = new Random();
+            string[] list;
 
             // Exits Header
             switch (this.Exits.Count) {
                 case > 1:
-                    Game.Narrate("You see the following exits:");
-                    break;
+                    list = Game.Narration["SceneNarration"]["multiple_exits"]; break;
                 case 1:
-                    Game.Narrate("You see one exit:");
-                    break;
+                    list = Game.Narration["SceneNarration"]["one_exit"]; break;
                 default:
-                    Game.Narrate("You do not see any way out.");
-                    break;
+                    list = Game.Narration["SceneNarration"]["no_exit"]; break;
             }
+            Game.Narrate(list[random.Next() % list.Length]);
 
             Console.ResetColor();
 

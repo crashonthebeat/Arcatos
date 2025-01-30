@@ -49,7 +49,7 @@ namespace Arcatos
             Dictionary<string,T> objs = new Dictionary<string, T>();
 
 
-            StartGame();
+            //StartGame();
             foreach (string file in files)
             {
                 using FileStream json = File.OpenRead(file);
@@ -60,6 +60,18 @@ namespace Arcatos
             }
 
             return objs;
+        }
+
+        public static T? LoadFile<T>(string path)
+        {
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            using StreamReader streamReader = new(path);
+            var json = streamReader.ReadToEnd();
+            return JsonSerializer.Deserialize<T>(json, options);
         }
     }
 }

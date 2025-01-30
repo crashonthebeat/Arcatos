@@ -1,17 +1,17 @@
 {
-  "unknown": [
+  "action_unknown": [
     "You do not know how to $action$.",
     "What do you mean by $action$?",
     "You cannot do that.",
-    "Why are you trying to $action?",
+    "Why are you trying to $action$?",
     "Stop it."
   ],
-  "item_notHeld": [
+  "item_not_held": [
     "You are not holding $item$.",
     "You do not have $item$.",
     "Is the $item$ in the room with us?"
   ],
-  "item_searchMultiple": [
+  "itemsearch_multiple_results": [
     "Which $item$ do you mean?",
     "There are a few $item_plural$ here, please specify."
   ]

@@ -11,7 +11,7 @@ namespace Arcatos
         public Scene  CurrentScene { get; private set; }
         public Box    HeldItems    { get; }
 
-        private const bool Debug = false;
+        private const bool   Debug   = false;
 
         public Player(Scene currentScene)
         {
@@ -27,6 +27,8 @@ namespace Arcatos
             string[] getVerbs    = ["get", "take", "grab", "yoink"];
             string[] dropVerbs   = ["drop", "toss", "yeet"];
             string[] unlockVerbs = ["unlock"];
+            
+            string[] list   = Game.Narration["ActionFeedback"]["action_unknown"];
 
             switch (command.Action)
             {
@@ -51,7 +53,8 @@ namespace Arcatos
                 case "quit":
                     return false;
                 default:
-                    Game.Narrate($"You do not know how to {command.Action}.");
+                    string msg = list[Game.Random.Next(list.Length)];
+                    Game.Narrate(msg.Replace("$action$", command.Action));
                     return true;
             }
         }
@@ -182,7 +185,9 @@ namespace Arcatos
             }
             if (item != null)
             {
-                Game.Narrate([$"You are not holding {item.Glance()}"]);
+                string[] list = Game.Narration["ActionFeedback"]["item_not_held"];
+                string   msg  = list[Game.Random.Next(list.Length)];
+                Game.Narrate(msg.Replace("$item$", item.Glance()));
             }
         }
         
@@ -197,6 +202,8 @@ namespace Arcatos
             foreach (Box box in scope)
             {
                 List<Item> foundItems = box.FindItem(search);
+                string[]   list       = Game.Narration["ActionFeedback"]["itemsearch_multiple_results"];
+                string     msg        = list[Game.Random.Next(list.Length)];
                 
                 // Check if items are found:
 
@@ -204,21 +211,20 @@ namespace Arcatos
                 {
                     // Case if FindItem found a single item and nothing has been found yet.
                     case { Count: 1 } when foundItem == null:
-                    {
                         //found = true;
                         foundItem = foundItems[0];
                         foundBox = box;
                         Dev.Log($"* Found {foundItem}", Player.Debug);
                         break;
-                    }
+                    
                     // When the box has a matching item, but an item has been found.
                     case { Count: 1 }:
                         Dev.Log($"* Found {foundItem}", Player.Debug);
-                        Game.Narrate($"Which {search} do you mean?");
+                        Game.Narrate(msg.Replace("$item$", search));
                         return (null, null);
                     // Case if items were found but there were multiple matches or a match has already been found.
                     case { Count: > 1 }:
-                        Game.Narrate($"Which {search} do you mean?");
+                        Game.Narrate(msg.Replace("$item$", search));
                         return (null, null);
                     default:
                         continue;

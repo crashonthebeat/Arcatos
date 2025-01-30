@@ -19,7 +19,8 @@ namespace Arcatos
         public static Dictionary<string,Item>    Catalog      { get; private set; } // Common items that can be stacked as they will always be the same
         public static Dictionary<string,ItemDto> Templates  { get; private set; } // Unique items like containers that should not be duplicated.
         public static Boxscope                   Boxscope     { get; private set; }
-        public readonly Dictionary<string, Dictionary<string, string[]>> Narration;
+        public static Dictionary<string, Dictionary<string, string[]>> Narration;
+        public static Random Random = new Random();
         
         // TODO: Make this a static constructor? Not sure how those work yet
         public Game(string currentSceneId)
@@ -27,6 +28,7 @@ namespace Arcatos
             // Load all game items
             Game.Catalog   = Game.LoadCommonItems();
             Game.Templates = Game.LoadItemTemplates();
+            Game.Narration = new Dictionary<string, Dictionary<string,string[]>>();
             
             // Get WorldId and Scene for Player State
             string worldId = currentSceneId.Split('_')[0];
@@ -40,7 +42,15 @@ namespace Arcatos
             Game.Boxscope = new Boxscope();
             Boxscope.UpdateLocal();
 
-            this.Narration = Program.LoadFiles<Dictionary<string, string[]>>("Narration");
+            string[] narrationFiles = Directory.GetFiles(Path.Combine(Program.Dir, "Narration"));
+            
+            foreach (string file in narrationFiles)
+            {
+                string[] path = file.Split('/');
+                string category = path[^1].Replace(".json","");
+
+                Game.Narration[category] = Program.LoadFile<Dictionary<string, string[]>>(file)!;
+            }
 
             // and now u can play
             this.Playing = true;
