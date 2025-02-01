@@ -27,8 +27,6 @@ namespace Arcatos
             string[] getVerbs    = ["get", "take", "grab", "yoink"];
             string[] dropVerbs   = ["drop", "toss", "yeet"];
             string[] unlockVerbs = ["unlock"];
-            
-            string[] list   = Game.Narration["ActionFeedback"]["action_unknown"];
 
             switch (command.Action)
             {
@@ -53,8 +51,7 @@ namespace Arcatos
                 case "quit":
                     return false;
                 default:
-                    string msg = list[Game.Random.Next(list.Length)];
-                    Game.Narrate(msg.Replace("$action$", command.Action));
+                    Narrator.Write(Narrator.Player.InvalidAction, command.Action);
                     return true;
             }
         }
@@ -92,7 +89,7 @@ namespace Arcatos
             (Item? item, Box? _) = Player.FindItem(command.DirObj, Game.Boxscope.Local);
 
             if (item == null) return;
-            Game.Narrate($"You use {item.Name}.");
+            Game.Write($"You use {item.Name}.");
             // Use the item
         }
 
@@ -117,13 +114,13 @@ namespace Arcatos
             Exit? exit = Player.ValidateDirection(command.DirObj);
             if (exit == null)
             {
-                Game.Narrate($"You cannot go {command.DirObj}.");
+                Game.Write($"You cannot go {command.DirObj}.");
                 return;
             }
 
             Scene nextRoom = exit.AdjScenes[this.CurrentScene];
 
-            Game.Narrate($"You {command.Action} {command.DirObj}.");
+            Game.Write($"You {command.Action} {command.DirObj}.");
             this.CurrentScene = nextRoom;
             this.CurrentScene.Enter();
             Boxscope.UpdateLocal();
@@ -137,15 +134,15 @@ namespace Arcatos
             Exit? exit = Player.ValidateDirection(command.DirObj);
             if (exit == null)
             {
-                Game.Narrate("You don't see a door there.");
+                Game.Write("You don't see a door there.");
                 return;
             }
             
             // Check if the player specified a key.
             if (command.IndObj == null)
             {
-                Game.Narrate("What are you going to unlock it with, magic? That's not implemented yet.");
-                Game.Narrate("You're lucky I didn't just make this an exception because I think that would be funny");
+                Game.Write("What are you going to unlock it with, magic? That's not implemented yet.");
+                Game.Write("You're lucky I didn't just make this an exception because I think that would be funny");
                 return;
             }
 
@@ -169,7 +166,7 @@ namespace Arcatos
             if (item == null || box == null) return;
             box.RemoveItem(item);
             this.HeldItems.AddItem(item);
-            Game.Narrate($"You {command.Action} {item.Glance()}.");
+            Game.Write($"You {command.Action} {item.Glance()}.");
             item.Learn();
         }
 
@@ -179,15 +176,13 @@ namespace Arcatos
 
             if (item != null && box == this.HeldItems)
             {
-                Game.Narrate($"You {command.Action} {item.Glance()} on the floor.");
+                Game.Write($"You {command.Action} {item.Glance()} on the floor.");
                 this.HeldItems.RemoveItem(item);
                 return;
             }
-            if (item != null)
+            if (item == null)
             {
-                string[] list = Game.Narration["ActionFeedback"]["item_not_held"];
-                string   msg  = list[Game.Random.Next(list.Length)];
-                Game.Narrate(msg.Replace("$item$", item.Glance()));
+                Narrator.Write(Narrator.Player.Inventory.NoItem, command.DirObj);
             }
         }
         
@@ -202,8 +197,6 @@ namespace Arcatos
             foreach (Box box in scope)
             {
                 List<Item> foundItems = box.FindItem(search);
-                string[]   list       = Game.Narration["ActionFeedback"]["itemsearch_multiple_results"];
-                string     msg        = list[Game.Random.Next(list.Length)];
                 
                 // Check if items are found:
 
@@ -220,11 +213,11 @@ namespace Arcatos
                     // When the box has a matching item, but an item has been found.
                     case { Count: 1 }:
                         Dev.Log($"* Found {foundItem}", Player.Debug);
-                        Game.Narrate(msg.Replace("$item$", search));
+                        Narrator.Write(Narrator.Player.Inventory.ManyResults, search);
                         return (null, null);
                     // Case if items were found but there were multiple matches or a match has already been found.
                     case { Count: > 1 }:
-                        Game.Narrate(msg.Replace("$item$", search));
+                        Narrator.Write(Narrator.Player.Inventory.ManyResults, search);
                         return (null, null);
                     default:
                         continue;
@@ -239,7 +232,7 @@ namespace Arcatos
 
         public void Examine()
         {
-            Game.Narrate("You see an amazing mortal being");
+            Game.Write("You see an amazing mortal being");
             this.HeldItems.ListItems();
         }
 

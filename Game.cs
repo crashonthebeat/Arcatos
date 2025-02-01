@@ -41,17 +41,7 @@ namespace Arcatos
             // HAIL BOXSCOPE
             Game.Boxscope = new Boxscope();
             Boxscope.UpdateLocal();
-
-            string[] narrationFiles = Directory.GetFiles(Path.Combine(Program.Dir, "Narration"));
             
-            foreach (string file in narrationFiles)
-            {
-                string[] path = file.Split('/');
-                string category = path[^1].Replace(".json","");
-
-                Game.Narration[category] = Program.LoadFile<Dictionary<string, string[]>>(file)!;
-            }
-
             // and now u can play
             this.Playing = true;
         }
@@ -75,7 +65,7 @@ namespace Arcatos
 
                 if (String.IsNullOrEmpty(input)) 
                 {
-                    Game.Narrate("You didn't enter a command.");
+                    Game.Write("You didn't enter a command.");
                 }
                 else 
                 {
@@ -142,13 +132,13 @@ namespace Arcatos
         // This will have hella overloads, and in fact be broken out into several methods.
         
         
-        public static void Narrate(string s)
+        public static void Write(string s)
         {
             Console.WriteLine(s);
         }
 
         // Narrate overload for a list of strings perchance fed by an Entity's examine method that adds extra topics.
-        public static void Narrate(string[] raw)
+        public static void Write(string[] raw)
         {
             string joined = "";
             
@@ -157,7 +147,7 @@ namespace Arcatos
                 joined += $"{s.Trim()} ";
             }
 
-            Game.Narrate(joined);
+            Game.Write(joined);
 
             // Todo: Wrap strings based on a detected (or set or standard) console CornerSE.
         }

@@ -1,12 +1,12 @@
 {
-  "multiple_exits": [
+  "MultipleExits": [
     "You see the following exits:"
   ],
-  "one_exit": [
+  "OneExit": [
     "You see one exit:",
     "There is only one way out:"
   ],
-  "no_exit": [
+  "NoExit": [
     "You do not see any exit.",
     "There is no way out that you can see.",
     "There is no escape.",

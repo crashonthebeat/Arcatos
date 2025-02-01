@@ -47,7 +47,7 @@ namespace Arcatos.Types
             //    }
             //}
 
-            Game.Narrate(s);
+            Game.Write(s);
             
             // switch (this.Inventory.Items.Count)
             // {

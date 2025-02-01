@@ -69,19 +69,17 @@ namespace Arcatos.Types
         private void ListExits()
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Random   random = new Random();
-            string[] list;
 
             // Exits Header
             switch (this.Exits.Count) {
                 case > 1:
-                    list = Game.Narration["SceneNarration"]["multiple_exits"]; break;
+                    Narrator.Write(Narrator.Scene.MultipleExits);
+                    break;
                 case 1:
-                    list = Game.Narration["SceneNarration"]["one_exit"]; break;
+                    Narrator.Write(Narrator.Scene.OneExit); break;
                 default:
-                    list = Game.Narration["SceneNarration"]["no_exit"]; break;
+                    Narrator.Write(Narrator.Scene.NoExit); break;
             }
-            Game.Narrate(list[random.Next() % list.Length]);
 
             Console.ResetColor();
 
@@ -101,15 +99,15 @@ namespace Arcatos.Types
                 
                 if (exit.Value.IsClosed || exit.Value.IsLocked)
                 {
-                    Game.Narrate(exit.Value.Glance());
+                    Game.Write(exit.Value.Glance());
                 }
                 else if (newRoom.IsKnown)
                 {
-                    Game.Narrate(newRoom.Name);
+                    Game.Write(newRoom.Name);
                 }
                 else
                 {
-                    Game.Narrate(newRoom.Glance());
+                    Game.Write(newRoom.Glance());
                 }
             }
         }

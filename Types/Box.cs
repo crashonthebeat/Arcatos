@@ -55,12 +55,12 @@ namespace Arcatos.Types
             
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             // This is going to get integrated into the narration function.
-            Game.Narrate(parent.GetType() == typeof(Player) 
+            Game.Write(parent.GetType() == typeof(Player) 
                              ? "You are holding:" : $"You see {p} {parent.Glance()}:");
             Console.ResetColor();
             foreach (Item item in this.Items.Keys)
             {
-                Game.Narrate($"{item.Glance()} x{this.Items[item]}");
+                Game.Write($"{item.Glance()} x{this.Items[item]}");
             }
         }
 
