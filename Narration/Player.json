@@ -18,5 +18,9 @@
   "ManyItemResults": [
     "Which $item$ do you mean?",
     "There are a few $item_plural$ here, please specify."
+  ],
+  "ItemNotEquipment": [
+    "You cannot equip $item$.",
+    "That is not something you can put on."
   ]
 }

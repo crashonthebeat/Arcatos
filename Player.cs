@@ -2,14 +2,17 @@
 using Arcatos.Utils;
 using Arcatos.Types.Interfaces;
 using Arcatos.Types.Items;
+using System.Threading.Tasks.Dataflow;
 
 namespace Arcatos
 {
     public class Player : IEntity
     {
-        public string Id           => "player";
+        public string Id           { get => "player"; }
         public Scene  CurrentScene { get; private set; }
         public Box    HeldItems    { get; }
+
+        public Dictionary<EqSlot, Item[]> Equipment { get; set; } = new Dictionary<EqSlot, Item[]>();
 
         private const bool   Debug   = false;
 
@@ -231,6 +234,29 @@ namespace Arcatos
             return (foundItem, foundBox);
         }
 
+        #endregion
+        #region Equipment Methods
+
+        private void Equip(Command command)
+        {
+            // Try to find the equipment
+            (Item? item, Box? box) = Player.FindItem(command.DirObj, Game.Boxscope.Player);
+            if (item == null || box != this.HeldItems)
+            {
+                Game.Write(Narrator.Player("NoHeldItem", command.DirObj));
+                return;
+            }
+            if (item is not Types.Items.Equipment)
+            {
+                Game.Write(Narrator.Player("ItemNotEquipment", item.Glance()));
+                return;
+            }
+            
+            // Check for slot validity
+            
+            // Add to Equipment Slots
+        }
+        
         #endregion
         #region Inherited Methods
 

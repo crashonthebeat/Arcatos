@@ -1,13 +1,13 @@
 {
   "stick": {
     "summary": "long brown stick",
-    "desc": [
+    "description": [
       "It's long, it's brown, it's sticky"
     ]
   },
   "ceramic_bowl": {
     "summary": "rough-looking ceramic bowl",
-    "desc": [
+    "description": [
       "This bowl was produced for one thing: holding foods that cannot be kept together by chemical bonds alone."
     ]
   }

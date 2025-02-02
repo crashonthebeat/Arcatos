@@ -1,0 +1,13 @@
+{
+  "clean_tunic": {
+    "summary": "clean white tunic",
+    "description": [
+      "A clean white tunic that looks brand new."
+    ],
+    "slots": {
+      "chest": 4,
+      "torso": 4,
+      "back": 4
+    }
+  }
+}

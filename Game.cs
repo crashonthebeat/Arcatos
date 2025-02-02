@@ -3,6 +3,7 @@ using Arcatos.Types.Items;
 using Arcatos.Utils;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -16,8 +17,8 @@ namespace Arcatos
         public        bool                                             Playing      { get; private set; }
         public static World                                            CurrentWorld { get; set; } = null!;
         public static Player Player { get; private set; } = null!;
-        public static Dictionary<string,Item>                          Catalog      { get; private set; } = null!; // Common items that can be stacked as they will always be the same
-        public static Dictionary<string,ItemDto>                       Templates    { get; private set; } = null!; // Unique items like containers that should not be duplicated.
+        public static ItemCatalog Items { get; private set; } = new ItemCatalog();
+        public static Dictionary<string,ItemDto> Templates { get; private set; } = Game.LoadItemTemplates(); // Unique items like containers that should not be duplicated.
         public static Boxscope                                         Boxscope     { get; private set; } = null!;
         // public static Dictionary<string, Dictionary<string, string[]>> Narration;
         // public static Random                                           Random = new Random();
@@ -25,11 +26,6 @@ namespace Arcatos
         // TODO: Make this a static constructor? Not sure how those work yet
         public Game(string currentSceneId)
         {
-            // Load all game items
-            Game.Catalog   = Game.LoadCommonItems();
-            Game.Templates = Game.LoadItemTemplates();
-            //Game.Narration = new Dictionary<string, Dictionary<string,string[]>>();
-            
             // Get WorldId and Scene for Player State
             string worldId = currentSceneId.Split('_')[0];
             Game.CurrentWorld = new World(worldId);
@@ -100,38 +96,9 @@ namespace Arcatos
             return models;
         }
 
-        // Where this method differs from unique items is that this creates the objects themselves in the game catalog
-        // Map processing makes references to this object, as the model itself is made to be copied. 
-        // What I don't know is if it would make more sense to load everything as unique items, and then changing how boxes work
-        // The box.items would then be a List of items, where the qty would be the count and would mix only if the ids mixed and item.isUnique = false.
-        // I'm thinking it uses less memory to just do it this way but what do I know.
-        private static Dictionary<string, Item> LoadCommonItems()
-        {
-            string[] commonItemFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "common"));
-            
-            // New Dictionary to return to common items.
-            Dictionary<string,Item> catalog = new Dictionary<string, Item>();
-            
-            foreach (string file in commonItemFiles)
-            {
-                using FileStream json = File.OpenRead(file);
-                //ItemDto[] models = JsonSerializer.Deserialize<ItemDto[]>(json)!;
-                foreach (KeyValuePair<string, ItemDto> model in JsonSerializer.Deserialize<Dictionary<string, ItemDto>>(json)!)
-                {
-                    catalog.Add(model.Key, new Item(model.Key, model.Value));
-                }
-            }
-
-            return catalog;
-        }
-
 #region Narration
-        // TODO: Canned text to randomize messages for bad input, non-found items, etc. 
-        
-        // Narrate is a wrapper on top of console.write that takes game narration and presents it to the player.
+        // Write is a wrapper on top of console.write that takes game narration and presents it to the player.
         // This will have hella overloads, and in fact be broken out into several methods.
-        
-        
         public static void Write(string s)
         {
             Console.WriteLine(s);

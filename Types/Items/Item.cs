@@ -6,17 +6,22 @@ namespace Arcatos.Types.Items
     {
         [JsonInclude] public          string   name;
         [JsonInclude] public required string   summary;
-        [JsonInclude] public required string[] desc;
+        [JsonInclude] public required string[] description;
         [JsonInclude] public          bool     isConsumable;
     }
     
     public class Item : Entity
     {
-        public bool IsConsumable { get; }
+        public bool IsConsumable { get; init; }
         
-        public Item (string id, ItemDto dto) : base(id, dto.summary, dto.desc, dto.name)
+        public Item (string id, ItemDto dto) : base(id, dto.summary, dto.description, dto.name)
         {
             this.IsConsumable = dto.isConsumable;
+        }
+        
+        public Item (string id, EntityDto dto) : base(id, dto.Summary, dto.Description, dto.Name!)
+        {
+            this.IsConsumable = dto.IsConsumable ?? false;
         }
 
         public Item (string id, string name, string summary, string[] desc) : base(id, summary, desc, name)

@@ -251,7 +251,7 @@ namespace Arcatos.Types
                 Dev.Log(itemId, Scene.Debug);
                 Item item = itemId switch
                 {
-                    not null when Game.Catalog.ContainsKey(itemId)   => Game.Catalog[itemId],
+                    not null when Game.Items.All.ContainsKey(itemId)   => Game.Items.All[itemId],
                     not null when Game.Templates.ContainsKey(itemId) => new Item(itemId, Game.Templates[itemId]),
                     _                                                => throw new Exception($"Could not load item {itemId}")
                 };

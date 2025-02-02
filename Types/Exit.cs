@@ -46,7 +46,7 @@ namespace Arcatos.Types
             this.Loc       = Exit.GetPosition(scenes[0], scenes[1]);
             this.IsMapExit = false;
             
-            if (!string.IsNullOrEmpty(dto.key)) this._key = Game.Catalog[dto.key];
+            if (!string.IsNullOrEmpty(dto.key)) this._key = Game.Items.Keys[dto.key];
             else if (this.IsLocked) throw new Exception($"{this.id} is locked but no key is assigned.");
         }
 

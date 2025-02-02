@@ -1,7 +1,20 @@
 ﻿using Arcatos.Types.Interfaces;
+using System.Text.Json.Serialization;
+
 
 namespace Arcatos.Types
 {
+    public struct EntityDto
+    {
+        [JsonInclude] public          string?                  Name;
+        [JsonInclude] public required string                   Summary;
+        [JsonInclude] public required string[]                 Description;
+        [JsonInclude] public          bool?                    IsConsumable;
+        [JsonInclude] public          bool?                    Visited;
+        [JsonInclude] public          int                      Layer;
+        [JsonInclude] public          Dictionary<string, int>? Slots;
+    }
+    
     // Base class for all game objects. 
     public abstract class Entity : IEntity
     {
