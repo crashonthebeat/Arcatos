@@ -46,7 +46,7 @@ namespace Arcatos.Types
         {
             Dev.Log($"Loading {this.WorldId}\n################################################", World.Debug);
             // Empty Dict
-            Dictionary<string, Map> loadedMaps = new();
+            Dictionary<string, Map> loadedMaps = new Dictionary<string, Map>();
             
             // Load Data Object
             using FileStream json = File.OpenRead(Path.Combine(Program.Dir, "World", this.WorldId + ".json"));
@@ -97,7 +97,7 @@ namespace Arcatos.Types
                 Dir   destDir   = (Dir)Enum.Parse(typeof(Dir), exitDefs[1].ExitDirection);
                 Dev.Log($"Scene 1:{exitDefs[0].MapId}_{origScene.Id} Scene 2: {exitDefs[1].MapId}_{destScene.Id}", World.Debug);
 
-                Exit exit = new(id, [origScene, destScene]);
+                Exit exit = new Exit(id, [origScene, destScene]);
                 origScene.AddExit(origDir, exit);
                 destScene.AddExit(destDir, exit);
             }

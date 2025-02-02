@@ -1,0 +1,17 @@
+{
+  "NoKeySlot": [
+    "You cannot find a place on $exit$ to stick a key.",
+    "There's no keyhole that you can see."
+  ],
+  "UnlockStart": [
+    "You insert $key$ into the slot and turn."
+  ],
+  "UnlockSuccess": [
+    "With a satisfying click, the lock turns and $exit$ opens!",
+    "The key turns successfully and you open $exit$"
+  ],
+  "UnlockFail": [
+    "You try twisting $key$ but the lock does not budge.",
+    "Nothing Happens."
+  ]
+}

@@ -2,23 +2,30 @@ using System.Text.RegularExpressions;
 
 namespace Arcatos.Utils
 {
-    public class Narrator
+    public static class Narrator
     {
-        public  static dynamic Player { get; }
-        public  static dynamic Scene  { get; }
-        private static Random  _random = new Random();
+        private static Dictionary<string, string[]> _player;
+        private static Dictionary<string, string[]> _scene;
+        private static Dictionary<string, string[]> _exit;
+        
+        private static Random _random = new Random();
+        
+        public static string Player(string key, string entity = "") => GetPrompt(_player[key], entity);
+        public static string Scene(string key, string entity = "") => GetPrompt(_scene[key], entity);
+        public static string Exit(string  key, string entity = "") => GetPrompt(_exit[key], entity);
 
         static Narrator()
         {
-            Player = JsonDataMgr.LoadGeneric("Narration/Player.json");
-            Scene  = JsonDataMgr.LoadGeneric("Narration/Scene.json");
+            _player = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Narration/Player.json");
+            _scene  = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Narration/Scene.json");
+            _exit  = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Narration/Exit.json");
         }
 
-        public static void Write(string[] prompts, string s = "")
+        private static string GetPrompt(string[] prompts, string s)
         {
             string       output  = prompts[_random.Next(0, prompts.Length)];
             const string pattern = @"\$([\w]+)\$";
-            Game.Write(Regex.Replace(output, pattern, s));
+            return Regex.Replace(output, pattern, s);
         }
     }
 }

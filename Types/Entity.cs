@@ -10,10 +10,10 @@ namespace Arcatos.Types
         public   string                  Id { get => this.id; }
         internal string                  summary;
         internal string                  desc;
-        internal Dictionary<int, Entity> reveal;
+        internal Dictionary<int, Entity> Reveal;
         public   bool                    IsKnown { get; private set; }
-        //public abstract Box Inventory{ get; set; }
-
+        // public abstract Box Inventory{ get; set; }
+        
         public static bool Debug = false;
 
         protected Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
@@ -26,7 +26,7 @@ namespace Arcatos.Types
             this.summary = summary;
             this.desc = String.Concat(desc);
             this.IsKnown = isKnown;
-            this.reveal = new Dictionary<int, Entity>();
+            this.Reveal = new Dictionary<int, Entity>();
         }
 
         // Examine returns a narrative description of the entity as well as additional entities that are only

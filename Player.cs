@@ -51,7 +51,7 @@ namespace Arcatos
                 case "quit":
                     return false;
                 default:
-                    Narrator.Write(Narrator.Player.InvalidAction, command.Action);
+                    Game.Write(Narrator.Player("InvalidAction", command.Action));
                     return true;
             }
         }
@@ -163,7 +163,11 @@ namespace Arcatos
         {
             (Item? item, Box? box) = Player.FindItem(command.DirObj, Game.Boxscope.Scene);
 
-            if (item == null || box == null) return;
+            if (item == null || box == null)
+            {
+                Game.Write(Narrator.Player("NoFoundItem", command.DirObj));
+                return;
+            }
             box.RemoveItem(item);
             this.HeldItems.AddItem(item);
             Game.Write($"You {command.Action} {item.Glance()}.");
@@ -182,7 +186,7 @@ namespace Arcatos
             }
             if (item == null)
             {
-                Narrator.Write(Narrator.Player.Inventory.NoItem, command.DirObj);
+                Game.Write(Narrator.Player("NoHeldItem", command.DirObj));
             }
         }
         
@@ -213,11 +217,11 @@ namespace Arcatos
                     // When the box has a matching item, but an item has been found.
                     case { Count: 1 }:
                         Dev.Log($"* Found {foundItem}", Player.Debug);
-                        Narrator.Write(Narrator.Player.Inventory.ManyResults, search);
+                        Game.Write(Narrator.Player("ManyItemResults", search));
                         return (null, null);
                     // Case if items were found but there were multiple matches or a match has already been found.
                     case { Count: > 1 }:
-                        Narrator.Write(Narrator.Player.Inventory.ManyResults, search);
+                        Game.Write(Narrator.Player("ManyItemResults", search));
                         return (null, null);
                     default:
                         continue;

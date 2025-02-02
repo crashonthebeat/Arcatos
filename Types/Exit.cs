@@ -67,17 +67,17 @@ namespace Arcatos.Types
         {
             if (!this.IsLocked)
             {
-                Game.Write($"You cannot find a place on {this.Name} to stick a key.");
+                Game.Write(Narrator.Exit("NoKeySlot", this.Name));
                 return false;
             }
-            Game.Write($"You insert {key.Name} into the slot and turn.");
+            Game.Write(Narrator.Exit("UnlockStart", key.Name));
             if (key == this._key)
             {
-                Game.Write($"With a satisfying click, the lock turns and {this.Name} opens!");
+                Game.Write(Narrator.Exit("UnlockSuccess", this.Name));
                 this.IsLocked = false;
                 return true;
             }
-            Game.Write("You try twisting the key, but the lock does not budge.");
+            Game.Write(Narrator.Exit("UnlockFail"));
             return false;
         }
 

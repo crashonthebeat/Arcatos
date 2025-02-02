@@ -73,12 +73,11 @@ namespace Arcatos.Types
             // Exits Header
             switch (this.Exits.Count) {
                 case > 1:
-                    Narrator.Write(Narrator.Scene.MultipleExits);
-                    break;
+                    Game.Write(Narrator.Scene("MultipleExits")); break;
                 case 1:
-                    Narrator.Write(Narrator.Scene.OneExit); break;
+                    Game.Write(Narrator.Scene("OneExit")); break;
                 default:
-                    Narrator.Write(Narrator.Scene.NoExit); break;
+                    Game.Write(Narrator.Scene("NoExit")); break;
             }
 
             Console.ResetColor();
@@ -224,16 +223,13 @@ namespace Arcatos.Types
                 }
 
                 // Max out at 10 loops. 
-                if (conf == 10)
-                {
-                    this.ListExits();
-                    break;
-                }
+                if (conf != 10) continue;
+                this.ListExits();
+                break;
             }
 
             if (exits.Count > 0)
             {
-                
                 Dev.Log($"N: {this._wallPos.n}, E: {this._wallPos.e}, S: {this._wallPos.s}, W: {this._wallPos.w}", Scene.Debug);
                 Dev.Log($"Center at {this._center.x}, {this._center.y}", Scene.Debug);
                 Dev.Log($"Confidence: X: {conf * xCornerDist * 0.075}, Y: {conf * yCornerDist * 0.075}", Scene.Debug);

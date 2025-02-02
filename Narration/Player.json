@@ -6,16 +6,17 @@
     "Why are you trying to $action?",
     "Stop it."
   ],
-  "Inventory":
-  {
-    "NoItem": [
-      "You are not holding $item$.",
-      "You do not have $item$.",
-      "Is the $item$ in the room with us?"
-    ],
-    "ManyResults": [
-      "Which $item$ do you mean?",
-      "There are a few $item_plural$ here, please specify."
-    ]
-  }
+  "NoHeldItem": [
+    "You are not holding $item$.",
+    "You do not have $item$.",
+    "Is the $item$ in the room with us?"
+  ],
+  "NoFoundItem": [
+    "You don't see any $item$ around you",
+    "Is the $item$ in the room with us?"
+  ],
+  "ManyItemResults": [
+    "Which $item$ do you mean?",
+    "There are a few $item_plural$ here, please specify."
+  ]
 }

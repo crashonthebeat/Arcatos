@@ -13,14 +13,14 @@ namespace Arcatos
 {
     public class Game
     {        
-        public        bool                       Playing      { get; set; }
-        public static World                      CurrentWorld { get; set; }
-        public static Player                     Player       { get; private set; }
-        public static Dictionary<string,Item>    Catalog      { get; private set; } // Common items that can be stacked as they will always be the same
-        public static Dictionary<string,ItemDto> Templates  { get; private set; } // Unique items like containers that should not be duplicated.
-        public static Boxscope                   Boxscope     { get; private set; }
-        public static Dictionary<string, Dictionary<string, string[]>> Narration;
-        public static Random Random = new Random();
+        public        bool                                             Playing      { get; private set; }
+        public static World                                            CurrentWorld { get; set; } = null!;
+        public static Player Player { get; private set; } = null!;
+        public static Dictionary<string,Item>                          Catalog      { get; private set; } = null!; // Common items that can be stacked as they will always be the same
+        public static Dictionary<string,ItemDto>                       Templates    { get; private set; } = null!; // Unique items like containers that should not be duplicated.
+        public static Boxscope                                         Boxscope     { get; private set; } = null!;
+        // public static Dictionary<string, Dictionary<string, string[]>> Narration;
+        // public static Random                                           Random = new Random();
         
         // TODO: Make this a static constructor? Not sure how those work yet
         public Game(string currentSceneId)
@@ -28,7 +28,7 @@ namespace Arcatos
             // Load all game items
             Game.Catalog   = Game.LoadCommonItems();
             Game.Templates = Game.LoadItemTemplates();
-            Game.Narration = new Dictionary<string, Dictionary<string,string[]>>();
+            //Game.Narration = new Dictionary<string, Dictionary<string,string[]>>();
             
             // Get WorldId and Scene for Player State
             string worldId = currentSceneId.Split('_')[0];
@@ -58,7 +58,7 @@ namespace Arcatos
         // tbh this whole class will probably and definitely change.
         public void Prompt()
         {
-            while (Playing)
+            while (this.Playing)
             {
                 Console.Write("> ");
                 string? input = Console.ReadLine();
@@ -70,7 +70,7 @@ namespace Arcatos
                 else 
                 {
                     // Create command object from player input.
-                    Command command = new(input.ToLower().Split(' '));
+                    Command command = new Command(input.ToLower().Split(' '));
 
                     this.Playing = Game.Player.Execute(command);
                 }
@@ -86,7 +86,7 @@ namespace Arcatos
             
             // Create new dictionary to return to unique items.
             // Key difference between this and common items is that this dict is string to *dto*, not the item itself.
-            Dictionary<string,ItemDto> models = new();
+            Dictionary<string,ItemDto> models = new Dictionary<string, ItemDto>();
 
             foreach (string file in templateFiles)
             {
@@ -110,7 +110,7 @@ namespace Arcatos
             string[] commonItemFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "common"));
             
             // New Dictionary to return to common items.
-            Dictionary<string,Item> catalog = new();
+            Dictionary<string,Item> catalog = new Dictionary<string, Item>();
             
             foreach (string file in commonItemFiles)
             {
@@ -149,12 +149,14 @@ namespace Arcatos
 
             Game.Write(joined);
 
-            // Todo: Wrap strings based on a detected (or set or standard) console CornerSE.
+            // Todo: Wrap strings based on a detected (or set or standard) console.
         }
 
         // Makes strings into a proper title case for nicer output
         public static string Titleize(string s)
         {
+            string[] ignoredWords = ["the", "a", "an", "to", "from", "by", "of"];
+            
             List<string> words = s.Split(' ').ToList();
             string   output = "";
 
@@ -175,14 +177,14 @@ namespace Arcatos
             foreach (string word in words)
             {
                 // Exceptions for capitalization
-                if (new[] { "the", "a", "an", "to", "from", "by", "of"}.Contains(word))
+                if (ignoredWords.Contains(word))
                 {
                     output += $"{word} ";
                     continue;
                 }
                 
                 // Otherwise, capitalize the first letter of each word.
-                output += word.Length == 1 ? $"{word.ToUpper()} " : $"{char.ToUpper(word[0])}{word[1..]} ";
+                output += word.Length == 1 ? $"{word.ToUpper()} " : $"{Char.ToUpper(word[0])}{word[1..]} ";
             }
             
             // Return the output and remove the last space.
