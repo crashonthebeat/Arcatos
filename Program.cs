@@ -8,16 +8,17 @@ namespace Arcatos
     {
         public static          Settings Settings { get; set; }   // Program Settings
         public static          Game?    Game     { get; set; }
-        public static readonly string   Dir   = Environment.CurrentDirectory;
+        public static readonly string   Dir          = Environment.CurrentDirectory;
+        private const          string   SettingsFile = "EngineSettings.json";
 
         // Program Initialization
         static Program()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Initializing Program");
+            Dev.Log("Initializing Program");
             Console.ResetColor();
 
-            using FileStream json = File.OpenRead("EngineSettings.json");
+            using FileStream json = File.OpenRead(Program.SettingsFile);
             Program.Settings           = JsonSerializer.Deserialize<Settings>(json)!;
             Program.Settings.DebugMode = true;
         }
@@ -35,44 +36,12 @@ namespace Arcatos
             }
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             //Item test = new Item("blag", "bag", "dfsdfs", ["tesdt"]);
             //Type blah = test.GetType();
 
             StartGame();
-        }
-
-        public static Dictionary<string, T> LoadFiles<T>(string path)
-        {
-            string[] files = Directory.GetFiles(Path.Combine(Program.Dir, Path.Combine(path.Split('/'))));
-            
-            Dictionary<string,T> objs = new Dictionary<string, T>();
-
-
-            //StartGame();
-            foreach (string file in files)
-            {
-                using FileStream json = File.OpenRead(file);
-                foreach (KeyValuePair<string, T> obj in JsonSerializer.Deserialize<Dictionary<string, T>>(json)!)
-                {
-                    objs.Add(obj.Key, obj.Value);
-                }
-            }
-
-            return objs;
-        }
-
-        public static T? LoadFile<T>(string path)
-        {
-            JsonSerializerOptions options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
-            using StreamReader streamReader = new(path);
-            var json = streamReader.ReadToEnd();
-            return JsonSerializer.Deserialize<T>(json, options);
         }
     }
 }

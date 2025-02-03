@@ -35,17 +35,17 @@ namespace Arcatos.Engine
             Game.Playing = true;
         }
 
-        public void Play()
+        public static void Play()
         {
             Game.Player.CurrentScene.Enter();
 
-            this.Prompt();
+            Game.Prompt();
         }
 
         // This is the player interface.
         // TODO: This whole interface section will be redone when the game gets more complex.
         // tbh this whole class will probably and definitely change.
-        public void Prompt()
+        public static void Prompt()
         {
             while (Game.Playing)
             {
