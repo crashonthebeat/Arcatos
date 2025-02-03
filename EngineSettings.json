@@ -1,4 +1,4 @@
 {
   "DebugMode": true,
-  "ContentDirectory": "$project/World"
+  "ContentDirectory": "$project/Data/World"
 }

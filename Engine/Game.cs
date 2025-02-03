@@ -1,20 +1,13 @@
-﻿using Arcatos.Types;
+﻿using System.Text.Json;
+using Arcatos.Types;
 using Arcatos.Types.Items;
 using Arcatos.Utils;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.Json;
 
-namespace Arcatos
+namespace Arcatos.Engine
 {
     public class Game
     {        
-        public        bool                                             Playing      { get; private set; }
+        public static bool                                             Playing      { get; private set; }
         public static World                                            CurrentWorld { get; set; } = null!;
         public static Player Player { get; private set; } = null!;
         public static ItemCatalog Items { get; private set; } = new ItemCatalog();
@@ -39,7 +32,7 @@ namespace Arcatos
             Boxscope.UpdateLocal();
             
             // and now u can play
-            this.Playing = true;
+            Game.Playing = true;
         }
 
         public void Play()
@@ -54,7 +47,7 @@ namespace Arcatos
         // tbh this whole class will probably and definitely change.
         public void Prompt()
         {
-            while (this.Playing)
+            while (Game.Playing)
             {
                 Console.Write("> ");
                 string? input = Console.ReadLine();
@@ -68,7 +61,7 @@ namespace Arcatos
                     // Create command object from player input.
                     Command command = new Command(input.ToLower().Split(' '));
 
-                    this.Playing = Game.Player.Execute(command);
+                    Game.Playing = Game.Player.Execute(command);
                 }
             }
         }
@@ -78,7 +71,7 @@ namespace Arcatos
         private static Dictionary<string,ItemDto> LoadItemTemplates()
         {
             // Grab all the item files
-            string[] templateFiles = Directory.GetFiles(Path.Combine(Program.Dir, "World", "Items", "templates"));
+            string[] templateFiles = Directory.GetFiles(Path.Combine(Program.Dir, "Data", "World", "Items", "templates"));
             
             // Create new dictionary to return to unique items.
             // Key difference between this and common items is that this dict is string to *dto*, not the item itself.

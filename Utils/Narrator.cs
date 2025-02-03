@@ -16,9 +16,9 @@ namespace Arcatos.Utils
 
         static Narrator()
         {
-            _player = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Narration/Player.json");
-            _scene  = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Narration/Scene.json");
-            _exit  = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Narration/Exit.json");
+            _player = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Data/Narration/Player.json");
+            _scene  = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Data/Narration/Scene.json");
+            _exit  = JsonDataMgr.LoadToType<Dictionary<string,string[]>>("Data/Narration/Exit.json");
         }
 
         private static string GetPrompt(string[] prompts, string s)

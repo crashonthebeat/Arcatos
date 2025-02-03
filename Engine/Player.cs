@@ -1,10 +1,9 @@
 ﻿using Arcatos.Types;
-using Arcatos.Utils;
 using Arcatos.Types.Interfaces;
 using Arcatos.Types.Items;
-using System.Threading.Tasks.Dataflow;
+using Arcatos.Utils;
 
-namespace Arcatos
+namespace Arcatos.Engine
 {
     public class Player : IEntity
     {

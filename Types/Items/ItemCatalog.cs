@@ -17,7 +17,7 @@ namespace Arcatos.Types.Items
 
         public ItemCatalog()
         {
-            string itemsDir = Path.Combine(Program.Dir, "World", "Items", "common");
+            string itemsDir = Path.Combine(Program.Dir, "Data", "World", "Items", "common");
             
             this.Generics = new Dictionary<string, Item>();
             foreach ((string? key, EntityDto value) in LoadCatalog(Path.Combine(itemsDir, "mundane.json")))

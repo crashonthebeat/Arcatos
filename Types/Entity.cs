@@ -1,5 +1,6 @@
 ﻿using Arcatos.Types.Interfaces;
 using System.Text.Json.Serialization;
+using Arcatos.Engine;
 
 
 namespace Arcatos.Types
@@ -11,7 +12,7 @@ namespace Arcatos.Types
         [JsonInclude] public required string[]                 Description;
         [JsonInclude] public          bool?                    IsConsumable;
         [JsonInclude] public          bool?                    Visited;
-        [JsonInclude] public          int                      Layer;
+        [JsonInclude] public          int?                     Layer;
         [JsonInclude] public          Dictionary<string, int>? Slots;
     }
     

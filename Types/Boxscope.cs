@@ -1,4 +1,5 @@
-﻿using Arcatos.Types.Interfaces;
+﻿using Arcatos.Engine;
+using Arcatos.Types.Interfaces;
 using Arcatos.Types.Items;
 
 namespace Arcatos.Types

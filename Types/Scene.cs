@@ -2,6 +2,7 @@
 using Arcatos.Types.Items;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using Arcatos.Engine;
 using Arcatos.Utils;
 
 namespace Arcatos.Types

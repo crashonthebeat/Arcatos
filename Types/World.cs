@@ -29,12 +29,12 @@ namespace Arcatos.Types
         
         private Dictionary<string, MapExitDto[]> _mapExits;
 
-        private const bool Debug = true;
+        private const bool Debug = false;
 
         public World(string id)
         {
             this.WorldId   = id;
-            this._path     = Path.Combine(Program.Dir, "World", "Maps", this.WorldId);
+            this._path     = Path.Combine(Program.Dir, "Data", "World", "Maps", this.WorldId);
             this.Maps      = this.LoadMaps();
             //this._mapExits = new Dictionary<string, MapExitDto[]>();
             this.JoinMaps();
@@ -49,7 +49,7 @@ namespace Arcatos.Types
             Dictionary<string, Map> loadedMaps = new Dictionary<string, Map>();
             
             // Load Data Object
-            using FileStream json = File.OpenRead(Path.Combine(Program.Dir, "World", this.WorldId + ".json"));
+            using FileStream json = File.OpenRead(Path.Combine(Program.Dir, "Data", "World", this.WorldId + ".json"));
             WorldDto         dto  = JsonSerializer.Deserialize<WorldDto>(json);
             
             // Run through map IDs
