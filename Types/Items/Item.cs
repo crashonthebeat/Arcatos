@@ -12,6 +12,8 @@ namespace Arcatos.Types.Items
     
     public class Item : Entity
     {
+        public int  Size         { get; init; }
+        public int  Weight       { get; init; } // Weight in grams
         public bool IsConsumable { get; init; }
         
         public Item (string id, ItemDto dto) : base(id, dto.summary, dto.description, dto.name)

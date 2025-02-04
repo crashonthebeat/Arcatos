@@ -15,12 +15,15 @@ namespace Arcatos
         static Program()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Dev.Log("Initializing Program");
-            Console.ResetColor();
-
+            Console.WriteLine("Loading Program Settings...");
+            
             using FileStream json = File.OpenRead(Program.SettingsFile);
             Program.Settings           = JsonSerializer.Deserialize<Settings>(json)!;
             Program.Settings.DebugMode = true;
+            
+            
+            Dev.Log("Initializing Program");
+            Console.ResetColor();
         }
 
         private static void StartGame()

@@ -1,13 +1,62 @@
 {
   "clean_tunic": {
-    "summary": "clean white tunic",
+    "summary": "wool tunic",
     "description": [
-      "A clean white tunic that looks brand new."
+      "A white wool tunic with gold fringes, displaying the green cross of Entian."
     ],
+    "itemSize": 5,
+    "itemWeight": 80,
     "slots": {
       "chest": 4,
       "torso": 4,
       "back": 4
+    }
+  },
+  "leather_trousers": {
+    "summary": "plain leather trousers",
+    "description": [
+      "A pair of leather trousers, fastened at the top with a leather lace."
+    ],
+    "itemSize": 5,
+    "itemWeight": 1800,
+    "slots": {
+      "hips": 2,
+      "legs": 2
+    }
+  },
+  "leather_boots": {
+    "summary": "plain leather boots",
+    "description": [
+      "A pair of leather boots, made with care and precision."
+    ],
+    "itemSize": 8,
+    "itemWeight": 1800,
+    "slots": {
+      "feet": 2
+    }
+  },
+  "plain_cloak": {
+    "summary": "thick wool cloak",
+    "description": [
+      "A thick, full length cloak with a buckle fastener."
+    ],
+    "itemSize": 9,
+    "itemWeight": 2200,
+    "slots": {
+      "back": 9,
+      "shoulders": 9
+    }
+  },
+  "travellers_backpack": {
+    "summary": "plain leather backpack",
+    "description": [
+      "A roomy leather backpack with a few additional pockets for smaller items."
+    ],
+    "itemSize": 10,
+    "itemWeight": 800,
+    "slots": {
+      "back": 8,
+      "shoulders": 8
     }
   }
 }

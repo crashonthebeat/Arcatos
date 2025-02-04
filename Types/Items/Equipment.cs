@@ -39,7 +39,7 @@ namespace Arcatos.Types.Items
         neck,
         ears, rightEar, leftEar,
         // Torso
-        rightShoulder, leftShoulder,
+        shoulders, rightShoulder, leftShoulder,
         chest,
         torso,
         back,
