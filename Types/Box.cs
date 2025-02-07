@@ -13,7 +13,7 @@ namespace Arcatos.Types
         public           string                Id    { get; } = parent.Id;
         public           Dictionary<Item, int> Items { get; } = new();
 
-        private const bool Debug = false;
+        private const bool Debug = true;
 
         public void AddItem(Item item)
         {

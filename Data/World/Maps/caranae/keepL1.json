@@ -395,7 +395,8 @@
     "main_hall": {
       "stick": 1,
       "ceramic_bowl": 1,
-      "hall_table": 1
+      "hall_table": 1,
+      "clean_tunic": 1
     },
     "kitchen": {
       "ceramic_bowl": 1,

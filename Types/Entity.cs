@@ -1,6 +1,7 @@
 ﻿using Arcatos.Types.Interfaces;
 using System.Text.Json.Serialization;
 using Arcatos.Engine;
+using Arcatos.Utils;
 
 
 namespace Arcatos.Types
@@ -28,13 +29,13 @@ namespace Arcatos.Types
         public   bool                    IsKnown { get; private set; }
         // public abstract Box Inventory{ get; set; }
         
-        public static bool Debug = false;
+        public static bool Debug = true;
 
         protected Entity(string id, string summary, string[] desc, string name = "$mundane", bool isKnown = false)
         {
             this.id = id;
             // Some items are not going to have a separate name, in this case, parse the summary to have an article.
-            this.Name = name != "$mundane" ? name
+            this.Name = name != "$mundane" || !string.IsNullOrEmpty(name) ? name
                 : Game.Titleize(new[] {'a','e','i','o','u'}.Contains(summary[0]) ? $"an {summary}" : $"a {summary}");
 
             this.summary = summary;
@@ -82,7 +83,7 @@ namespace Arcatos.Types
             
             // If the first letter of the summary is a vowel, use "an", otherwise use "a".
             string article = vowels.Contains(this.summary[0]) ? "an" : "a";
-
+            
             // If the player is familiar with the entity, return its name.
             return this.IsKnown ? this.Name : $"{article} {this.summary}";
         }
