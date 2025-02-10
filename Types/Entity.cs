@@ -35,8 +35,10 @@ namespace Arcatos.Types
         {
             this.id = id;
             // Some items are not going to have a separate name, in this case, parse the summary to have an article.
-            this.Name = name != "$mundane" || !string.IsNullOrEmpty(name) ? name
-                : Game.Titleize(new[] {'a','e','i','o','u'}.Contains(summary[0]) ? $"an {summary}" : $"a {summary}");
+            this.Name = name != "$mundane" && !string.IsNullOrWhiteSpace(name) ? name
+                : Game.Titleize(new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(summary[0])
+                                      ? $"an {summary}"
+                                      : $"a {summary}");
 
             this.summary = summary;
             this.desc = String.Concat(desc);
@@ -86,6 +88,7 @@ namespace Arcatos.Types
             
             // If the player is familiar with the entity, return its name.
             return this.IsKnown ? this.Name : $"{article} {this.summary}";
+            //return $"{article} {this.summary}";
         }
 
         public virtual bool Learn()

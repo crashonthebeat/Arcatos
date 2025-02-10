@@ -184,6 +184,7 @@ namespace Arcatos.Engine
             {
                 Game.Write($"You {command.Action} {item.Glance()} on the floor.");
                 this.HeldItems.RemoveItem(item);
+                this.CurrentScene.Inventory.AddItem(item);
                 return;
             }
             if (item == null)
