@@ -7,49 +7,43 @@ namespace Arcatos.Engine
 {
     public class Player : IEntity
     {
-        public string Id           { get => "player"; }
-        public Scene  CurrentScene { get; private set; }
-        public Box    HeldItems    { get; }
+        public string Id            { get => "player"; }
+        public Scene  CurrentScene  { get; private set; }
+        public Box    HeldItems     { get; }
+        public Box    EquippedItems { get; }
 
-        public Dictionary<EqSlot, Item[]> Equipment { get; set; } = new Dictionary<EqSlot, Item[]>();
+        public Dictionary<EqSlot, List<Equipment>> Equipment { get; set; } = new Dictionary<EqSlot, List<Equipment>>();
 
         private const bool   Debug   = false;
 
         public Player(Scene currentScene)
         {
-            this.CurrentScene = currentScene;
-            this.HeldItems    = new Box(this, BoxType.Int);
+            this.CurrentScene  = currentScene;
+            this.HeldItems     = new Box(this, BoxType.Int);
+            this.EquippedItems = new Box(this, BoxType.Ext);
         }
 
+        
         public bool Execute(Command command)
         {
-            string[] lookVerbs   = ["look", "view", "examine", "gander"];
-            string[] moveVerbs   = ["go", "move", "walk", "mosey"];
-            string[] useVerbs    = ["use"];
-            string[] getVerbs    = ["get", "take", "grab", "yoink"];
-            string[] dropVerbs   = ["drop", "toss", "yeet"];
-            string[] unlockVerbs = ["unlock"];
-
             switch (command.Action)
             {
-                case { } s when lookVerbs.Contains(s):
-                    this.LookAt(command);
-                    return true;
-                case { } s when moveVerbs.Contains(s):
-                    this.Move(command);
-                    return true;
-                case { } s when useVerbs.Contains(s):
-                    this.UseItem(command);
-                    return true;
-                case { } s when getVerbs.Contains(s):
-                    this.GetItem(command);
-                    return true;
-                case { } s when dropVerbs.Contains(s):
-                    this.DropItem(command);
-                    return true;
-                case { } s when unlockVerbs.Contains(s):
-                    this.Unlock(command);
-                    return true;
+                case "look": case "view": case "examine": case "gander":
+                    this.LookAt(command); return true;
+                case "go": case "move": case "walk": case "mosey":
+                    this.Move(command); return true;
+                case "use":
+                    this.UseItem(command); return true;
+                case "get": case "take": case "grab": case "yoink": case "pickup":
+                    this.GetItem(command); return true;
+                case "drop": case "toss": case "yeet": case "discard":
+                    this.DropItem(command); return true;
+                case "equip": case "wear":
+                    this.Equip(command); return true;
+                case "unequip": case "remove": case "undress":
+                    this.Unequip(command); return true;
+                case "unlock":
+                    this.Unlock(command); return true;
                 case "quit":
                     return false;
                 default:
@@ -174,6 +168,8 @@ namespace Arcatos.Engine
             this.HeldItems.AddItem(item);
             Game.Write($"You {command.Action} {item.Glance()}.");
             item.Learn();
+            
+            // TODO: Update Boxscope if item is container
         }
 
         private void DropItem(Command command)
@@ -185,6 +181,7 @@ namespace Arcatos.Engine
                 Game.Write($"You {command.Action} {item.Glance()} on the floor.");
                 this.HeldItems.RemoveItem(item);
                 this.CurrentScene.Inventory.AddItem(item);
+                // TODO: Update Boxscope if item is container
                 return;
             }
             if (item == null)
@@ -249,12 +246,59 @@ namespace Arcatos.Engine
             if (item is not Types.Items.Equipment)
             {
                 Game.Write(Narrator.Player("ItemNotEquipment", item.Glance()));
+            }
+
+            // Cast to Equipment type
+            Equipment eqItem = item as Equipment ?? throw new NullReferenceException($"Item is not an equipment");
+
+            // Check if slot does not exist on player already
+            if (!this.Equipment.ContainsKey(eqItem.Slot))
+            {
+                // Create slot on player and add equipment item
+                this.Equipment[eqItem.Slot] = [  ];
+            }
+            // Check if the top item has a higher layer than the equipment you are trying to wear
+            else if (this.Equipment[eqItem.Slot][-1].Layer >= eqItem.Layer)
+            {
+                Game.Write("That won't fit over the top of what you are currently wearing!");
                 return;
             }
+            // Add to Equipment Slot
+            this.Equipment[eqItem.Slot].Add(eqItem);
+            this.EquippedItems.AddItem(eqItem);
+            this.HeldItems.RemoveItem(item);
+            Game.Write($"You put on the {command.DirObj}.");
             
-            // Check for slot validity
+            // TODO: Update Boxscope if item is container
+        }
+
+        private void Unequip(Command command)
+        {
+            List<Item> found = this.EquippedItems.FindItem(command.DirObj);
+            if (found.Count > 1)
+            {
+                Game.Write(Narrator.Player("ManyItemResults", command.DirObj));
+            }
+            else if (found.Count == 0)
+            {
+                // TODO: Make this into a new narration list in the data folder
+                Game.Write(Narrator.Player("NoHeldItem", command.DirObj));
+            }
+            // Cast found item to equipment
+            Equipment eqItem = found[0] as Equipment ?? throw new NullReferenceException($"{found[0].Name} is not an equipment");
             
-            // Add to Equipment Slots
+            // Remove item from Equipped Items container and move to HeldItems.
+            this.EquippedItems.RemoveItem(eqItem);
+            this.HeldItems.AddItem(eqItem);
+            
+            // Remove item from equipped items
+            this.Equipment[eqItem.Slot].Remove(eqItem);
+            if (this.Equipment[eqItem.Slot].Count == 0)
+            {
+                this.Equipment.Remove(eqItem.Slot);
+            }
+
+            // TODO: Update Boxscope if item is container
         }
         
         #endregion
@@ -263,6 +307,26 @@ namespace Arcatos.Engine
         public void Examine()
         {
             Game.Write("You see an amazing mortal being");
+
+            if (this.EquippedItems.Items.Count > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Game.Write("You are wearing: ");
+                Console.ResetColor();
+            }
+            
+            // List Equipment
+            foreach (var kvp in this.Equipment)
+            {
+                string s = $"{Game.Titleize(kvp.Key.ToString())}: ";
+                foreach (Equipment eqItem in kvp.Value)
+                {
+                    s += $"{eqItem.Glance()} ";
+                }
+
+                Game.Write(s);
+            }
+            
             this.HeldItems.ListItems();
         }
 

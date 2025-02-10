@@ -6,11 +6,8 @@
     ],
     "itemSize": 5,
     "itemWeight": 80,
-    "slots": {
-      "chest": 4,
-      "torso": 4,
-      "back": 4
-    }
+    "slot": "torso",
+    "layer": 4
   },
   "leather_trousers": {
     "summary": "plain leather trousers",
@@ -19,10 +16,8 @@
     ],
     "itemSize": 5,
     "itemWeight": 1800,
-    "slots": {
-      "hips": 2,
-      "legs": 2
-    }
+    "slot": "legs",
+    "layer": 2
   },
   "leather_boots": {
     "summary": "plain leather boots",
@@ -31,9 +26,8 @@
     ],
     "itemSize": 8,
     "itemWeight": 1800,
-    "slots": {
-      "feet": 2
-    }
+    "slot": "feet",
+    "layer": 2
   },
   "plain_cloak": {
     "summary": "thick wool cloak",
@@ -42,10 +36,8 @@
     ],
     "itemSize": 9,
     "itemWeight": 2200,
-    "slots": {
-      "back": 9,
-      "shoulders": 9
-    }
+    "slot": "shoulders",
+    "layer": 3
   },
   "travellers_backpack": {
     "summary": "plain leather backpack",
@@ -54,9 +46,7 @@
     ],
     "itemSize": 10,
     "itemWeight": 800,
-    "slots": {
-      "back": 8,
-      "shoulders": 8
-    }
+    "slot": "back",
+    "layer": 3
   }
 }

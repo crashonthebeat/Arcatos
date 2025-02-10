@@ -7,24 +7,21 @@ namespace Arcatos.Types.Items
         [JsonInclude] public          string   name;
         [JsonInclude] public required string   summary;
         [JsonInclude] public required string[] desc;
-        [JsonInclude] public required Dictionary<string, int> slots;
+        [JsonInclude] public required string   slot;
+        [JsonInclude] public required int      layer;
 
     }
     
     public class Equipment : Item
     {
-        public Dictionary<EqSlot, int> Slots  { get; init; }
-        
+        public EqSlot                  Slot  { get; init; }
+        public int                     Layer { get; init; }
+
         public Equipment(string id, EntityDto dto) : base(id, dto.Name!, dto.Summary, dto.Description)
         {
             this.IsConsumable = false;
-            this.Slots        = new Dictionary<EqSlot, int>();
-            
-            foreach (KeyValuePair<string, int> kvp in dto.Slots!)
-            {
-                EqSlot slotName = Enum.TryParse(kvp.Key, out EqSlot slot) ? slot : throw new ArgumentException($"Slot {kvp.Key} is not supported");
-                this.Slots.Add(slotName, kvp.Value);
-            }
+            this.Slot = Enum.TryParse(dto.Slot, out EqSlot slot) ? slot : throw new ArgumentException($"Slot {dto.Slot} is not supported");
+            this.Layer      = dto.Layer ?? throw new ArgumentException($"Equipment {id} does not have a valid layer");
         }
     }
     
